@@ -1,53 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Locally</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
     body {
-      font-family: Arial;
       margin: 0;
+      font-family: Arial, sans-serif;
       background: #f4f4f4;
     }
+
     .header {
-      background: black;
-      color: white;
+      background: #000;
+      color: #fff;
       padding: 20px;
       font-size: 24px;
       font-weight: bold;
     }
+
     .card {
-      background: white;
+      background: #fff;
       margin: 15px;
       padding: 15px;
       border-radius: 10px;
     }
+
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .meta {
+      color: #555;
+      margin-top: 5px;
+    }
+
     .btn {
-      background: black;
-      color: white;
+      margin-top: 10px;
+      background: #000;
+      color: #fff;
       padding: 10px;
       text-align: center;
       border-radius: 8px;
-      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .btn:active {
+      background: #333;
+    }
+
+    .reserveBar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: green;
+      color: white;
+      padding: 15px;
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    .cancel {
+      background: white;
+      color: green;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
 
-<div class="header">Locally</div>
+  <div class="header">Locally</div>
 
-<div class="card">
-  <h3>Beach Chair</h3>
-  <p>$25 • 3 left • 0.5 mi</p>
-  <div class="btn">Reserve</div>
-</div>
+  <div class="card">
+    <div class="title">Beach Chair</div>
+    <div class="meta">$25 • 3 left • 0.5 mi</div>
+    <div class="btn" onclick="reserve('Beach Chair')">Reserve</div>
+  </div>
 
-<div class="card">
-  <h3>Cooler</h3>
-  <p>$15 • 2 left • 1.2 mi</p>
-  <div class="btn">Reserve</div>
-</div>
+  <div class="card">
+    <div class="title">Cooler</div>
+    <div class="meta">$15 • 2 left • 1.2 mi</div>
+    <div class="btn" onclick="reserve('Cooler')">Reserve</div>
+  </div>
+
+  <div class="card">
+    <div class="title">Umbrella</div>
+    <div class="meta">$20 • 1 left • 0.8 mi</div>
+    <div class="btn" onclick="reserve('Umbrella')">Reserve</div>
+  </div>
+
+  <div id="bar" class="reserveBar">
+    <span id="text"></span>
+    <div class="cancel" onclick="cancel()">X</div>
+  </div>
+
+  <script>
+    function reserve(item) {
+      document.getElementById("bar").style.display = "flex";
+      document.getElementById("text").innerText = "Reserved: " + item;
+    }
+
+    function cancel() {
+      document.getElementById("bar").style.display = "none";
+    }
+  </script>
 
 </body>
 </html>
