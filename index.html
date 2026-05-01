@@ -337,6 +337,14 @@
       font-size: 12px;
     }
 
+    .ownerEdit {
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 8px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
     .storeView {
       display: none;
       padding: 16px;
@@ -546,8 +554,42 @@
 
     <div class="formCard">
       <div class="formTitle">Your active deals</div>
-      <div class="formSub">Only deals from your registered business show here.</div>
+      <div class="formSub">Edit price, quantity, image, expiration or delete.</div>
       <div id="ownerItems"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="editPanel">
+    <div class="formCard">
+      <div class="formTitle">Edit deal</div>
+      <div class="formSub">Update title, price, quantity, image, category or expiration.</div>
+
+      <input type="hidden" id="editId" />
+      <input class="field" id="editTitle" placeholder="Item name" />
+
+      <select class="field" id="editCategory">
+        <option>Home</option>
+        <option>Pets</option>
+        <option>Clothing</option>
+        <option>Automobile</option>
+        <option>Boating</option>
+        <option>Electronics</option>
+        <option>Furniture</option>
+        <option>Food</option>
+        <option>Beach</option>
+        <option>Services</option>
+        <option>Clearance</option>
+      </select>
+
+      <input class="field" id="editPrice" type="number" placeholder="Price" />
+      <input class="field" id="editQuantity" type="number" placeholder="Quantity left" />
+      <input class="field" id="editExpires" placeholder="Expiration" />
+
+      <div class="fileLabel">Replace photo optional</div>
+      <input class="field" id="editPhoto" type="file" accept="image/*" />
+
+      <button class="postBtn" onclick="saveEditedItem()">Save changes</button>
+      <button class="postBtn" style="background:#f3f4f6;color:#111827;" onclick="showOwner()">Cancel</button>
     </div>
   </div>
 
@@ -683,6 +725,7 @@
     document.getElementById("loginPanel").style.display = "none";
     document.getElementById("registerPanel").style.display = "none";
     document.getElementById("ownerPanel").style.display = "none";
+    document.getElementById("editPanel").style.display = "none";
     document.getElementById("reservationsPanel").style.display = "none";
     document.getElementById("accountPanel").style.display = "none";
     document.getElementById("storeView").style.display = "none";
@@ -1115,7 +1158,10 @@
       row.innerHTML = `
         <div class="ownerListTop">
           <div>${item.title}</div>
-          <button class="ownerDelete" onclick="deleteItem(${item.id})">Delete</button>
+          <div style="display:flex;gap:6px;">
+            <button class="ownerEdit" onclick="editItem(${item.id})">Edit</button>
+            <button class="ownerDelete" onclick="deleteItem(${item.id})">Delete</button>
+          </div>
         </div>
         <div style="margin-top:5px;color:#6b7280;font-weight:800;">
           ${item.store} • $${item.price} • ${item.quantity} left • ${item.category}
@@ -1271,6 +1317,69 @@
     };
 
     reader.readAsDataURL(photoFile);
+  }
+
+  function editItem(id) {
+    const item = items.find(x => x.id === id);
+    if (!item) return;
+
+    hideAllViews();
+    document.getElementById("editPanel").style.display = "block";
+
+    document.getElementById("editId").value = item.id;
+    document.getElementById("editTitle").value = item.title;
+    document.getElementById("editCategory").value = item.category;
+    document.getElementById("editPrice").value = item.price;
+    document.getElementById("editQuantity").value = item.quantity;
+    document.getElementById("editExpires").value = item.expires || "";
+    document.getElementById("editPhoto").value = "";
+  }
+
+  function saveEditedItem() {
+    const id = Number(document.getElementById("editId").value);
+    const item = items.find(x => x.id === id);
+
+    if (!item) return;
+
+    const title = document.getElementById("editTitle").value.trim();
+    const category = document.getElementById("editCategory").value;
+    const price = document.getElementById("editPrice").value;
+    const quantity = document.getElementById("editQuantity").value;
+    const expires = document.getElementById("editExpires").value.trim();
+    const photoFile = document.getElementById("editPhoto").files[0];
+
+    if (!title || !price || quantity === "") {
+      showToast("Item name, price and quantity required");
+      return;
+    }
+
+    item.title = title;
+    item.category = category;
+    item.price = Number(price);
+    item.quantity = Number(quantity);
+    item.expires = expires || "Today";
+
+    if (photoFile) {
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        item.image = event.target.result;
+        saveAll();
+        showToast("Deal updated");
+        renderItems();
+        renderOwnerItems();
+        showOwner();
+      };
+
+      reader.readAsDataURL(photoFile);
+      return;
+    }
+
+    saveAll();
+    showToast("Deal updated");
+    renderItems();
+    renderOwnerItems();
+    showOwner();
   }
 
   function deleteItem(id) {
