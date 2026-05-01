@@ -84,6 +84,13 @@ button{border:0;cursor:pointer;font-weight:900}
 .modalImg{width:100%;max-height:70vh;object-fit:cover;background:#111827}
 .modalContent{padding:16px}
 .ratingPill{background:#fff3d6;color:#a15c00;border-radius:999px;padding:9px 12px;font-weight:900;font-size:13px;white-space:nowrap}
+.adminGrid{display:grid;gap:12px}
+.adminRow{background:white;border:1px solid #e5e7eb;border-radius:18px;padding:12px}
+.adminActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.adminActions button{background:#f3f4f6;color:#111827;border-radius:12px;padding:9px 11px;font-size:13px}
+.adminActions .danger{background:#fee2e2;color:#991b1b}
+.adminActions .good{background:#dcfce7;color:#166534}
+.adminActions .feature{background:#fff3d6;color:#a15c00}
 @media(max-width:1050px){.dealsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:900px){.headerInner{align-items:flex-start;flex-direction:column}.searchBar{max-width:none;width:100%}.heroBox{grid-template-columns:1fr}.heroTitle{font-size:34px}.layout{display:block;padding:12px 12px 95px}.side{position:static;margin-bottom:14px}.side .sideTitle{display:none}#categoryList{display:flex;gap:8px;overflow-x:auto}.catBtn{width:auto;white-space:nowrap;margin-bottom:0}.dealsGrid{grid-template-columns:1fr}.mobileNav{display:flex}.holdBar{bottom:70px}}
 </style>
@@ -107,6 +114,32 @@ button{border:0;cursor:pointer;font-weight:900}
     <button class="postBtn" onclick="saveEditedItem()">Save changes</button><button class="postBtn" style="background:#f3f4f6;color:#111827;" onclick="showOwner()">Cancel</button></div></section>
 <section class="formPanel" id="reservationsPanel"><div class="ownerNav" id="holdsNav"></div><div class="formCard"><div class="formTitle">Hold requests</div><div class="formSub">Users see approved or declined status here.</div><div id="reservationDetails">No hold requests yet.</div></div></section>
 <section class="formPanel" id="accountPanel"><div class="ownerNav" id="accountNav"></div><div class="formCard"><div class="formTitle">Account</div><div id="accountDetails" class="formSub">Not logged in.</div><button class="postBtn" onclick="logout()">Logout</button></div></section>
+<section class="formPanel" id="adminPanel">
+  <div class="ownerNav">
+    <button class="main" onclick="showAdmin()">Admin Dashboard</button>
+    <button onclick="showBuyer()">Browse Items</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="formCard">
+    <div class="formTitle">Admin dashboard</div>
+    <div class="formSub">Control ratings, featured posts, accounts and listings.</div>
+    <div class="statusBox">Admin mode active</div>
+  </div>
+
+  <div class="formCard">
+    <div class="formTitle">Accounts</div>
+    <div class="formSub">Block, unblock, delete, or adjust rating.</div>
+    <div id="adminAccounts" class="adminGrid"></div>
+  </div>
+
+  <div class="formCard">
+    <div class="formTitle">Postings</div>
+    <div class="formSub">Feature posts to push them to the top, or delete posts.</div>
+    <div id="adminPosts" class="adminGrid"></div>
+  </div>
+</section>
+
 <section class="formPanel" id="storePanel"><button class="btnLight" style="width:100%;margin-bottom:14px;" onclick="showBuyer()">Back to deals</button><div id="storeHeader"></div><div class="dealsGrid" id="storeItems"></div></section>
 <div id="holdBar" class="holdBar"><div><div id="holdText" class="holdText"></div><div class="holdSmall" id="holdSmall">Waiting for owner approval</div></div><div class="barButtons"><div class="drive" onclick="driveActiveHold()">Drive</div><div class="cancel" onclick="cancelActiveHold()">Cancel</div></div></div>
 <div class="modal" id="imageModal" onclick="closeImageModal()">
@@ -140,17 +173,23 @@ let items=JSON.parse(localStorage.getItem("locally_items"))||[
 
 function saveAll(){localStorage.setItem("locally_accounts",JSON.stringify(accounts));localStorage.setItem("locally_current_user",JSON.stringify(currentUser));localStorage.setItem("locally_items",JSON.stringify(items));localStorage.setItem("locally_holds",JSON.stringify(holdRequests));localStorage.setItem("locally_reviews",JSON.stringify(reviews))}
 function showToast(t){const x=document.getElementById("toast");x.innerText=t;x.style.display="block";setTimeout(()=>x.style.display="none",1800)}
-function hideAll(){["hero","mainLayout","loginPanel","registerPanel","ownerPanel","holdRequestPanel","editPanel","reservationsPanel","accountPanel","storePanel"].forEach(id=>document.getElementById(id).style.display="none")}
+function hideAll(){["hero","mainLayout","loginPanel","registerPanel","ownerPanel","adminPanel","holdRequestPanel","editPanel","reservationsPanel","accountPanel","storePanel"].forEach(id=>document.getElementById(id).style.display="none")}
 function showBuyer(){hideAll();document.getElementById("hero").style.display="block";document.getElementById("mainLayout").style.display=window.innerWidth<=900?"block":"grid";setActive("deals");renderItems()}
 function showLogin(){hideAll();document.getElementById("loginPanel").style.display="block";setActive("login")}
 function showRegister(){hideAll();document.getElementById("registerPanel").style.display="block";setActive("register");updateRegisterStatus()}
 function showOwner(){if(!currentUser||currentUser.type!=="owner"){showToast("Login as business owner first");showLogin();return}hideAll();document.getElementById("ownerPanel").style.display="block";setActive("owner");updateOwnerStatus();renderOwnerItems();renderOwnerHolds()}
+function showAdmin(){if(!currentUser||currentUser.type!=="admin"){showToast("Admin login required");showLogin();return}hideAll();document.getElementById("adminPanel").style.display="block";setActive("admin");renderAdmin()}
 function showReservations(){hideAll();document.getElementById("reservationsPanel").style.display="block";document.getElementById("holdsNav").innerHTML=currentUser&&currentUser.type==="owner"?`<button onclick="showOwner()">Back to Owner Dashboard</button><button onclick="showBuyer()">Browse Items</button>`:`<button onclick="showBuyer()">Back to Deals</button>`;setActive("reservations");renderBuyerHolds()}
-function showAccount(){if(!currentUser){showLogin();return}hideAll();document.getElementById("accountPanel").style.display="block";document.getElementById("accountNav").innerHTML=currentUser.type==="owner"?`<button onclick="showOwner()">Back to Owner Dashboard</button><button onclick="showBuyer()">Browse Items</button>`:`<button onclick="showBuyer()">Back to Deals</button>`;setActive("account");updateAccountDetails()}
+function showAccount(){if(!currentUser){showLogin();return}hideAll();document.getElementById("accountPanel").style.display="block";document.getElementById("accountNav").innerHTML=currentUser.type==="admin"?`<button onclick="showAdmin()">Back to Admin Dashboard</button><button onclick="showBuyer()">Browse Items</button>`:currentUser.type==="owner"?`<button onclick="showOwner()">Back to Owner Dashboard</button><button onclick="showBuyer()">Browse Items</button>`:`<button onclick="showBuyer()">Back to Deals</button>`;setActive("account");updateAccountDetails()}
 function setActive(n){document.querySelectorAll(".mobileNav button").forEach(b=>b.classList.remove("active"));const x=document.getElementById("nav_"+n);if(x)x.classList.add("active")}
 function renderTop(){
  const top=document.getElementById("topActions");
  if(!currentUser){top.innerHTML=`<button class="btnLight" onclick="showLogin()">Login</button><button class="btnOrange" onclick="showRegister()">Register</button>`;document.getElementById("tagline").innerText="Verified local store deals near you";return}
+ if(currentUser.type==="admin"){
+  top.innerHTML=`<div class="ratingPill">Admin</div><button class="btnOrange" onclick="showAdmin()">Admin Dashboard</button><button class="btnLight" onclick="showBuyer()">Browse</button><button class="btnLight" onclick="logout()">Logout</button>`;
+  document.getElementById("tagline").innerText="Admin control panel";
+  return;
+ }
  if(currentUser.type==="owner"){
   top.innerHTML=`<div class="ratingPill">⭐ ${storeRating(currentUser.businessName)}</div><button class="btnOrange" onclick="showOwner()">Owner Dashboard</button><button class="btnLight" onclick="showBuyer()">Browse</button><button class="btnLight" onclick="logout()">Logout</button>`;
   document.getElementById("tagline").innerText="Logged in: "+currentUser.businessName;
@@ -159,12 +198,28 @@ function renderTop(){
   document.getElementById("tagline").innerText="Logged in as buyer";
  }
 }
-function renderMobileNav(){const nav=document.getElementById("mobileNav");if(currentUser&&currentUser.type==="owner")nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Browse</button><button id="nav_owner" onclick="showOwner()">Owner</button><button id="nav_reservations" onclick="showReservations()">Holds</button><button id="nav_account" onclick="showAccount()">Account</button>`;else nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Deals</button><button id="nav_login" onclick="showLogin()">Login</button><button id="nav_register" onclick="showRegister()">Register</button><button id="nav_reservations" onclick="showReservations()">Holds</button>`}
+function renderMobileNav(){
+ const nav=document.getElementById("mobileNav");
+ if(currentUser&&currentUser.type==="admin")nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Browse</button><button id="nav_admin" onclick="showAdmin()">Admin</button><button id="nav_account" onclick="showAccount()">Account</button><button onclick="logout()">Logout</button>`;
+ else if(currentUser&&currentUser.type==="owner")nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Browse</button><button id="nav_owner" onclick="showOwner()">Owner</button><button id="nav_reservations" onclick="showReservations()">Holds</button><button id="nav_account" onclick="showAccount()">Account</button>`;
+ else nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Deals</button><button id="nav_login" onclick="showLogin()">Login</button><button id="nav_register" onclick="showRegister()">Register</button><button id="nav_reservations" onclick="showReservations()">Holds</button>`;
+}
 function renderCategories(){const list=document.getElementById("categoryList");list.innerHTML="";categories.forEach(c=>{const b=document.createElement("button");b.className="catBtn"+(activeCategory===c?" active":"");b.innerText=c;b.onclick=()=>{activeCategory=c;renderCategories();renderItems()};list.appendChild(b)})}
 function toggleBusinessFields(){document.getElementById("businessFields").style.display=document.getElementById("accountType").value==="owner"?"block":"none"}
 function sendCode(){if(!document.getElementById("email").value.trim()){showToast("Enter email first");return}showToast("Demo code sent: 123456")}
 function verifyAccount(){const type=document.getElementById("accountType").value,fullName=document.getElementById("fullName").value.trim(),email=document.getElementById("email").value.trim(),phone=document.getElementById("phone").value.trim(),code=document.getElementById("verifyCode").value.trim();if(!fullName||!email){showToast("Enter name and email");return}if(code!==demoCode){showToast("Wrong code. Use 123456");return}if(accounts.find(a=>a.email.toLowerCase()===email.toLowerCase())){showToast("Email already registered. Login instead.");return}if(type==="owner"){const businessName=document.getElementById("businessName").value.trim(),businessAddress=document.getElementById("businessAddress").value.trim();if(!businessName||!businessAddress){showToast("Business name and address required");return}currentUser={id:Date.now(),type:"owner",fullName,email,phone,active:true,businessStatus:"Active",businessName,businessAddress,badRating:0}}else currentUser={id:Date.now(),type:"user",fullName,email,phone,active:true,badRating:0};accounts.push(currentUser);saveAll();refreshUI();showToast(type==="owner"?"Owner account active":"Buyer account active");currentUser.type==="owner"?showOwner():showBuyer()}
-function login(){const email=document.getElementById("loginEmail").value.trim();const found=accounts.find(a=>a.email.toLowerCase()===email.toLowerCase());if(!found){showToast("No account found. Register first.");return}currentUser=found;saveAll();refreshUI();showToast("Logged in");currentUser.type==="owner"?showOwner():showBuyer()}
+function login(){
+ const email=document.getElementById("loginEmail").value.trim();
+ if(email.toLowerCase()==="admin@locally.com"){
+  currentUser={id:"admin",type:"admin",fullName:"Admin",email:"admin@locally.com",active:true};
+  localStorage.setItem("locally_current_user",JSON.stringify(currentUser));
+  refreshUI();showToast("Admin logged in");showAdmin();return;
+ }
+ const found=accounts.find(a=>a.email.toLowerCase()===email.toLowerCase());
+ if(!found){showToast("No account found. Register first.");return}
+ if(found.blocked){showToast("This account is blocked by admin");return}
+ currentUser=found;saveAll();refreshUI();showToast("Logged in");currentUser.type==="owner"?showOwner():showBuyer()
+}
 function logout(){currentUser=null;localStorage.removeItem("locally_current_user");refreshUI();showToast("Logged out");showBuyer()}
 function updateRegisterStatus(){document.getElementById("registerStatus").innerText=currentUser?(currentUser.type==="owner"?"Business owner active: "+currentUser.businessName:"Buyer account active: "+currentUser.email):"No account active yet."}
 function updateOwnerStatus(){document.getElementById("ownerStatus").innerHTML=`Business account active: ${currentUser.businessName}<br>⭐ Store rating: ${storeRating(currentUser.businessName)} • Bad reports: ${currentUser.badRating||0}`;document.getElementById("postBusinessInfo").innerText=currentUser.businessName+" • address saved privately for Drive after approved hold"}
@@ -176,7 +231,7 @@ function filteredItems(){
   const categoryOk=activeCategory==="All"||i.category===activeCategory;
   const searchOk=i.title.toLowerCase().includes(s)||i.store.toLowerCase().includes(s)||i.category.toLowerCase().includes(s);
   return visibleStock&&categoryOk&&searchOk;
- })
+ }).sort((a,b)=>(b.featured?1:0)-(a.featured?1:0))
 }
 function renderItems(){const list=document.getElementById("itemsList");list.innerHTML="";const arr=filteredItems();if(!arr.length){list.innerHTML='<div class="card"><div class="content"><div class="itemTitle">No deals found</div><div class="store">Try another search or category.</div></div></div>';return}arr.forEach(i=>list.appendChild(buyerCard(i)))}
 function imgStyle(i){if(i.image)return `background-image:url('${i.image}')`;const g={Home:"#64748b",Pets:"#16a34a",Clothing:"#ec4899",Automobile:"#dc2626",Boating:"#0284c7",Electronics:"#4f46e5",Furniture:"#92400e",Food:"#f97316",Beach:"#0ea5e9",Services:"#334155",Clearance:"#ef4444"};return `background:linear-gradient(135deg,${g[i.category]||"#111827"},#111827)`}
@@ -257,8 +312,16 @@ function addReview(type,target,stars,label){
  }
  saveAll();showToast("Review saved: "+label);renderBuyerHolds();renderOwnerHolds();renderItems();renderTop();updateAccountDetails()
 }
-function storeRating(store){const r=reviews.filter(x=>x.type==="store"&&x.target===store);if(!r.length)return"5.0";return (r.reduce((a,b)=>a+b.stars,0)/r.length).toFixed(1)}
-function buyerRating(email){const r=reviews.filter(x=>x.type==="buyer"&&x.target===email);if(!r.length)return"5.0";return (r.reduce((a,b)=>a+b.stars,0)/r.length).toFixed(1)}
+function storeRating(store){
+ const owner=accounts.find(a=>a.businessName===store);
+ if(owner&&owner.adminRating)return Number(owner.adminRating).toFixed(1);
+ const r=reviews.filter(x=>x.type==="store"&&x.target===store);if(!r.length)return"5.0";return (r.reduce((a,b)=>a+b.stars,0)/r.length).toFixed(1)
+}
+function buyerRating(email){
+ const buyer=accounts.find(a=>a.email===email);
+ if(buyer&&buyer.adminRating)return Number(buyer.adminRating).toFixed(1);
+ const r=reviews.filter(x=>x.type==="buyer"&&x.target===email);if(!r.length)return"5.0";return (r.reduce((a,b)=>a+b.stars,0)/r.length).toFixed(1)
+}
 function driveTo(a){window.open("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(a),"_blank")}
 function chatStore(s){alert("Chat request sent to "+s+". In the real version this becomes live chat or SMS.")}
 function postItem(){
@@ -305,8 +368,53 @@ function saveEditedItem(){
  renderItems();
  showOwner();
 }
-function deleteItem(id){items=items.filter(i=>i.id!==id);saveAll();renderItems();renderOwnerItems();showToast("Deal deleted")}
+function deleteItem(id){items=items.filter(i=>i.id!==id);holdRequests=holdRequests.filter(h=>h.itemId!==id);saveAll();renderItems();renderOwnerItems();showToast("Deal deleted")}
 function openStore(name){hideAll();document.getElementById("storePanel").style.display="block";const arr=items.filter(i=>i.store===name),first=arr[0];document.getElementById("storeHeader").innerHTML=`<div class="storeHeader"><div class="storeLogo">${name.charAt(0)}</div><div style="font-size:26px;font-weight:900;">${name}</div><div style="margin-top:6px;color:#d1d5db;font-weight:700;">Verified local business • ⭐ ${storeRating(name)}</div><div style="margin-top:10px;font-weight:800;">Distance shown on each item. Address opens after approved hold.</div>${first?`<button class="btnOrange" style="width:100%;margin-top:14px;" onclick="driveTo('${esc(first.address)}')">Drive to store</button>`:""}</div>`;const box=document.getElementById("storeItems");box.innerHTML="";arr.forEach(i=>box.appendChild(buyerCard(i)))}
+function adminLabel(acc){return acc.type==="owner"?acc.businessName+" (owner)":acc.fullName+" (buyer)"}
+function renderAdmin(){
+ const accBox=document.getElementById("adminAccounts");
+ const postBox=document.getElementById("adminPosts");
+ accBox.innerHTML="";postBox.innerHTML="";
+ if(!accounts.length)accBox.innerHTML="<div class='formSub'>No accounts yet.</div>";
+ accounts.forEach(acc=>{
+  const div=document.createElement("div");div.className="adminRow";
+  const rating=acc.type==="owner"?storeRating(acc.businessName):buyerRating(acc.email);
+  div.innerHTML=`<strong>${adminLabel(acc)}</strong><br>${acc.email}<br>Status: ${acc.blocked?"Blocked":"Active"} • ⭐ ${rating}
+  <input class="field" id="rate_${acc.id}" type="number" min="1" max="5" step="0.1" placeholder="Set rating 1-5" />
+  <div class="adminActions">
+    <button class="good" onclick="setAccountRating('${acc.id}')">Set Rating</button>
+    <button onclick="toggleBlockAccount('${acc.id}')">${acc.blocked?"Unblock":"Block"}</button>
+    <button class="danger" onclick="deleteAccount('${acc.id}')">Delete Account</button>
+  </div>`;
+  accBox.appendChild(div);
+ });
+ if(!items.length)postBox.innerHTML="<div class='formSub'>No posts yet.</div>";
+ items.forEach(item=>{
+  const div=document.createElement("div");div.className="adminRow";
+  div.innerHTML=`<strong>${item.title}</strong><br>${item.store} • $${item.price} • ${item.quantity} left • ${item.featured?"Featured":"Normal"}
+  <div class="adminActions">
+    <button class="feature" onclick="toggleFeatured(${item.id})">${item.featured?"Remove From Top":"Push To Top"}</button>
+    <button class="danger" onclick="deleteItem(${item.id});renderAdmin()">Delete Post</button>
+  </div>`;
+  postBox.appendChild(div);
+ });
+}
+function setAccountRating(id){
+ const acc=accounts.find(a=>String(a.id)===String(id));if(!acc)return;
+ const val=Number(document.getElementById("rate_"+id).value);
+ if(!val||val<1||val>5){showToast("Enter rating 1-5");return}
+ acc.adminRating=val;
+ saveAll();showToast("Rating updated");renderAdmin();renderTop();renderItems();
+}
+function toggleBlockAccount(id){const acc=accounts.find(a=>String(a.id)===String(id));if(!acc)return;acc.blocked=!acc.blocked;saveAll();showToast(acc.blocked?"Account blocked":"Account unblocked");renderAdmin()}
+function deleteAccount(id){
+ const acc=accounts.find(a=>String(a.id)===String(id));if(!acc)return;
+ accounts=accounts.filter(a=>String(a.id)!==String(id));
+ if(acc.type==="owner")items=items.filter(i=>i.store!==acc.businessName);
+ holdRequests=holdRequests.filter(h=>h.buyerEmail!==acc.email&&h.store!==acc.businessName);
+ saveAll();showToast("Account deleted");renderAdmin();renderItems();
+}
+function toggleFeatured(id){const item=items.find(i=>i.id===id);if(!item)return;item.featured=!item.featured;saveAll();showToast(item.featured?"Post pushed to top":"Post removed from top");renderAdmin();renderItems()}
 function refreshUI(){renderTop();renderMobileNav();renderCategories();renderItems();updateRegisterStatus()}
 renderTop();renderMobileNav();renderCategories();renderItems();showBuyer();
 </script>
