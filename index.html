@@ -1,275 +1,887 @@
-import React, { useMemo, useState } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Locally</title>
 
-const starterItems = [
-  {
-    id: 1,
-    title: "Beach Chair",
-    store: "Ocean Beach Shop",
-    category: "Beach & Rentals",
-    price: 25,
-    quantity: 3,
-    distance: 0.7,
-    expires: "Today 6:00 PM",
-    address: "Surfside Beach, SC",
-    image: "linear-gradient(135deg, #38bdf8, #0f766e)",
-  },
-  {
-    id: 2,
-    title: "Patio Umbrella",
-    store: "Coastal Outlet",
-    category: "Home Goods",
-    price: 45,
-    quantity: 2,
-    distance: 1.4,
-    expires: "Today 7:30 PM",
-    address: "Myrtle Beach, SC",
-    image: "linear-gradient(135deg, #f97316, #facc15)",
-  },
-  {
-    id: 3,
-    title: "Fresh Bakery Box",
-    store: "Morning Bakery",
-    category: "Food & Drinks",
-    price: 12,
-    quantity: 5,
-    distance: 2.1,
-    expires: "Today 5:00 PM",
-    address: "Garden City, SC",
-    image: "linear-gradient(135deg, #fb7185, #7c3aed)",
-  },
-];
+  <style>
+    * { box-sizing: border-box; }
 
-const categories = [
-  "All",
-  "Home",
-  "Pets",
-  "Clothing",
-  "Automobile",
-  "Boating",
-  "Electronics",
-  "Furniture",
-  "Food",
-  "Beach",
-  "Services",
-  "Clearance"
-];
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef1f5;
+      color: #111827;
+    }
 
-export default function App() {
-  const [items, setItems] = useState(starterItems);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [search, setSearch] = useState("");
-  const [reservation, setReservation] = useState(null);
-  const [ownerMode, setOwnerMode] = useState(false);
-  const [form, setForm] = useState({
-    title: "",
-    store: "Ocean Beach Shop",
-    category: "Beach & Rentals",
-    price: "",
-    quantity: "",
-    expires: "Today 6:00 PM",
-    address: "Myrtle Beach, SC",
-  });
+    .app {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #ffffff;
+      padding-bottom: 100px;
+    }
 
-  const filteredItems = useMemo(() => {
-    return items.filter((item) => {
-      const categoryMatch = selectedCategory === "All" || item.category === selectedCategory;
-      const searchMatch =
-        item.title.toLowerCase().includes(search.toLowerCase()) ||
-        item.store.toLowerCase().includes(search.toLowerCase());
-      return categoryMatch && searchMatch;
+    .hero {
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: white;
+      padding: 24px 18px 22px;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      margin-top: 5px;
+      color: #d1d5db;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .ownerBtn {
+      background: #ffb020;
+      color: #111827;
+      padding: 11px 15px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .search {
+      width: 100%;
+      margin-top: 18px;
+      background: white;
+      border: 0;
+      border-radius: 18px;
+      padding: 15px 16px;
+      color: #111827;
+      font-weight: 800;
+      outline: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+    }
+
+    .locationBox {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .smallBtn {
+      flex: 1;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 11px;
+      border-radius: 15px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 18px 16px 6px;
+    }
+
+    .tab {
+      white-space: nowrap;
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      font-size: 13px;
+      font-weight: 900;
+      color: #374151;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: #111827;
+      color: white;
+    }
+
+    .sectionTitle {
+      padding: 14px 18px 4px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .mapBox {
+      margin: 14px 16px;
+      height: 160px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, #dbeafe, #dcfce7);
+      border: 1px solid #d1d5db;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .mapLine {
+      position: absolute;
+      height: 4px;
+      background: rgba(17,24,39,0.15);
+      border-radius: 999px;
+    }
+
+    .pin {
+      position: absolute;
+      background: #111827;
+      color: white;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .pin.user { background: #047857; }
+
+    .card {
+      margin: 14px 16px;
+      background: white;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(17, 24, 39, 0.12);
+      border: 1px solid #eef0f4;
+    }
+
+    .image {
+      height: 160px;
+      padding: 14px;
+      color: white;
+      position: relative;
+      background: linear-gradient(135deg, #0ea5e9, #0f766e);
+    }
+
+    .image.Home { background: linear-gradient(135deg, #111827, #64748b); }
+    .image.Pets { background: linear-gradient(135deg, #16a34a, #84cc16); }
+    .image.Clothing { background: linear-gradient(135deg, #ec4899, #7c3aed); }
+    .image.Automobile { background: linear-gradient(135deg, #dc2626, #fb923c); }
+    .image.Boating { background: linear-gradient(135deg, #0284c7, #22d3ee); }
+    .image.Electronics { background: linear-gradient(135deg, #4f46e5, #06b6d4); }
+    .image.Furniture { background: linear-gradient(135deg, #92400e, #f59e0b); }
+    .image.Food { background: linear-gradient(135deg, #f97316, #facc15); }
+    .image.Beach { background: linear-gradient(135deg, #0ea5e9, #0f766e); }
+    .image.Services { background: linear-gradient(135deg, #334155, #0f172a); }
+    .image.Clearance { background: linear-gradient(135deg, #7c2d12, #ef4444); }
+
+    .category {
+      display: inline-block;
+      background: rgba(255,255,255,0.22);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      backdrop-filter: blur(8px);
+    }
+
+    .price {
+      position: absolute;
+      bottom: 14px;
+      left: 16px;
+      font-size: 38px;
+      font-weight: 900;
+    }
+
+    .content { padding: 16px; }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .itemTitle {
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .store {
+      margin-top: 4px;
+      color: #6b7280;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .left {
+      background: #fff3d6;
+      color: #a15c00;
+      border-radius: 14px;
+      padding: 8px 10px;
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .infoGrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .info {
+      background: #f3f4f6;
+      border-radius: 15px;
+      padding: 10px;
+      font-size: 13px;
+      color: #4b5563;
+      font-weight: 800;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 9px;
+      margin-top: 15px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 10px;
+      font-weight: 900;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .reserve { background: #111827; color: white; }
+    .secondary { background: #f3f4f6; color: #111827; }
+    .disabled { background: #d1d5db !important; color: #6b7280 !important; }
+
+    .ownerPanel {
+      padding: 16px;
+      display: none;
+    }
+
+    .formCard {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 26px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .formTitle {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 5px;
+    }
+
+    .formSub {
+      color:#6b7280;
+      font-weight:700;
+      font-size: 14px;
+    }
+
+    .field {
+      width: 100%;
+      margin-top: 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 17px;
+      padding: 14px;
+      font-weight: 800;
+      outline: none;
+      background: white;
+    }
+
+    .postBtn {
+      width: 100%;
+      margin-top: 12px;
+      background: #111827;
+      color: white;
+      padding: 15px;
+      border-radius: 18px;
+    }
+
+    .ownerListItem {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .ownerListTop {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: 900;
+    }
+
+    .ownerDelete {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 8px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .storeView {
+      display: none;
+      padding: 16px;
+    }
+
+    .storeHeader {
+      background: #111827;
+      color: white;
+      border-radius: 28px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .storeLogo {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: #ffb020;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .backBtn {
+      background: #f3f4f6;
+      color: #111827;
+      width: 100%;
+      margin-bottom: 14px;
+    }
+
+    .reserveBar {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 16px;
+      width: calc(100% - 28px);
+      max-width: 402px;
+      background: #047857;
+      color: white;
+      border-radius: 22px;
+      padding: 14px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 18px 40px rgba(4, 120, 87, 0.35);
+      z-index: 10;
+    }
+
+    .reserveText { font-weight: 900; font-size: 15px; }
+    .reserveSmall { font-size: 12px; color: #d1fae5; margin-top: 3px; font-weight: 700; }
+    .barButtons { display: flex; gap: 8px; }
+    .drive { background: white; color: #047857; padding: 10px 12px; border-radius: 14px; font-size: 13px; font-weight: 900; }
+    .cancel { background: #065f46; color: white; padding: 10px 12px; border-radius: 14px; font-size: 13px; font-weight: 900; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 20px;
+      background: #111827;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      display: none;
+      z-index: 20;
+      max-width: 90%;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="toast" id="toast">Saved</div>
+
+<div class="app">
+  <div class="hero">
+    <div class="top">
+      <div>
+        <div class="brand">Locally</div>
+        <div class="subtitle">Verified local store deals near you</div>
+      </div>
+      <button class="ownerBtn" onclick="toggleOwner()" id="ownerToggle">Owner</button>
+    </div>
+
+    <input class="search" id="searchInput" placeholder="Search item or store" oninput="renderItems()" />
+
+    <div class="locationBox">
+      <button class="smallBtn" onclick="getLocation()">Use my location</button>
+      <button class="smallBtn" onclick="openMap()">Map</button>
+    </div>
+  </div>
+
+  <div id="buyerView">
+    <div class="tabs" id="tabs"></div>
+
+    <div class="sectionTitle">Map near you</div>
+    <div class="mapBox" onclick="openMap()">
+      <div class="mapLine" style="width: 180px; top: 45px; left: 40px; transform: rotate(18deg);"></div>
+      <div class="mapLine" style="width: 240px; top: 100px; left: 20px; transform: rotate(-12deg);"></div>
+      <div class="pin user" style="left: 22px; top: 115px;">You</div>
+      <div class="pin" style="left: 150px; top: 50px;">0.5 mi</div>
+      <div class="pin" style="left: 260px; top: 105px;">1.4 mi</div>
+    </div>
+
+    <div class="sectionTitle">Deals near you</div>
+    <div id="itemsList"></div>
+  </div>
+
+  <div class="storeView" id="storeView">
+    <button class="backBtn" onclick="backToBuyer()">Back to deals</button>
+    <div id="storeHeader"></div>
+    <div id="storeItems"></div>
+  </div>
+
+  <div class="ownerPanel" id="ownerPanel">
+    <div class="formCard">
+      <div class="formTitle">Owner side</div>
+      <div class="formSub">Post deals from verified brick and mortar stores.</div>
+
+      <input class="field" id="itemName" placeholder="Item name" />
+      <input class="field" id="storeName" placeholder="Store name" value="Ocean Beach Shop" />
+
+      <select class="field" id="category">
+        <option>Home</option>
+        <option>Pets</option>
+        <option>Clothing</option>
+        <option>Automobile</option>
+        <option>Boating</option>
+        <option>Electronics</option>
+        <option>Furniture</option>
+        <option>Food</option>
+        <option>Beach</option>
+        <option>Services</option>
+        <option>Clearance</option>
+      </select>
+
+      <input class="field" id="price" type="number" placeholder="Price" />
+      <input class="field" id="quantity" type="number" placeholder="Quantity left" />
+      <input class="field" id="expires" placeholder="Expiration, example: Today 6 PM" />
+      <input class="field" id="address" placeholder="Address" value="Myrtle Beach, SC" />
+
+      <button class="postBtn" onclick="postItem()">Post deal</button>
+    </div>
+
+    <div class="formCard">
+      <div class="formTitle">Your active deals</div>
+      <div class="formSub">Delete test deals or check what buyers see.</div>
+      <div id="ownerItems"></div>
+    </div>
+  </div>
+</div>
+
+<div id="reserveBar" class="reserveBar">
+  <div>
+    <div id="reserveText" class="reserveText"></div>
+    <div class="reserveSmall" id="timerText">Hold expires in 15:00</div>
+  </div>
+  <div class="barButtons">
+    <div class="drive" onclick="driveReserved()">Drive</div>
+    <div class="cancel" onclick="cancelReserve()">X</div>
+  </div>
+</div>
+
+<script>
+  let userLat = null;
+  let userLng = null;
+  let activeCategory = "All";
+  let ownerMode = false;
+  let reservedItem = null;
+  let timer = null;
+  let secondsLeft = 900;
+
+  const categories = [
+    "All",
+    "Home",
+    "Pets",
+    "Clothing",
+    "Automobile",
+    "Boating",
+    "Electronics",
+    "Furniture",
+    "Food",
+    "Beach",
+    "Services",
+    "Clearance"
+  ];
+
+  let items = JSON.parse(localStorage.getItem("locally_items")) || [
+    {
+      id: 1,
+      title: "Beach Chair",
+      store: "Ocean Beach Shop",
+      category: "Beach",
+      price: 25,
+      quantity: 3,
+      distance: 0.5,
+      expires: "Today 6 PM",
+      address: "Surfside Beach, SC"
+    },
+    {
+      id: 2,
+      title: "Pet Bed",
+      store: "Coastal Pet Supply",
+      category: "Pets",
+      price: 18,
+      quantity: 4,
+      distance: 1.1,
+      expires: "Today 5 PM",
+      address: "Myrtle Beach, SC"
+    },
+    {
+      id: 3,
+      title: "Car Floor Mats",
+      store: "Auto Quick Stop",
+      category: "Automobile",
+      price: 35,
+      quantity: 2,
+      distance: 2.0,
+      expires: "Today 7 PM",
+      address: "Myrtle Beach, SC"
+    },
+    {
+      id: 4,
+      title: "Boat Rope Set",
+      store: "Harbor Marine Shop",
+      category: "Boating",
+      price: 22,
+      quantity: 3,
+      distance: 2.7,
+      expires: "Tomorrow",
+      address: "Murrells Inlet, SC"
+    }
+  ];
+
+  function saveItems() {
+    localStorage.setItem("locally_items", JSON.stringify(items));
+  }
+
+  function showToast(text) {
+    const toast = document.getElementById("toast");
+    toast.innerText = text;
+    toast.style.display = "block";
+    setTimeout(() => toast.style.display = "none", 1600);
+  }
+
+  function renderTabs() {
+    const tabs = document.getElementById("tabs");
+    tabs.innerHTML = "";
+
+    categories.forEach(cat => {
+      const btn = document.createElement("button");
+      btn.className = "tab" + (activeCategory === cat ? " active" : "");
+      btn.innerText = cat;
+      btn.onclick = () => {
+        activeCategory = cat;
+        renderTabs();
+        renderItems();
+      };
+      tabs.appendChild(btn);
     });
-  }, [items, selectedCategory, search]);
-
-  function reserveItem(item) {
-    if (item.quantity < 1) return;
-
-    setItems((currentItems) =>
-      currentItems.map((currentItem) =>
-        currentItem.id === item.id
-          ? { ...currentItem, quantity: currentItem.quantity - 1 }
-          : currentItem
-      )
-    );
-
-    setReservation(item);
   }
 
-  function cancelReservation() {
-    if (!reservation) return;
+  function getFilteredItems() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
 
-    setItems((currentItems) =>
-      currentItems.map((item) =>
-        item.id === reservation.id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+    return items.filter(item => {
+      const matchCat = activeCategory === "All" || item.category === activeCategory;
+      const matchSearch =
+        item.title.toLowerCase().includes(search) ||
+        item.store.toLowerCase().includes(search) ||
+        item.category.toLowerCase().includes(search);
 
-    setReservation(null);
+      return matchCat && matchSearch;
+    });
   }
 
-  function addItem(event) {
-    event.preventDefault();
+  function renderItems() {
+    const list = document.getElementById("itemsList");
+    list.innerHTML = "";
+
+    const filtered = getFilteredItems();
+
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="card"><div class="content"><div class="itemTitle">No deals found</div><div class="store">Try another search or category.</div></div></div>';
+      return;
+    }
+
+    filtered.forEach(item => {
+      list.appendChild(createItemCard(item));
+    });
+
+    renderOwnerItems();
+  }
+
+  function createItemCard(item) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="image ${item.category}">
+        <div class="category">${item.category}</div>
+        <div class="price">$${item.price}</div>
+      </div>
+
+      <div class="content">
+        <div class="row">
+          <div>
+            <div class="itemTitle">${item.title}</div>
+            <div class="store" onclick="openStore('${item.store.replace(/'/g, "\\'")}')">🏬 ${item.store} • Verified</div>
+          </div>
+          <div class="left">${item.quantity > 0 ? item.quantity + " left" : "Sold out"}</div>
+        </div>
+
+        <div class="infoGrid">
+          <div class="info">📍 ${item.distance} mi away</div>
+          <div class="info">⏱ ${item.expires || "Today"}</div>
+        </div>
+
+        <div class="infoGrid">
+          <div class="info">📌 ${item.address}</div>
+          <div class="info">✅ Best effort stock</div>
+        </div>
+
+        <div class="actions">
+          <button class="reserve ${item.quantity < 1 ? "disabled" : ""}" onclick="reserveItem(${item.id})">Reserve</button>
+          <button class="secondary" onclick="chatStore('${item.store.replace(/'/g, "\\'")}')">Chat</button>
+          <button class="secondary" onclick="driveTo('${item.address.replace(/'/g, "\\'")}')">Drive</button>
+        </div>
+      </div>
+    `;
+
+    return card;
+  }
+
+  function renderOwnerItems() {
+    const ownerItems = document.getElementById("ownerItems");
+    if (!ownerItems) return;
+
+    ownerItems.innerHTML = "";
+
+    items.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "ownerListItem";
+      row.innerHTML = `
+        <div class="ownerListTop">
+          <div>${item.title}</div>
+          <button class="ownerDelete" onclick="deleteItem(${item.id})">Delete</button>
+        </div>
+        <div style="margin-top:5px;color:#6b7280;font-weight:800;">
+          ${item.store} • $${item.price} • ${item.quantity} left • ${item.category}
+        </div>
+      `;
+      ownerItems.appendChild(row);
+    });
+  }
+
+  function reserveItem(id) {
+    const item = items.find(x => x.id === id);
+    if (!item || item.quantity < 1) return;
+
+    if (reservedItem) {
+      showToast("You already have one active reservation");
+      return;
+    }
+
+    item.quantity -= 1;
+    reservedItem = item;
+    saveItems();
+    renderItems();
+
+    document.getElementById("reserveBar").style.display = "flex";
+    document.getElementById("reserveText").innerText = "Reserved: " + item.title;
+
+    startTimer();
+  }
+
+  function startTimer() {
+    secondsLeft = 900;
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+      secondsLeft--;
+
+      const minutes = Math.floor(secondsLeft / 60);
+      const seconds = secondsLeft % 60;
+
+      document.getElementById("timerText").innerText =
+        "Hold expires in " + minutes + ":" + String(seconds).padStart(2, "0");
+
+      if (secondsLeft <= 0) {
+        cancelReserve();
+        showToast("Reservation expired");
+      }
+    }, 1000);
+  }
+
+  function cancelReserve() {
+    if (reservedItem) {
+      const item = items.find(x => x.id === reservedItem.id);
+      if (item) item.quantity += 1;
+    }
+
+    reservedItem = null;
+    clearInterval(timer);
+    document.getElementById("reserveBar").style.display = "none";
+    saveItems();
+    renderItems();
+  }
+
+  function driveReserved() {
+    if (!reservedItem) return;
+    driveTo(reservedItem.address);
+  }
+
+  function driveTo(address) {
+    const url = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address);
+    window.open(url, "_blank");
+  }
+
+  function openMap() {
+    const url = "https://www.google.com/maps/search/local+stores+near+me";
+    window.open(url, "_blank");
+  }
+
+  function chatStore(store) {
+    alert("Chat request sent to " + store + ". In the real version this becomes live chat or SMS.");
+  }
+
+  function getLocation() {
+    if (!navigator.geolocation) {
+      showToast("Location not supported");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        userLat = position.coords.latitude;
+        userLng = position.coords.longitude;
+        showToast("Location enabled");
+      },
+      () => showToast("Location denied")
+    );
+  }
+
+  function toggleOwner() {
+    ownerMode = !ownerMode;
+
+    document.getElementById("buyerView").style.display = ownerMode ? "none" : "block";
+    document.getElementById("storeView").style.display = "none";
+    document.getElementById("ownerPanel").style.display = ownerMode ? "block" : "none";
+    document.getElementById("ownerToggle").innerText = ownerMode ? "Buyer" : "Owner";
+
+    renderOwnerItems();
+  }
+
+  function postItem() {
+    const title = document.getElementById("itemName").value.trim();
+    const store = document.getElementById("storeName").value.trim();
+    const category = document.getElementById("category").value;
+    const price = document.getElementById("price").value;
+    const quantity = document.getElementById("quantity").value;
+    const expires = document.getElementById("expires").value.trim();
+    const address = document.getElementById("address").value.trim();
+
+    if (!title || !store || !price || !quantity) {
+      showToast("Fill item, store, price, quantity");
+      return;
+    }
 
     const newItem = {
       id: Date.now(),
-      title: form.title,
-      store: form.store,
-      category: form.category,
-      price: Number(form.price),
-      quantity: Number(form.quantity),
-      distance: 0.5,
-      expires: form.expires,
-      address: form.address,
-      image: "linear-gradient(135deg, #111827, #64748b)",
+      title,
+      store,
+      category,
+      price: Number(price),
+      quantity: Number(quantity),
+      distance: 0.8,
+      expires: expires || "Today",
+      address: address || "Myrtle Beach, SC"
     };
 
-    setItems([newItem, ...items]);
-    setForm({ ...form, title: "", price: "", quantity: "" });
-    setOwnerMode(false);
+    items.unshift(newItem);
+    saveItems();
+
+    document.getElementById("itemName").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("quantity").value = "";
+    document.getElementById("expires").value = "";
+
+    showToast("Deal posted");
+    toggleOwner();
+    renderItems();
   }
 
-  return (
-    <div className="min-h-screen bg-slate-200 p-3 text-slate-950">
-      <div className="mx-auto max-w-md min-h-screen overflow-hidden rounded-[32px] bg-white shadow-2xl">
-        <div className="bg-slate-950 px-5 pb-5 pt-6 text-white">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-orange-300">
-                Verified local stores
-              </div>
-              <h1 className="mt-1 text-3xl font-black leading-tight">Locally</h1>
-              <p className="mt-1 text-sm text-slate-300">Reserve before it is gone</p>
-            </div>
-            <button
-              onClick={() => setOwnerMode(!ownerMode)}
-              className="rounded-2xl bg-orange-400 px-4 py-3 text-sm font-black text-slate-950 shadow-lg"
-            >
-              {ownerMode ? "Buyer" : "Owner"}
-            </button>
-          </div>
+  function deleteItem(id) {
+    items = items.filter(item => item.id !== id);
+    saveItems();
+    renderItems();
+    renderOwnerItems();
+    showToast("Deal deleted");
+  }
 
-          <div className="mt-5 rounded-2xl bg-white/10 p-2">
-            <input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search item or store"
-              className="w-full rounded-xl border-0 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none"
-            />
-          </div>
-        </div>
+  function openStore(storeName) {
+    document.getElementById("buyerView").style.display = "none";
+    document.getElementById("ownerPanel").style.display = "none";
+    document.getElementById("storeView").style.display = "block";
 
-        {reservation && (
-          <div className="mx-4 mt-4 rounded-3xl bg-emerald-600 p-4 text-white shadow-lg">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wide text-emerald-100">Active reservation</div>
-                <div className="text-lg font-black">{reservation.title}</div>
-                <div className="text-sm text-emerald-50">Hold expires in 15 minutes</div>
-              </div>
-              <div className="flex gap-2">
-                <button className="rounded-2xl bg-white px-3 py-2 text-sm font-black text-emerald-700">Drive</button>
-                <button onClick={cancelReservation} className="rounded-2xl bg-emerald-800 px-3 py-2 text-sm font-black">X</button>
-              </div>
-            </div>
-          </div>
-        )}
+    const storeDeals = items.filter(item => item.store === storeName);
+    const first = storeDeals[0];
 
-        {ownerMode ? (
-          <div className="p-4">
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
-              <h2 className="text-2xl font-black">Post a deal</h2>
-              <p className="mt-1 text-sm text-slate-500">For MVP, owners post one deal at a time.</p>
-
-              <form onSubmit={addItem} className="mt-4 space-y-3">
-                <input className="field" placeholder="Item name" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
-                <input className="field" placeholder="Store name" value={form.store} onChange={(e) => setForm({ ...form, store: e.target.value })} required />
-                <select className="field" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
-                  {categories.filter((category) => category !== "All").map((category) => (
-                    <option key={category}>{category}</option>
-                  ))}
-                </select>
-                <div className="grid grid-cols-2 gap-3">
-                  <input className="field" placeholder="Price" type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
-                  <input className="field" placeholder="Quantity" type="number" value={form.quantity} onChange={(e) => setForm({ ...form, quantity: e.target.value })} required />
-                </div>
-                <input className="field" placeholder="Expires" value={form.expires} onChange={(e) => setForm({ ...form, expires: e.target.value })} />
-                <input className="field" placeholder="Address" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} />
-                <button className="w-full rounded-2xl bg-slate-950 py-4 text-base font-black text-white">Post deal</button>
-              </form>
-            </div>
-          </div>
-        ) : (
-          <div className="p-4">
-            <div className="flex gap-2 overflow-x-auto pb-3">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`shrink-0 rounded-full px-4 py-2 text-sm font-black ${
-                    selectedCategory === category
-                      ? "bg-slate-950 text-white"
-                      : "bg-slate-100 text-slate-700"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-
-            <div className="space-y-4">
-              {filteredItems.map((item) => (
-                <div key={item.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-                  <div className="h-40 p-4 text-white" style={{ background: item.image }}>
-                    <div className="inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-black backdrop-blur">
-                      {item.category}
-                    </div>
-                    <div className="mt-14 text-3xl font-black">${item.price}</div>
-                  </div>
-                  <div className="p-4">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h3 className="text-xl font-black">{item.title}</h3>
-                        <p className="text-sm font-semibold text-slate-500">{item.store}</p>
-                      </div>
-                      <div className="rounded-2xl bg-orange-100 px-3 py-2 text-sm font-black text-orange-700">
-                        {item.quantity > 0 ? `${item.quantity} left` : "Sold out"}
-                      </div>
-                    </div>
-
-                    <div className="mt-3 grid grid-cols-2 gap-2 text-sm font-bold text-slate-600">
-                      <div className="rounded-2xl bg-slate-100 px-3 py-2">📍 {item.distance} mi</div>
-                      <div className="rounded-2xl bg-slate-100 px-3 py-2">⏱ {item.expires}</div>
-                    </div>
-
-                    <div className="mt-4 grid grid-cols-3 gap-2">
-                      <button
-                        onClick={() => reserveItem(item)}
-                        disabled={item.quantity < 1 || Boolean(reservation)}
-                        className="rounded-2xl bg-slate-950 py-3 text-sm font-black text-white disabled:bg-slate-300"
-                      >
-                        Reserve
-                      </button>
-                      <button className="rounded-2xl bg-slate-100 py-3 text-sm font-black">Chat</button>
-                      <button className="rounded-2xl bg-slate-100 py-3 text-sm font-black">Drive</button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+    document.getElementById("storeHeader").innerHTML = `
+      <div class="storeHeader">
+        <div class="storeLogo">${storeName.charAt(0)}</div>
+        <div style="font-size:26px;font-weight:900;">${storeName}</div>
+        <div style="margin-top:6px;color:#d1d5db;font-weight:700;">Verified brick and mortar store</div>
+        <div style="margin-top:10px;font-weight:800;">📌 ${first ? first.address : "Local store"}</div>
+        <button style="margin-top:14px;background:white;color:#111827;width:100%;" onclick="driveTo('${first ? first.address.replace(/'/g, "\\'") : "Myrtle Beach, SC"}')">Drive to store</button>
       </div>
+    `;
 
-      <style>{`
-        .field {
-          width: 100%;
-          border-radius: 18px;
-          background: white;
-          border: 1px solid #e2e8f0;
-          padding: 14px 16px;
-          font-weight: 700;
-          outline: none;
-        }
-      `}</style>
-    </div>
-  );
-}
+    const storeItems = document.getElementById("storeItems");
+    storeItems.innerHTML = "";
+
+    storeDeals.forEach(item => {
+      storeItems.appendChild(createItemCard(item));
+    });
+  }
+
+  function backToBuyer() {
+    document.getElementById("storeView").style.display = "none";
+    document.getElementById("buyerView").style.display = "block";
+  }
+
+  renderTabs();
+  renderItems();
+  renderOwnerItems();
+</script>
+
+</body>
+</html>
