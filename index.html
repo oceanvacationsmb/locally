@@ -79,221 +79,25 @@ button{border:0;cursor:pointer;font-weight:900}
 .ownerNav .main{background:#111827;color:white}
 .reviewBtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .reviewBtns button{background:#f3f4f6;color:#111827;border-radius:14px;padding:10px 12px;font-size:13px}
-.starSelect{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px}
-.starSelect button{background:#fff3d6;color:#a15c00;border-radius:12px;padding:10px}
 @media(max-width:1050px){.dealsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:900px){
-.headerInner{align-items:flex-start;flex-direction:column}
-.searchBar{max-width:none;width:100%}
-.heroBox{grid-template-columns:1fr}
-.heroTitle{font-size:34px}
-.layout{display:block;padding:12px 12px 95px}
-.side{position:static;margin-bottom:14px}
-.side .sideTitle{display:none}
-#categoryList{display:flex;gap:8px;overflow-x:auto}
-.catBtn{width:auto;white-space:nowrap;margin-bottom:0}
-.dealsGrid{grid-template-columns:1fr}
-.mobileNav{display:flex}
-.holdBar{bottom:70px}
-}
+@media(max-width:900px){.headerInner{align-items:flex-start;flex-direction:column}.searchBar{max-width:none;width:100%}.heroBox{grid-template-columns:1fr}.heroTitle{font-size:34px}.layout{display:block;padding:12px 12px 95px}.side{position:static;margin-bottom:14px}.side .sideTitle{display:none}#categoryList{display:flex;gap:8px;overflow-x:auto}.catBtn{width:auto;white-space:nowrap;margin-bottom:0}.dealsGrid{grid-template-columns:1fr}.mobileNav{display:flex}.holdBar{bottom:70px}}
 </style>
 </head>
 
 <body>
-
 <div class="toast" id="toast"></div>
-
-<header class="header">
-  <div class="headerInner">
-    <div>
-      <div class="logo">Locally</div>
-      <div class="tagline" id="tagline">Verified local store deals near you</div>
-    </div>
-    <input class="searchBar" id="searchInput" placeholder="Search item or store" oninput="renderItems()" />
-    <div class="topActions" id="topActions"></div>
-  </div>
-</header>
-
-<section class="hero" id="hero">
-  <div class="heroBox">
-    <div>
-      <h1 class="heroTitle">Local deals, right now.</h1>
-      <div class="heroText">Request a hold, choose quantity and pickup window. Owner approves or declines.</div>
-      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btnOrange" onclick="showRegister()">Register</button>
-        <button class="btnLight" onclick="showBuyer()">Browse Deals</button>
-      </div>
-    </div>
-    <div class="heroStats">
-      <div class="stat"><div class="statNum">30–60m</div><div class="statText">pickup window</div></div>
-      <div class="stat"><div class="statNum">⭐</div><div class="statText">buyers and stores rated</div></div>
-    </div>
-  </div>
-</section>
-
-<main class="layout" id="mainLayout">
-  <aside class="side">
-    <div class="sideTitle">Categories</div>
-    <div id="categoryList"></div>
-  </aside>
-  <section>
-    <div class="sectionTitle">Deals near you</div>
-    <div class="dealsGrid" id="itemsList"></div>
-  </section>
-</main>
-
-<section class="formPanel" id="loginPanel">
-  <div class="formCard">
-    <div class="formTitle">Login</div>
-    <div class="formSub">Demo login uses only your email.</div>
-    <input class="field" id="loginEmail" placeholder="Email address" />
-    <button class="postBtn" onclick="login()">Login</button>
-  </div>
-</section>
-
-<section class="formPanel" id="registerPanel">
-  <div class="formCard">
-    <div class="formTitle">Register</div>
-    <div class="formSub">Create a buyer account or business owner account.</div>
-    <select class="field" id="accountType" onchange="toggleBusinessFields()">
-      <option value="user">Buyer account</option>
-      <option value="owner">Business owner account</option>
-    </select>
-    <input class="field" id="fullName" placeholder="Full name" />
-    <input class="field" id="email" placeholder="Email address" />
-    <input class="field" id="phone" placeholder="Phone optional" />
-    <div id="businessFields" style="display:none;">
-      <input class="field" id="businessName" placeholder="Business name" />
-      <input class="field" id="businessAddress" placeholder="Business real address" />
-    </div>
-    <button class="postBtn" onclick="sendCode()">Send email code</button>
-    <input class="field" id="verifyCode" placeholder="Enter demo code: 123456" />
-    <button class="postBtn" onclick="verifyAccount()">Activate account</button>
-    <div id="registerStatus" class="statusBox">No account active yet.</div>
-  </div>
-</section>
-
-<section class="formPanel" id="ownerPanel">
-  <div class="ownerNav">
-    <button class="main" onclick="showOwner()">Owner Dashboard</button>
-    <button onclick="showBuyer()">Browse Items</button>
-    <button onclick="showReservations()">Hold Requests</button>
-    <button onclick="showAccount()">Account</button>
-    <button onclick="logout()">Logout</button>
-  </div>
-
-  <div class="formCard">
-    <div class="formTitle">Owner dashboard</div>
-    <div class="formSub">Approve or decline hold requests before customers come.</div>
-    <div id="ownerStatus" class="statusBox">Business account active.</div>
-  </div>
-
-  <div class="formCard">
-    <div class="formTitle">Hold requests</div>
-    <div class="formSub">Accept only if the item and requested quantity are available.</div>
-    <div id="ownerHolds"></div>
-  </div>
-
-  <div class="formCard">
-    <div class="formTitle">Post a deal</div>
-    <div class="formSub" id="postBusinessInfo">Business name and address will be used automatically.</div>
-    <input class="field" id="itemName" placeholder="Item name" />
-    <select class="field" id="category">
-      <option>Home</option><option>Pets</option><option>Clothing</option><option>Automobile</option>
-      <option>Boating</option><option>Electronics</option><option>Furniture</option><option>Food</option>
-      <option>Beach</option><option>Services</option><option>Clearance</option>
-    </select>
-    <input class="field" id="price" type="number" placeholder="Price" />
-    <input class="field" id="quantity" type="number" placeholder="Quantity left" />
-    <input class="field" id="expires" placeholder="Expiration, example: Today 6 PM" />
-    <div class="fileLabel">Item photo required</div>
-    <input class="field" id="itemPhoto" type="file" accept="image/*" />
-    <button class="postBtn" onclick="postItem()">Post deal</button>
-  </div>
-
-  <div class="formCard">
-    <div class="formTitle">Your active deals</div>
-    <div class="formSub">Edit price, quantity, image, expiration or delete.</div>
-    <div class="dealsGrid" id="ownerItems"></div>
-  </div>
-</section>
-
-<section class="formPanel" id="holdRequestPanel">
-  <div class="formCard">
-    <div class="formTitle">Request Hold</div>
-    <div class="formSub">Choose how many you want and how long you need the store to hold it.</div>
-    <input type="hidden" id="holdItemId" />
-    <div id="holdItemSummary" class="statusBox"></div>
-    <input class="field" id="holdQty" type="number" min="1" placeholder="How many do you want to hold?" />
-    <select class="field" id="holdWindow">
-      <option value="30 minutes">30 minutes</option>
-      <option value="45 minutes">45 minutes</option>
-      <option value="60 minutes">60 minutes</option>
-    </select>
-    <button class="postBtn" onclick="submitHoldRequest()">Send Hold Request</button>
-    <button class="postBtn" style="background:#f3f4f6;color:#111827;" onclick="showBuyer()">Cancel</button>
-  </div>
-</section>
-
-<section class="formPanel" id="editPanel">
-  <div class="ownerNav">
-    <button onclick="showOwner()">Back to Owner Dashboard</button>
-    <button onclick="showBuyer()">Browse Items</button>
-  </div>
-  <div class="formCard">
-    <div class="formTitle">Edit deal</div>
-    <input type="hidden" id="editId" />
-    <input class="field" id="editTitle" placeholder="Item name" />
-    <select class="field" id="editCategory">
-      <option>Home</option><option>Pets</option><option>Clothing</option><option>Automobile</option>
-      <option>Boating</option><option>Electronics</option><option>Furniture</option><option>Food</option>
-      <option>Beach</option><option>Services</option><option>Clearance</option>
-    </select>
-    <input class="field" id="editPrice" type="number" placeholder="Price" />
-    <input class="field" id="editQuantity" type="number" placeholder="Quantity left" />
-    <input class="field" id="editExpires" placeholder="Expiration" />
-    <div class="fileLabel">Replace photo optional</div>
-    <input class="field" id="editPhoto" type="file" accept="image/*" />
-    <button class="postBtn" onclick="saveEditedItem()">Save changes</button>
-    <button class="postBtn" style="background:#f3f4f6;color:#111827;" onclick="showOwner()">Cancel</button>
-  </div>
-</section>
-
-<section class="formPanel" id="reservationsPanel">
-  <div class="ownerNav" id="holdsNav"></div>
-  <div class="formCard">
-    <div class="formTitle">Hold requests</div>
-    <div class="formSub">Users see approved or declined status here.</div>
-    <div id="reservationDetails">No hold requests yet.</div>
-  </div>
-</section>
-
-<section class="formPanel" id="accountPanel">
-  <div class="ownerNav" id="accountNav"></div>
-  <div class="formCard">
-    <div class="formTitle">Account</div>
-    <div id="accountDetails" class="formSub">Not logged in.</div>
-    <button class="postBtn" onclick="logout()">Logout</button>
-  </div>
-</section>
-
-<section class="formPanel" id="storePanel">
-  <button class="btnLight" style="width:100%;margin-bottom:14px;" onclick="showBuyer()">Back to deals</button>
-  <div id="storeHeader"></div>
-  <div class="dealsGrid" id="storeItems"></div>
-</section>
-
-<div id="holdBar" class="holdBar">
-  <div>
-    <div id="holdText" class="holdText"></div>
-    <div class="holdSmall" id="holdSmall">Waiting for owner approval</div>
-  </div>
-  <div class="barButtons">
-    <div class="drive" onclick="driveActiveHold()">Drive</div>
-    <div class="cancel" onclick="cancelActiveHold()">Cancel</div>
-  </div>
-</div>
-
+<header class="header"><div class="headerInner"><div><div class="logo">Locally</div><div class="tagline" id="tagline">Verified local store deals near you</div></div><input class="searchBar" id="searchInput" placeholder="Search item or store" oninput="renderItems()" /><div class="topActions" id="topActions"></div></div></header>
+<section class="hero" id="hero"><div class="heroBox"><div><h1 class="heroTitle">Local deals, right now.</h1><div class="heroText">Request a hold, choose quantity and pickup window. Owner approves or declines.</div><div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;"><button class="btnOrange" onclick="showRegister()">Register</button><button class="btnLight" onclick="showBuyer()">Browse Deals</button></div></div><div class="heroStats"><div class="stat"><div class="statNum">30–60m</div><div class="statText">pickup window</div></div><div class="stat"><div class="statNum">⭐</div><div class="statText">buyers and stores rated</div></div></div></div></section>
+<main class="layout" id="mainLayout"><aside class="side"><div class="sideTitle">Categories</div><div id="categoryList"></div></aside><section><div class="sectionTitle">Deals near you</div><div class="dealsGrid" id="itemsList"></div></section></main>
+<section class="formPanel" id="loginPanel"><div class="formCard"><div class="formTitle">Login</div><div class="formSub">Demo login uses only your email.</div><input class="field" id="loginEmail" placeholder="Email address" /><button class="postBtn" onclick="login()">Login</button></div></section>
+<section class="formPanel" id="registerPanel"><div class="formCard"><div class="formTitle">Register</div><div class="formSub">Create a buyer account or business owner account.</div><select class="field" id="accountType" onchange="toggleBusinessFields()"><option value="user">Buyer account</option><option value="owner">Business owner account</option></select><input class="field" id="fullName" placeholder="Full name" /><input class="field" id="email" placeholder="Email address" /><input class="field" id="phone" placeholder="Phone optional" /><div id="businessFields" style="display:none;"><input class="field" id="businessName" placeholder="Business name" /><input class="field" id="businessAddress" placeholder="Business real address" /></div><button class="postBtn" onclick="sendCode()">Send email code</button><input class="field" id="verifyCode" placeholder="Enter demo code: 123456" /><button class="postBtn" onclick="verifyAccount()">Activate account</button><div id="registerStatus" class="statusBox">No account active yet.</div></div></section>
+<section class="formPanel" id="ownerPanel"><div class="ownerNav"><button class="main" onclick="showOwner()">Owner Dashboard</button><button onclick="showBuyer()">Browse Items</button><button onclick="showReservations()">Hold Requests</button><button onclick="showAccount()">Account</button><button onclick="logout()">Logout</button></div><div class="formCard"><div class="formTitle">Owner dashboard</div><div class="formSub">Approve or decline hold requests before customers come.</div><div id="ownerStatus" class="statusBox">Business account active.</div></div><div class="formCard"><div class="formTitle">Hold requests</div><div class="formSub">Accept only if the item and requested quantity are available.</div><div id="ownerHolds"></div></div><div class="formCard"><div class="formTitle">Post a deal</div><div class="formSub" id="postBusinessInfo">Business name and address will be used automatically.</div><input class="field" id="itemName" placeholder="Item name" /><select class="field" id="category"><option>Home</option><option>Pets</option><option>Clothing</option><option>Automobile</option><option>Boating</option><option>Electronics</option><option>Furniture</option><option>Food</option><option>Beach</option><option>Services</option><option>Clearance</option></select><input class="field" id="price" type="number" placeholder="Price" /><input class="field" id="quantity" type="number" placeholder="Quantity left" /><input class="field" id="expires" placeholder="Expiration, example: Today 6 PM" /><div class="fileLabel">Item photo required</div><input class="field" id="itemPhoto" type="file" accept="image/*" /><button class="postBtn" onclick="postItem()">Post deal</button></div><div class="formCard"><div class="formTitle">Your active deals</div><div class="formSub">Edit price, quantity, image, expiration or delete.</div><div class="dealsGrid" id="ownerItems"></div></div></section>
+<section class="formPanel" id="holdRequestPanel"><div class="formCard"><div class="formTitle">Request Hold</div><div class="formSub">Choose how many you want and how long you need the store to hold it.</div><input type="hidden" id="holdItemId" /><div id="holdItemSummary" class="statusBox"></div><input class="field" id="holdQty" type="number" min="1" placeholder="How many do you want to hold?" /><select class="field" id="holdWindow"><option value="30 minutes">30 minutes</option><option value="45 minutes">45 minutes</option><option value="60 minutes">60 minutes</option></select><button class="postBtn" onclick="submitHoldRequest()">Send Hold Request</button><button class="postBtn" style="background:#f3f4f6;color:#111827;" onclick="showBuyer()">Cancel</button></div></section>
+<section class="formPanel" id="editPanel"><div class="ownerNav"><button onclick="showOwner()">Back to Owner Dashboard</button><button onclick="showBuyer()">Browse Items</button></div><div class="formCard"><div class="formTitle">Edit deal</div><input type="hidden" id="editId" /><input class="field" id="editTitle" placeholder="Item name" /><select class="field" id="editCategory"><option>Home</option><option>Pets</option><option>Clothing</option><option>Automobile</option><option>Boating</option><option>Electronics</option><option>Furniture</option><option>Food</option><option>Beach</option><option>Services</option><option>Clearance</option></select><input class="field" id="editPrice" type="number" placeholder="Price" /><input class="field" id="editQuantity" type="number" placeholder="Quantity left" /><input class="field" id="editExpires" placeholder="Expiration" /><div class="fileLabel">Replace photo optional</div><input class="field" id="editPhoto" type="file" accept="image/*" /><button class="postBtn" onclick="saveEditedItem()">Save changes</button><button class="postBtn" style="background:#f3f4f6;color:#111827;" onclick="showOwner()">Cancel</button></div></section>
+<section class="formPanel" id="reservationsPanel"><div class="ownerNav" id="holdsNav"></div><div class="formCard"><div class="formTitle">Hold requests</div><div class="formSub">Users see approved or declined status here.</div><div id="reservationDetails">No hold requests yet.</div></div></section>
+<section class="formPanel" id="accountPanel"><div class="ownerNav" id="accountNav"></div><div class="formCard"><div class="formTitle">Account</div><div id="accountDetails" class="formSub">Not logged in.</div><button class="postBtn" onclick="logout()">Logout</button></div></section>
+<section class="formPanel" id="storePanel"><button class="btnLight" style="width:100%;margin-bottom:14px;" onclick="showBuyer()">Back to deals</button><div id="storeHeader"></div><div class="dealsGrid" id="storeItems"></div></section>
+<div id="holdBar" class="holdBar"><div><div id="holdText" class="holdText"></div><div class="holdSmall" id="holdSmall">Waiting for owner approval</div></div><div class="barButtons"><div class="drive" onclick="driveActiveHold()">Drive</div><div class="cancel" onclick="cancelActiveHold()">Cancel</div></div></div>
 <div class="mobileNav" id="mobileNav"></div>
 
 <script>
@@ -301,12 +105,11 @@ const demoCode="123456";
 const categories=["All","Home","Pets","Clothing","Automobile","Boating","Electronics","Furniture","Food","Beach","Services","Clearance"];
 let activeCategory="All";
 let activeHold=null;
-
+let holdCountdownTimer=null;
 let accounts=JSON.parse(localStorage.getItem("locally_accounts"))||[];
 let currentUser=JSON.parse(localStorage.getItem("locally_current_user"))||null;
 let holdRequests=JSON.parse(localStorage.getItem("locally_holds"))||[];
 let reviews=JSON.parse(localStorage.getItem("locally_reviews"))||[];
-
 let items=JSON.parse(localStorage.getItem("locally_items"))||[
 {id:1,title:"Beach Chair",store:"Ocean Beach Shop",category:"Beach",price:25,quantity:3,distance:.5,expires:"Today 6 PM",address:"Surfside Beach, SC",image:""},
 {id:2,title:"Pet Bed",store:"Coastal Pet Supply",category:"Pets",price:18,quantity:4,distance:1.1,expires:"Today 5 PM",address:"Myrtle Beach, SC",image:""},
@@ -314,13 +117,7 @@ let items=JSON.parse(localStorage.getItem("locally_items"))||[
 {id:4,title:"Boat Rope Set",store:"Harbor Marine Shop",category:"Boating",price:22,quantity:3,distance:2.7,expires:"Tomorrow",address:"Murrells Inlet, SC",image:""}
 ];
 
-function saveAll(){
- localStorage.setItem("locally_accounts",JSON.stringify(accounts));
- localStorage.setItem("locally_current_user",JSON.stringify(currentUser));
- localStorage.setItem("locally_items",JSON.stringify(items));
- localStorage.setItem("locally_holds",JSON.stringify(holdRequests));
- localStorage.setItem("locally_reviews",JSON.stringify(reviews));
-}
+function saveAll(){localStorage.setItem("locally_accounts",JSON.stringify(accounts));localStorage.setItem("locally_current_user",JSON.stringify(currentUser));localStorage.setItem("locally_items",JSON.stringify(items));localStorage.setItem("locally_holds",JSON.stringify(holdRequests));localStorage.setItem("locally_reviews",JSON.stringify(reviews))}
 function showToast(t){const x=document.getElementById("toast");x.innerText=t;x.style.display="block";setTimeout(()=>x.style.display="none",1800)}
 function hideAll(){["hero","mainLayout","loginPanel","registerPanel","ownerPanel","holdRequestPanel","editPanel","reservationsPanel","accountPanel","storePanel"].forEach(id=>document.getElementById(id).style.display="none")}
 function showBuyer(){hideAll();document.getElementById("hero").style.display="block";document.getElementById("mainLayout").style.display=window.innerWidth<=900?"block":"grid";setActive("deals");renderItems()}
@@ -330,173 +127,54 @@ function showOwner(){if(!currentUser||currentUser.type!=="owner"){showToast("Log
 function showReservations(){hideAll();document.getElementById("reservationsPanel").style.display="block";document.getElementById("holdsNav").innerHTML=currentUser&&currentUser.type==="owner"?`<button onclick="showOwner()">Back to Owner Dashboard</button><button onclick="showBuyer()">Browse Items</button>`:`<button onclick="showBuyer()">Back to Deals</button>`;setActive("reservations");renderBuyerHolds()}
 function showAccount(){if(!currentUser){showLogin();return}hideAll();document.getElementById("accountPanel").style.display="block";document.getElementById("accountNav").innerHTML=currentUser.type==="owner"?`<button onclick="showOwner()">Back to Owner Dashboard</button><button onclick="showBuyer()">Browse Items</button>`:`<button onclick="showBuyer()">Back to Deals</button>`;setActive("account");updateAccountDetails()}
 function setActive(n){document.querySelectorAll(".mobileNav button").forEach(b=>b.classList.remove("active"));const x=document.getElementById("nav_"+n);if(x)x.classList.add("active")}
-function renderTop(){
- const top=document.getElementById("topActions");
- if(!currentUser){top.innerHTML=`<button class="btnLight" onclick="showLogin()">Login</button><button class="btnOrange" onclick="showRegister()">Register</button>`;document.getElementById("tagline").innerText="Verified local store deals near you";return}
- if(currentUser.type==="owner"){top.innerHTML=`<button class="btnOrange" onclick="showOwner()">Owner Dashboard</button><button class="btnLight" onclick="showBuyer()">Browse</button><button class="btnLight" onclick="logout()">Logout</button>`;document.getElementById("tagline").innerText="Logged in: "+currentUser.businessName}
- else{top.innerHTML=`<button class="btnOrange" onclick="showAccount()">Account</button><button class="btnLight" onclick="logout()">Logout</button>`;document.getElementById("tagline").innerText="Logged in as buyer"}
-}
-function renderMobileNav(){
- const nav=document.getElementById("mobileNav");
- if(currentUser&&currentUser.type==="owner")nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Browse</button><button id="nav_owner" onclick="showOwner()">Owner</button><button id="nav_reservations" onclick="showReservations()">Holds</button><button id="nav_account" onclick="showAccount()">Account</button>`;
- else nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Deals</button><button id="nav_login" onclick="showLogin()">Login</button><button id="nav_register" onclick="showRegister()">Register</button><button id="nav_reservations" onclick="showReservations()">Holds</button>`;
-}
+function renderTop(){const top=document.getElementById("topActions");if(!currentUser){top.innerHTML=`<button class="btnLight" onclick="showLogin()">Login</button><button class="btnOrange" onclick="showRegister()">Register</button>`;document.getElementById("tagline").innerText="Verified local store deals near you";return}if(currentUser.type==="owner"){top.innerHTML=`<button class="btnOrange" onclick="showOwner()">Owner Dashboard</button><button class="btnLight" onclick="showBuyer()">Browse</button><button class="btnLight" onclick="logout()">Logout</button>`;document.getElementById("tagline").innerText="Logged in: "+currentUser.businessName}else{top.innerHTML=`<button class="btnOrange" onclick="showAccount()">Account</button><button class="btnLight" onclick="logout()">Logout</button>`;document.getElementById("tagline").innerText="Logged in as buyer"}}
+function renderMobileNav(){const nav=document.getElementById("mobileNav");if(currentUser&&currentUser.type==="owner")nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Browse</button><button id="nav_owner" onclick="showOwner()">Owner</button><button id="nav_reservations" onclick="showReservations()">Holds</button><button id="nav_account" onclick="showAccount()">Account</button>`;else nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Deals</button><button id="nav_login" onclick="showLogin()">Login</button><button id="nav_register" onclick="showRegister()">Register</button><button id="nav_reservations" onclick="showReservations()">Holds</button>`}
 function renderCategories(){const list=document.getElementById("categoryList");list.innerHTML="";categories.forEach(c=>{const b=document.createElement("button");b.className="catBtn"+(activeCategory===c?" active":"");b.innerText=c;b.onclick=()=>{activeCategory=c;renderCategories();renderItems()};list.appendChild(b)})}
 function toggleBusinessFields(){document.getElementById("businessFields").style.display=document.getElementById("accountType").value==="owner"?"block":"none"}
 function sendCode(){if(!document.getElementById("email").value.trim()){showToast("Enter email first");return}showToast("Demo code sent: 123456")}
-function verifyAccount(){
- const type=document.getElementById("accountType").value,fullName=document.getElementById("fullName").value.trim(),email=document.getElementById("email").value.trim(),phone=document.getElementById("phone").value.trim(),code=document.getElementById("verifyCode").value.trim();
- if(!fullName||!email){showToast("Enter name and email");return}
- if(code!==demoCode){showToast("Wrong code. Use 123456");return}
- if(accounts.find(a=>a.email.toLowerCase()===email.toLowerCase())){showToast("Email already registered. Login instead.");return}
- if(type==="owner"){const businessName=document.getElementById("businessName").value.trim(),businessAddress=document.getElementById("businessAddress").value.trim();if(!businessName||!businessAddress){showToast("Business name and address required");return}currentUser={id:Date.now(),type:"owner",fullName,email,phone,active:true,businessStatus:"Active",businessName,businessAddress,badRating:0}}
- else currentUser={id:Date.now(),type:"user",fullName,email,phone,active:true,badRating:0};
- accounts.push(currentUser);saveAll();refreshUI();showToast(type==="owner"?"Owner account active":"Buyer account active");currentUser.type==="owner"?showOwner():showBuyer()
-}
+function verifyAccount(){const type=document.getElementById("accountType").value,fullName=document.getElementById("fullName").value.trim(),email=document.getElementById("email").value.trim(),phone=document.getElementById("phone").value.trim(),code=document.getElementById("verifyCode").value.trim();if(!fullName||!email){showToast("Enter name and email");return}if(code!==demoCode){showToast("Wrong code. Use 123456");return}if(accounts.find(a=>a.email.toLowerCase()===email.toLowerCase())){showToast("Email already registered. Login instead.");return}if(type==="owner"){const businessName=document.getElementById("businessName").value.trim(),businessAddress=document.getElementById("businessAddress").value.trim();if(!businessName||!businessAddress){showToast("Business name and address required");return}currentUser={id:Date.now(),type:"owner",fullName,email,phone,active:true,businessStatus:"Active",businessName,businessAddress,badRating:0}}else currentUser={id:Date.now(),type:"user",fullName,email,phone,active:true,badRating:0};accounts.push(currentUser);saveAll();refreshUI();showToast(type==="owner"?"Owner account active":"Buyer account active");currentUser.type==="owner"?showOwner():showBuyer()}
 function login(){const email=document.getElementById("loginEmail").value.trim();const found=accounts.find(a=>a.email.toLowerCase()===email.toLowerCase());if(!found){showToast("No account found. Register first.");return}currentUser=found;saveAll();refreshUI();showToast("Logged in");currentUser.type==="owner"?showOwner():showBuyer()}
 function logout(){currentUser=null;localStorage.removeItem("locally_current_user");refreshUI();showToast("Logged out");showBuyer()}
 function updateRegisterStatus(){document.getElementById("registerStatus").innerText=currentUser?(currentUser.type==="owner"?"Business owner active: "+currentUser.businessName:"Buyer account active: "+currentUser.email):"No account active yet."}
 function updateOwnerStatus(){document.getElementById("ownerStatus").innerHTML=`Business account active: ${currentUser.businessName}<br>⭐ Store rating: ${storeRating(currentUser.businessName)} • Bad reports: ${currentUser.badRating||0}`;document.getElementById("postBusinessInfo").innerText=currentUser.businessName+" • address saved privately for Drive after approved hold"}
-function updateAccountDetails(){
- const box=document.getElementById("accountDetails");
- if(currentUser.type==="owner")box.innerHTML=`<strong>${currentUser.fullName}</strong><br>${currentUser.email}<br><br><strong>Business:</strong> ${currentUser.businessName}<br><strong>Store rating:</strong> ⭐ ${storeRating(currentUser.businessName)}<br><strong>Bad reports:</strong> ${currentUser.badRating||0}`;
- else box.innerHTML=`<strong>${currentUser.fullName}</strong><br>${currentUser.email}<br>Buyer account<br><strong>Buyer rating:</strong> ⭐ ${buyerRating(currentUser.email)}<br><strong>Bad reports:</strong> ${currentUser.badRating||0}`;
-}
+function updateAccountDetails(){const box=document.getElementById("accountDetails");if(currentUser.type==="owner")box.innerHTML=`<strong>${currentUser.fullName}</strong><br>${currentUser.email}<br><br><strong>Business:</strong> ${currentUser.businessName}<br><strong>Store rating:</strong> ⭐ ${storeRating(currentUser.businessName)}<br><strong>Bad reports:</strong> ${currentUser.badRating||0}`;else box.innerHTML=`<strong>${currentUser.fullName}</strong><br>${currentUser.email}<br>Buyer account<br><strong>Buyer rating:</strong> ⭐ ${buyerRating(currentUser.email)}<br><strong>Bad reports:</strong> ${currentUser.badRating||0}`}
 function filteredItems(){const s=document.getElementById("searchInput").value.toLowerCase();return items.filter(i=>(activeCategory==="All"||i.category===activeCategory)&&(i.title.toLowerCase().includes(s)||i.store.toLowerCase().includes(s)||i.category.toLowerCase().includes(s)))}
 function renderItems(){const list=document.getElementById("itemsList");list.innerHTML="";const arr=filteredItems();if(!arr.length){list.innerHTML='<div class="card"><div class="content"><div class="itemTitle">No deals found</div><div class="store">Try another search or category.</div></div></div>';return}arr.forEach(i=>list.appendChild(buyerCard(i)))}
 function imgStyle(i){if(i.image)return `background-image:url('${i.image}')`;const g={Home:"#64748b",Pets:"#16a34a",Clothing:"#ec4899",Automobile:"#dc2626",Boating:"#0284c7",Electronics:"#4f46e5",Furniture:"#92400e",Food:"#f97316",Beach:"#0ea5e9",Services:"#334155",Clearance:"#ef4444"};return `background:linear-gradient(135deg,${g[i.category]||"#111827"},#111827)`}
 function baseCardTop(i){return `<div class="image" style="${imgStyle(i)}"><div class="overlay"></div><div class="badge">${i.category}</div><div class="price">$${i.price}</div></div>`}
-function buyerCard(i){
- const d=document.createElement("div");d.className="card";
- d.innerHTML=`${baseCardTop(i)}<div class="content"><div class="row"><div><div class="itemTitle">${i.title}</div><div class="store" onclick="openStore('${esc(i.store)}')">🏬 ${i.store} • ⭐ ${storeRating(i.store)}</div></div><div class="left">${i.quantity>0?i.quantity+" left":"Sold out"}</div></div><div class="infoStack"><div class="info">📍 Distance from you: ${i.distance} miles</div><div class="info">⏱ Expires at: ${i.expires||"Today"}</div></div><div class="actions"><button class="reserve" onclick="openHoldRequest(${i.id})">Request Hold</button><button class="secondary" onclick="chatStore('${esc(i.store)}')">Chat</button><button class="secondary" onclick="showToast('Drive appears after owner approves hold')">Drive</button></div></div>`;
- return d;
-}
-function ownerCard(i){
- const d=document.createElement("div");d.className="card";
- d.innerHTML=`${baseCardTop(i)}<div class="content"><div class="row"><div><div class="itemTitle">${i.title}</div><div class="store">🏬 ${i.store}</div></div><div class="left">${i.quantity>0?i.quantity+" left":"Sold out"}</div></div><div class="infoStack"><div class="info">⏱ Expires at: ${i.expires||"Today"}</div><div class="info">📍 Distance shown to buyers: ${i.distance} miles</div></div><div class="ownerDealActions"><button class="ownerEdit" onclick="editItem(${i.id})">Edit</button><button class="ownerDelete" onclick="deleteItem(${i.id})">Delete</button></div></div>`;
- return d;
-}
+function buyerCard(i){const d=document.createElement("div");d.className="card";d.innerHTML=`${baseCardTop(i)}<div class="content"><div class="row"><div><div class="itemTitle">${i.title}</div><div class="store" onclick="openStore('${esc(i.store)}')">🏬 ${i.store} • ⭐ ${storeRating(i.store)}</div></div><div class="left">${i.quantity>0?i.quantity+" left":"Sold out"}</div></div><div class="infoStack"><div class="info">📍 Distance from you: ${i.distance} miles</div><div class="info">⏱ Expires at: ${i.expires||"Today"}</div></div><div class="actions"><button class="reserve" onclick="openHoldRequest(${i.id})">Request Hold</button><button class="secondary" onclick="chatStore('${esc(i.store)}')">Chat</button><button class="secondary" onclick="showToast('Drive appears after owner approves hold')">Drive</button></div></div>`;return d}
+function ownerCard(i){const d=document.createElement("div");d.className="card";d.innerHTML=`${baseCardTop(i)}<div class="content"><div class="row"><div><div class="itemTitle">${i.title}</div><div class="store">🏬 ${i.store}</div></div><div class="left">${i.quantity>0?i.quantity+" left":"Sold out"}</div></div><div class="infoStack"><div class="info">⏱ Expires at: ${i.expires||"Today"}</div><div class="info">📍 Distance shown to buyers: ${i.distance} miles</div></div><div class="ownerDealActions"><button class="ownerEdit" onclick="editItem(${i.id})">Edit</button><button class="ownerDelete" onclick="deleteItem(${i.id})">Delete</button></div></div>`;return d}
 function esc(x){return String(x).replace(/'/g,"\\'")}
 function renderOwnerItems(){const box=document.getElementById("ownerItems");if(!box)return;box.innerHTML="";if(!currentUser||currentUser.type!=="owner"){box.innerHTML="<div class='formSub'>No business owner account yet.</div>";return}const mine=items.filter(i=>i.store===currentUser.businessName);if(!mine.length){box.innerHTML="<div class='formSub'>No active deals yet.</div>";return}mine.forEach(i=>box.appendChild(ownerCard(i)))}
-
-function openHoldRequest(id){
- if(!currentUser){showToast("Login or register as buyer first");showLogin();return}
- if(currentUser.type==="owner"){showToast("Owners cannot request holds while logged in as owner");return}
- const item=items.find(x=>x.id===id);if(!item||item.quantity<1){showToast("Item unavailable");return}
- const existing=holdRequests.find(h=>h.buyerEmail===currentUser.email&&["pending","approved"].includes(h.status));
- if(existing){showToast("You already have an active hold request");return}
- hideAll();document.getElementById("holdRequestPanel").style.display="block";
- document.getElementById("holdItemId").value=item.id;
- document.getElementById("holdQty").value=1;
- document.getElementById("holdQty").max=item.quantity;
- document.getElementById("holdItemSummary").innerHTML=`<strong>${item.title}</strong><br>Store: ${item.store}<br>Price: $${item.price} each<br>Available: ${item.quantity}<br>Expires at: ${item.expires}`;
-}
-function submitHoldRequest(){
- const id=Number(document.getElementById("holdItemId").value),item=items.find(x=>x.id===id),qty=Number(document.getElementById("holdQty").value),windowTime=document.getElementById("holdWindow").value;
- if(!item){showToast("Item not found");return}
- if(!qty||qty<1){showToast("Enter quantity");return}
- if(qty>item.quantity){showToast("Only "+item.quantity+" available");return}
- const hold={id:Date.now(),itemId:item.id,itemTitle:item.title,store:item.store,buyerName:currentUser.fullName,buyerEmail:currentUser.email,buyerRating:buyerRating(currentUser.email),status:"pending",quantity:qty,unitPrice:item.price,total:qty*item.price,window:windowTime,address:item.address,cancelledBy:"",createdAt:new Date().toLocaleString()};
- holdRequests.unshift(hold);activeHold=hold;saveAll();showToast("Hold request sent to owner");showHoldBar(hold);showReservations();
-}
-function showHoldBar(hold){document.getElementById("holdBar").style.display="flex";document.getElementById("holdText").innerText=`${hold.status.toUpperCase()}: ${hold.quantity} x ${hold.itemTitle}`;document.getElementById("holdSmall").innerText=hold.status==="approved"?`Approved • pickup within ${hold.window}`:hold.status==="declined"?"Owner declined request":"Waiting for owner approval"}
-function renderOwnerHolds(){
- const box=document.getElementById("ownerHolds");if(!box)return;box.innerHTML="";
- const mine=holdRequests.filter(h=>h.store===currentUser.businessName);
- if(!mine.length){box.innerHTML="<div class='formSub'>No hold requests yet.</div>";return}
- mine.forEach(h=>{
-  const div=document.createElement("div");div.className="holdItem";
-  div.innerHTML=`<div class="ownerTop"><div>${h.quantity} x ${h.itemTitle}</div><div>${h.status.toUpperCase()}</div></div>
-  <div style="margin-top:6px;color:#6b7280;font-weight:800;">
-  Buyer: ${h.buyerName} • ⭐ ${h.buyerRating}<br>
-  Amount: $${h.total} (${h.quantity} x $${h.unitPrice})<br>
-  Pickup window: ${h.window}<br>
-  Requested: ${h.createdAt}
-  ${h.cancelledBy?`<br>Cancelled by: ${h.cancelledBy}`:""}
-  </div>
-  <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
-    ${h.status==="pending"?`<button class="acceptBtn" onclick="approveHold(${h.id})">Accept Hold</button><button class="declineBtn" onclick="declineHold(${h.id})">Decline</button>`:""}
-    ${h.status==="approved"?`<button class="goodBtn" onclick="completeHold(${h.id})">Picked Up</button><button class="badBtn" onclick="markBuyerNoShow(${h.id})">No Show</button><button class="badBtn" onclick="ownerUnavailable(${h.id})">Item Not Available</button>`:""}
-    ${h.status==="completed"?reviewBuyerButtons(h):""}
-  </div>`;
-  box.appendChild(div);
- });
-}
-function approveHold(id){
- const h=holdRequests.find(x=>x.id===id);if(!h)return;
- const item=items.find(x=>x.id===h.itemId);
- if(!item||item.quantity<h.quantity){showToast("Not enough stock available");return}
- item.quantity-=h.quantity;h.status="approved";h.approvedAt=new Date().toLocaleString();saveAll();showToast("Hold approved");renderOwnerHolds();renderOwnerItems();renderItems();
-}
-function declineHold(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="declined";h.declinedAt=new Date().toLocaleString();saveAll();showToast("Hold declined");renderOwnerHolds()}
+function openHoldRequest(id){if(!currentUser){showToast("Login or register as buyer first");showLogin();return}if(currentUser.type==="owner"){showToast("Owners cannot request holds while logged in as owner");return}const item=items.find(x=>x.id===id);if(!item||item.quantity<1){showToast("Item unavailable");return}const existing=holdRequests.find(h=>h.buyerEmail===currentUser.email&&["pending","approved"].includes(h.status));if(existing){showToast("You already have an active hold request");return}hideAll();document.getElementById("holdRequestPanel").style.display="block";document.getElementById("holdItemId").value=item.id;document.getElementById("holdQty").value=1;document.getElementById("holdQty").max=item.quantity;document.getElementById("holdItemSummary").innerHTML=`<strong>${item.title}</strong><br>Store: ${item.store}<br>Price: $${item.price} each<br>Available: ${item.quantity}<br>Expires at: ${item.expires}`}
+function submitHoldRequest(){const id=Number(document.getElementById("holdItemId").value),item=items.find(x=>x.id===id),qty=Number(document.getElementById("holdQty").value),windowTime=document.getElementById("holdWindow").value;if(!item){showToast("Item not found");return}if(!qty||qty<1){showToast("Enter quantity");return}if(qty>item.quantity){showToast("Only "+item.quantity+" available");return}const hold={id:Date.now(),itemId:item.id,itemTitle:item.title,store:item.store,buyerName:currentUser.fullName,buyerEmail:currentUser.email,buyerRating:buyerRating(currentUser.email),status:"pending",quantity:qty,unitPrice:item.price,total:qty*item.price,window:windowTime,address:item.address,cancelledBy:"",createdAt:new Date().toLocaleString()};holdRequests.unshift(hold);activeHold=hold;saveAll();showToast("Hold request sent to owner");showHoldBar(hold);showReservations()}
+function showHoldBar(hold){activeHold=hold;document.getElementById("holdBar").style.display="flex";document.getElementById("holdText").innerText=hold.status.toUpperCase()+": "+hold.quantity+" x "+hold.itemTitle;if(hold.status==="approved") updateHoldCountdown(); else if(hold.status==="declined") document.getElementById("holdSmall").innerText="Owner declined request"; else document.getElementById("holdSmall").innerText="Waiting for owner approval"}
+function holdMinutesToMs(windowText){if(windowText.includes("30"))return 30*60*1000;if(windowText.includes("45"))return 45*60*1000;if(windowText.includes("60"))return 60*60*1000;return 30*60*1000}
+function updateHoldCountdown(){clearTimeout(holdCountdownTimer);if(!activeHold||activeHold.status!=="approved"||!activeHold.expiresAt)return;const remaining=activeHold.expiresAt-Date.now();if(remaining<=0){document.getElementById("holdSmall").innerText="Hold expired";return}const minutes=Math.floor(remaining/60000);const seconds=Math.floor((remaining%60000)/1000);document.getElementById("holdSmall").innerText="Approved • expires in "+minutes+":"+String(seconds).padStart(2,"0");holdCountdownTimer=setTimeout(updateHoldCountdown,1000)}
+function renderOwnerHolds(){const box=document.getElementById("ownerHolds");if(!box)return;box.innerHTML="";const mine=holdRequests.filter(h=>h.store===currentUser.businessName);if(!mine.length){box.innerHTML="<div class='formSub'>No hold requests yet.</div>";return}mine.forEach(h=>{const div=document.createElement("div");div.className="holdItem";div.innerHTML=`<div class="ownerTop"><div>${h.quantity} x ${h.itemTitle}</div><div>${h.status.toUpperCase()}</div></div><div style="margin-top:6px;color:#6b7280;font-weight:800;">Buyer: ${h.buyerName} • ⭐ ${h.buyerRating}<br>Amount: $${h.total} (${h.quantity} x $${h.unitPrice})<br>Pickup window: ${h.window}<br>Requested: ${h.createdAt}${h.cancelledBy?`<br>Cancelled by: ${h.cancelledBy}`:""}</div><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">${h.status==="pending"?`<button class="acceptBtn" onclick="approveHold(${h.id})">Accept Hold</button><button class="declineBtn" onclick="declineHold(${h.id})">Decline</button>`:""}${h.status==="approved"?`<button class="goodBtn" onclick="completeHold(${h.id})">Picked Up</button><button class="badBtn" onclick="markBuyerNoShow(${h.id})">No Show</button><button class="badBtn" onclick="ownerUnavailable(${h.id})">Item Not Available</button>`:""}${h.status==="completed"?reviewBuyerButtons(h):""}</div>`;box.appendChild(div)})}
+function approveHold(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;const item=items.find(x=>x.id===h.itemId);if(!item||item.quantity<h.quantity){showToast("Not enough stock available");return}item.quantity-=h.quantity;h.status="approved";h.approvedAt=new Date().toLocaleString();h.expiresAt=Date.now()+holdMinutesToMs(h.window);saveAll();showToast("Hold approved");if(activeHold&&activeHold.id===h.id){activeHold=h;showHoldBar(h)}renderOwnerHolds();renderOwnerItems();renderItems()}
+function declineHold(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="declined";h.declinedAt=new Date().toLocaleString();saveAll();showToast("Hold declined");if(activeHold&&activeHold.id===h.id){activeHold=h;showHoldBar(h)}renderOwnerHolds()}
 function completeHold(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="completed";h.completedAt=new Date().toLocaleString();saveAll();showToast("Hold completed");renderOwnerHolds();renderBuyerHolds()}
 function markBuyerNoShow(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="buyer no show";const buyer=accounts.find(a=>a.email===h.buyerEmail);if(buyer)buyer.badRating=(buyer.badRating||0)+1;saveAll();showToast("Buyer marked no show");renderOwnerHolds()}
 function ownerUnavailable(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="owner unavailable";const owner=accounts.find(a=>a.businessName===h.store);if(owner)owner.badRating=(owner.badRating||0)+1;const item=items.find(x=>x.id===h.itemId);if(item)item.quantity+=h.quantity;saveAll();showToast("Owner bad rating added");renderOwnerHolds();renderOwnerItems();renderItems()}
-
-function renderBuyerHolds(){
- const box=document.getElementById("reservationDetails");box.innerHTML="";
- if(!currentUser){box.innerHTML="Login to see hold requests.";return}
- const mine=holdRequests.filter(h=>h.buyerEmail===currentUser.email||h.store===currentUser.businessName);
- if(!mine.length){box.innerHTML="No hold requests yet.";return}
- mine.forEach(h=>{
-  const div=document.createElement("div");div.className="holdItem";
-  div.innerHTML=`<div class="ownerTop"><div>${h.quantity} x ${h.itemTitle}</div><div>${h.status.toUpperCase()}</div></div>
-  <div style="margin-top:6px;color:#6b7280;font-weight:800;">
-  Store: ${h.store}<br>
-  Amount: $${h.total} (${h.quantity} x $${h.unitPrice})<br>
-  Pickup window: ${h.window}<br>
-  ${h.status==="approved"?"Owner approved. You can drive now.":""}
-  ${h.status==="declined"?"Owner declined this request.":""}
-  ${h.cancelledBy?`Cancelled by: ${h.cancelledBy}`:""}
-  </div>
-  <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
-    ${h.status==="approved"?`<button class="acceptBtn" onclick="driveTo('${esc(h.address)}')">Drive</button><button class="goodBtn" onclick="completeHold(${h.id})">I Picked Up</button>`:""}
-    ${["pending","approved"].includes(h.status)?`<button class="declineBtn" onclick="cancelHold(${h.id})">Cancel Request</button>`:""}
-    ${h.status==="completed"?reviewStoreButtons(h):""}
-  </div>`;
-  box.appendChild(div);
- });
-}
-function cancelHold(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;if(h.status==="approved"){const item=items.find(x=>x.id===h.itemId);if(item)item.quantity+=h.quantity}h.status="cancelled";h.cancelledBy=currentUser.type==="owner"?"owner":"buyer";h.cancelledAt=new Date().toLocaleString();saveAll();showToast("Hold request cancelled and owner notified");renderBuyerHolds();document.getElementById("holdBar").style.display="none"}
+function renderBuyerHolds(){const box=document.getElementById("reservationDetails");box.innerHTML="";if(!currentUser){box.innerHTML="Login to see hold requests.";return}const mine=holdRequests.filter(h=>h.buyerEmail===currentUser.email||h.store===currentUser.businessName);if(!mine.length){box.innerHTML="No hold requests yet.";return}mine.forEach(h=>{let statusText=h.status;if(h.status==="approved")statusText="Owner approved. Pickup window started.";if(h.status==="declined")statusText="Owner declined this request.";if(h.status==="pending")statusText="Waiting for owner approval.";const div=document.createElement("div");div.className="holdItem";div.innerHTML=`<div class="ownerTop"><div>${h.quantity} x ${h.itemTitle}</div><div>${h.status.toUpperCase()}</div></div><div style="margin-top:6px;color:#6b7280;font-weight:800;">Store: ${h.store}<br>Amount: $${h.total} (${h.quantity} x $${h.unitPrice})<br>Pickup window: ${h.window}<br>${statusText}${h.cancelledBy?`<br>Cancelled by: ${h.cancelledBy}`:""}</div><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">${h.status==="approved"?`<button class="acceptBtn" onclick="activeHold=holdRequests.find(x=>x.id===${h.id});showHoldBar(activeHold);driveTo('${esc(h.address)}')">Drive</button><button class="goodBtn" onclick="completeHold(${h.id})">I Picked Up</button>`:""}${["pending","approved"].includes(h.status)?`<button class="declineBtn" onclick="cancelHold(${h.id})">Cancel Request</button>`:""}${h.status==="completed"?reviewStoreButtons(h):""}</div>`;box.appendChild(div)})}
+function cancelHold(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;if(h.status==="approved"){const item=items.find(x=>x.id===h.itemId);if(item)item.quantity+=h.quantity}h.status="cancelled";h.cancelledBy=currentUser.type==="owner"?"owner":"buyer";h.cancelledAt=new Date().toLocaleString();saveAll();showToast("Hold request cancelled and owner notified");renderBuyerHolds();if(activeHold&&activeHold.id===id)document.getElementById("holdBar").style.display="none"}
 function cancelActiveHold(){if(activeHold)cancelHold(activeHold.id);activeHold=null}
-function driveActiveHold(){if(activeHold&&activeHold.status==="approved")driveTo(activeHold.address);else showToast("Drive opens after owner approves")}
-
+function driveActiveHold(){const latest=holdRequests.find(h=>activeHold&&h.id===activeHold.id);if(!latest){showToast("No active hold");return}activeHold=latest;if(activeHold.status==="approved")driveTo(activeHold.address);else if(activeHold.status==="declined")showToast("Owner declined this request");else showToast("Waiting for owner approval")}
 function reviewStoreButtons(h){return `<div class="reviewBtns"><button onclick="addReview('store','${esc(h.store)}',5,'Item was available')">⭐ Item available</button><button onclick="addReview('store','${esc(h.store)}',5,'Smooth pickup')">⭐ Smooth pickup</button><button onclick="addReview('store','${esc(h.store)}',5,'Fair price')">⭐ Fair price</button><button onclick="addReview('store','${esc(h.store)}',4,'Good communication')">⭐ Communication</button></div>`}
 function reviewBuyerButtons(h){return `<div class="reviewBtns"><button onclick="addReview('buyer','${esc(h.buyerEmail)}',5,'Showed up')">⭐ Showed up</button><button onclick="addReview('buyer','${esc(h.buyerEmail)}',5,'Smooth pickup')">⭐ Smooth pickup</button><button onclick="addReview('buyer','${esc(h.buyerEmail)}',4,'Good communication')">⭐ Communication</button><button onclick="addReview('buyer','${esc(h.buyerEmail)}',1,'No show')">⭐ No show</button></div>`}
 function addReview(type,target,stars,label){reviews.push({id:Date.now(),type,target,stars,label,by:currentUser.email,date:new Date().toLocaleString()});saveAll();showToast("Review saved: "+label);renderBuyerHolds();renderOwnerHolds();renderItems();updateAccountDetails()}
 function storeRating(store){const r=reviews.filter(x=>x.type==="store"&&x.target===store);if(!r.length)return"5.0";return (r.reduce((a,b)=>a+b.stars,0)/r.length).toFixed(1)}
 function buyerRating(email){const r=reviews.filter(x=>x.type==="buyer"&&x.target===email);if(!r.length)return"5.0";return (r.reduce((a,b)=>a+b.stars,0)/r.length).toFixed(1)}
-
 function driveTo(a){window.open("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(a),"_blank")}
 function chatStore(s){alert("Chat request sent to "+s+". In the real version this becomes live chat or SMS.")}
-function postItem(){
- if(!currentUser||currentUser.type!=="owner"){showToast("Register or login as business owner");showRegister();return}
- const title=document.getElementById("itemName").value.trim(),category=document.getElementById("category").value,price=document.getElementById("price").value,quantity=document.getElementById("quantity").value,expires=document.getElementById("expires").value.trim(),photo=document.getElementById("itemPhoto").files[0];
- if(!title||!price||!quantity||!photo){showToast("Item name, price, quantity and photo required");return}
- const reader=new FileReader();reader.onload=e=>{items.unshift({id:Date.now(),title,store:currentUser.businessName,category,price:Number(price),quantity:Number(quantity),distance:.8,expires:expires||"Today",address:currentUser.businessAddress,image:e.target.result});saveAll();showToast("Deal posted");renderItems();renderOwnerItems();showOwner()};reader.readAsDataURL(photo);
-}
-function editItem(id){
- const i=items.find(x=>x.id===id);if(!i)return;hideAll();document.getElementById("editPanel").style.display="block";
- document.getElementById("editId").value=i.id;document.getElementById("editTitle").value=i.title;document.getElementById("editCategory").value=i.category;document.getElementById("editPrice").value=i.price;document.getElementById("editQuantity").value=i.quantity;document.getElementById("editExpires").value=i.expires||"";document.getElementById("editPhoto").value="";
-}
-function saveEditedItem(){
- const id=Number(document.getElementById("editId").value),i=items.find(x=>x.id===id);if(!i)return;
- const title=document.getElementById("editTitle").value.trim(),category=document.getElementById("editCategory").value,price=document.getElementById("editPrice").value,quantity=document.getElementById("editQuantity").value,expires=document.getElementById("editExpires").value.trim(),photo=document.getElementById("editPhoto").files[0];
- if(!title||!price||quantity===""){showToast("Item name, price and quantity required");return}
- i.title=title;i.category=category;i.price=Number(price);i.quantity=Number(quantity);i.expires=expires||"Today";
- if(photo){const r=new FileReader();r.onload=e=>{i.image=e.target.result;saveAll();showToast("Deal updated");renderItems();showOwner()};r.readAsDataURL(photo);return}
- saveAll();showToast("Deal updated");renderItems();showOwner();
-}
+function postItem(){if(!currentUser||currentUser.type!=="owner"){showToast("Register or login as business owner");showRegister();return}const title=document.getElementById("itemName").value.trim(),category=document.getElementById("category").value,price=document.getElementById("price").value,quantity=document.getElementById("quantity").value,expires=document.getElementById("expires").value.trim(),photo=document.getElementById("itemPhoto").files[0];if(!title||!price||!quantity||!photo){showToast("Item name, price, quantity and photo required");return}const reader=new FileReader();reader.onload=e=>{items.unshift({id:Date.now(),title,store:currentUser.businessName,category,price:Number(price),quantity:Number(quantity),distance:.8,expires:expires||"Today",address:currentUser.businessAddress,image:e.target.result});saveAll();showToast("Deal posted");renderItems();renderOwnerItems();showOwner()};reader.readAsDataURL(photo)}
+function editItem(id){const i=items.find(x=>x.id===id);if(!i)return;hideAll();document.getElementById("editPanel").style.display="block";document.getElementById("editId").value=i.id;document.getElementById("editTitle").value=i.title;document.getElementById("editCategory").value=i.category;document.getElementById("editPrice").value=i.price;document.getElementById("editQuantity").value=i.quantity;document.getElementById("editExpires").value=i.expires||"";document.getElementById("editPhoto").value=""}
+function saveEditedItem(){const id=Number(document.getElementById("editId").value),i=items.find(x=>x.id===id);if(!i)return;const title=document.getElementById("editTitle").value.trim(),category=document.getElementById("editCategory").value,price=document.getElementById("editPrice").value,quantity=document.getElementById("editQuantity").value,expires=document.getElementById("editExpires").value.trim(),photo=document.getElementById("editPhoto").files[0];if(!title||!price||quantity===""){showToast("Item name, price and quantity required");return}i.title=title;i.category=category;i.price=Number(price);i.quantity=Number(quantity);i.expires=expires||"Today";if(photo){const r=new FileReader();r.onload=e=>{i.image=e.target.result;saveAll();showToast("Deal updated");renderItems();showOwner()};r.readAsDataURL(photo);return}saveAll();showToast("Deal updated");renderItems();showOwner()}
 function deleteItem(id){items=items.filter(i=>i.id!==id);saveAll();renderItems();renderOwnerItems();showToast("Deal deleted")}
-function openStore(name){
- hideAll();document.getElementById("storePanel").style.display="block";
- const arr=items.filter(i=>i.store===name),first=arr[0];
- document.getElementById("storeHeader").innerHTML=`<div class="storeHeader"><div class="storeLogo">${name.charAt(0)}</div><div style="font-size:26px;font-weight:900;">${name}</div><div style="margin-top:6px;color:#d1d5db;font-weight:700;">Verified local business • ⭐ ${storeRating(name)}</div><div style="margin-top:10px;font-weight:800;">Distance shown on each item. Address opens after approved hold.</div>${first?`<button class="btnOrange" style="width:100%;margin-top:14px;" onclick="driveTo('${esc(first.address)}')">Drive to store</button>`:""}</div>`;
- const box=document.getElementById("storeItems");box.innerHTML="";arr.forEach(i=>box.appendChild(buyerCard(i)));
-}
+function openStore(name){hideAll();document.getElementById("storePanel").style.display="block";const arr=items.filter(i=>i.store===name),first=arr[0];document.getElementById("storeHeader").innerHTML=`<div class="storeHeader"><div class="storeLogo">${name.charAt(0)}</div><div style="font-size:26px;font-weight:900;">${name}</div><div style="margin-top:6px;color:#d1d5db;font-weight:700;">Verified local business • ⭐ ${storeRating(name)}</div><div style="margin-top:10px;font-weight:800;">Distance shown on each item. Address opens after approved hold.</div>${first?`<button class="btnOrange" style="width:100%;margin-top:14px;" onclick="driveTo('${esc(first.address)}')">Drive to store</button>`:""}</div>`;const box=document.getElementById("storeItems");box.innerHTML="";arr.forEach(i=>box.appendChild(buyerCard(i)))}
 function refreshUI(){renderTop();renderMobileNav();renderCategories();renderItems();updateRegisterStatus()}
 renderTop();renderMobileNav();renderCategories();renderItems();showBuyer();
 </script>
-
 </body>
 </html>
