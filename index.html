@@ -306,17 +306,12 @@
 
     .statusBox {
       margin-top: 12px;
-      background: #fff7ed;
-      color: #9a3412;
+      background: #ecfdf5;
+      color: #047857;
       padding: 12px;
       border-radius: 16px;
       font-weight: 900;
       font-size: 14px;
-    }
-
-    .greenBox {
-      background: #ecfdf5;
-      color: #047857;
     }
 
     .ownerListItem {
@@ -487,7 +482,7 @@
   <div class="panel" id="registerPanel">
     <div class="formCard">
       <div class="formTitle">Register</div>
-      <div class="formSub">Create a buyer account or verified business owner account.</div>
+      <div class="formSub">Create a buyer account or business owner account.</div>
 
       <select class="field" id="accountType" onchange="toggleBusinessFields()">
         <option value="user">Buyer account</option>
@@ -501,15 +496,6 @@
       <div id="businessFields" style="display:none;">
         <input class="field" id="businessName" placeholder="Business name" />
         <input class="field" id="businessAddress" placeholder="Business real address" />
-
-        <div class="fileLabel">Business license</div>
-        <input class="field" id="licenseFile" type="file" accept="image/*,.pdf" />
-
-        <div class="fileLabel">Exterior photo of building</div>
-        <input class="field" id="exteriorFile" type="file" accept="image/*" />
-
-        <div class="fileLabel">Interior photo of business</div>
-        <input class="field" id="interiorFile" type="file" accept="image/*" />
       </div>
 
       <button class="postBtn" onclick="sendCode()">Send email code</button>
@@ -525,7 +511,7 @@
     <div class="formCard">
       <div class="formTitle">Owner dashboard</div>
       <div class="formSub">Posts are tied to your registered business.</div>
-      <div id="ownerStatus" class="statusBox">Business verification required.</div>
+      <div id="ownerStatus" class="statusBox">Business account active.</div>
     </div>
 
     <div class="formCard">
@@ -718,13 +704,13 @@
   function showLogin() {
     hideAllViews();
     document.getElementById("loginPanel").style.display = "block";
-    setActiveNav("account");
+    setActiveNav("login");
   }
 
   function showRegister() {
     hideAllViews();
     document.getElementById("registerPanel").style.display = "block";
-    setActiveNav("account");
+    setActiveNav("register");
     updateRegisterStatus();
   }
 
@@ -849,12 +835,9 @@
     if (type === "owner") {
       const businessName = document.getElementById("businessName").value.trim();
       const businessAddress = document.getElementById("businessAddress").value.trim();
-      const licenseFile = document.getElementById("licenseFile").files[0];
-      const exteriorFile = document.getElementById("exteriorFile").files[0];
-      const interiorFile = document.getElementById("interiorFile").files[0];
 
-      if (!businessName || !businessAddress || !licenseFile || !exteriorFile || !interiorFile) {
-        showToast("Complete business verification files");
+      if (!businessName || !businessAddress) {
+        showToast("Business name and address required");
         return;
       }
 
@@ -865,18 +848,15 @@
         email,
         phone,
         active: true,
-        businessVerified: false,
-        businessStatus: "Pending verification",
+        businessVerified: true,
+        businessStatus: "Active",
         businessName,
-        businessAddress,
-        licenseFileName: licenseFile.name,
-        exteriorFileName: exteriorFile.name,
-        interiorFileName: interiorFile.name
+        businessAddress
       };
 
       accounts.push(currentUser);
       saveAll();
-      showToast("Owner account submitted");
+      showToast("Owner account active");
       refreshUI();
       showOwner();
       return;
@@ -934,18 +914,15 @@
     const box = document.getElementById("registerStatus");
 
     if (!currentUser) {
-      box.className = "statusBox";
       box.innerText = "No account active yet.";
       return;
     }
 
     if (currentUser.type === "owner") {
-      box.className = "statusBox";
-      box.innerText = "Business owner: " + currentUser.businessName + " • " + currentUser.businessStatus;
+      box.innerText = "Business owner active: " + currentUser.businessName;
       return;
     }
 
-    box.className = "statusBox greenBox";
     box.innerText = "Buyer account active: " + currentUser.email;
   }
 
@@ -954,37 +931,12 @@
     const postInfo = document.getElementById("postBusinessInfo");
 
     if (!currentUser || currentUser.type !== "owner") {
-      box.className = "statusBox";
       box.innerText = "Create a business owner account first.";
       return;
     }
 
     postInfo.innerText = currentUser.businessName + " • " + currentUser.businessAddress;
-
-    if (!currentUser.businessVerified) {
-      box.className = "statusBox";
-      box.innerText = "Pending verification. Demo mode: click here to approve for testing.";
-      box.onclick = approveBusinessDemo;
-      return;
-    }
-
-    box.className = "statusBox greenBox";
-    box.innerText = "Verified business: " + currentUser.businessName;
-    box.onclick = null;
-  }
-
-  function approveBusinessDemo() {
-    if (!currentUser || currentUser.type !== "owner") return;
-
-    currentUser.businessVerified = true;
-    currentUser.businessStatus = "Verified";
-
-    accounts = accounts.map(acc => acc.email === currentUser.email ? currentUser : acc);
-    saveAll();
-
-    updateOwnerStatus();
-    renderTopActions();
-    showToast("Business verified for demo");
+    box.innerText = "Business account active: " + currentUser.businessName;
   }
 
   function updateReservationDetails() {
@@ -1275,12 +1227,6 @@
       return;
     }
 
-    if (!currentUser.businessVerified) {
-      showToast("Business must be verified first");
-      showOwner();
-      return;
-    }
-
     const title = document.getElementById("itemName").value.trim();
     const category = document.getElementById("category").value;
     const price = document.getElementById("price").value;
@@ -1346,7 +1292,7 @@
       <div class="storeHeader">
         <div class="storeLogo">${storeName.charAt(0)}</div>
         <div style="font-size:26px;font-weight:900;">${storeName}</div>
-        <div style="margin-top:6px;color:#d1d5db;font-weight:700;">Verified brick and mortar store</div>
+        <div style="margin-top:6px;color:#d1d5db;font-weight:700;">Verified local business</div>
         <div style="margin-top:10px;font-weight:800;">📌 ${first ? first.address : "Local store"}</div>
         <button style="margin-top:14px;background:white;color:#111827;width:100%;" onclick="driveTo('${first ? first.address.replace(/'/g, "\\'") : "Myrtle Beach, SC"}')">Drive to store</button>
       </div>
