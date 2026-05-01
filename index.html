@@ -194,7 +194,9 @@ function ownerCard(i){
  d.innerHTML=`${baseCardTop(i)}<div class="content"><div class="row"><div><div class="itemTitle">${i.title}</div><div class="store">🏬 ${i.store} • ${cityFromAddress(i.address)}</div></div><div class="left">${i.quantity>0?i.quantity+" left":"Sold out"}</div></div><div class="infoStack"><div class="info">⏱ Expires at: ${i.expires||"Today"}</div><div class="info">${i.moreComing?"📦 More coming: "+(i.restockDate||"soon"):"📍 Distance shown to buyers: "+i.distance+" miles"}</div></div><div class="ownerDealActions"><button class="ownerEdit" onclick="editItem(${i.id})">Edit</button><button class="ownerDelete" onclick="deleteItem(${i.id})">Delete</button></div></div>`;
  return d
 }
-function esc(x){return String(x).replace(/\\/g,"\\\\").replace(/'/g,"\\'")}
+function esc(x){
+ return String(x).replaceAll("'", "&#39;");
+}
 function cityFromAddress(address){
  const a=String(address||"").toLowerCase();
  if(a.includes("surfside"))return "Surfside Beach";
@@ -213,7 +215,20 @@ function openImageModal(id){
 }
 function closeImageModal(){document.getElementById("imageModal").style.display="none"}
 function renderOwnerItems(){const box=document.getElementById("ownerItems");if(!box)return;box.innerHTML="";if(!currentUser||currentUser.type!=="owner"){box.innerHTML="<div class='formSub'>No business owner account yet.</div>";return}const mine=items.filter(i=>i.store===currentUser.businessName);if(!mine.length){box.innerHTML="<div class='formSub'>No active deals yet.</div>";return}mine.forEach(i=>box.appendChild(ownerCard(i)))}
-function openHoldRequest(id){if(!currentUser){showToast("Login or register as buyer first");showLogin();return}if(currentUser.type==="owner"){showToast("Owners cannot request holds while logged in as owner");return}const item=items.find(x=>x.id===id);if(!item||item.quantity<1){showToast("Item unavailable");return}const existing=holdRequests.find(h=>h.buyerEmail===currentUser.email&&["pending","approved"].includes(h.status));if(existing){showToast("You already have an active hold request");return}hideAll();document.getElementById("holdRequestPanel").style.display="block";document.getElementById("holdItemId").value=item.id;document.getElementById("holdQty").value=1;document.getElementById("holdQty").max=item.quantity;document.getElementById("holdItemSummary").innerHTML=`<strong>${item.title}</strong><br>Store: ${item.store}<br>Price: $${item.price} each<br>Available: ${item.quantity}<br>Expires at: ${item.expires}`}
+function openHoldRequest(id){
+ if(!currentUser){showToast("Login or register as buyer first");showLogin();return}
+ if(currentUser.type==="owner"){showToast("Owners cannot request holds while logged in as owner");return}
+ const item=items.find(x=>x.id===id);
+ if(!item||item.quantity<1){showToast("Item unavailable");return}
+ const existing=holdRequests.find(h=>h.buyerEmail===currentUser.email&&["pending","approved"].includes(h.status));
+ if(existing){showToast("You already have an active hold request");return}
+ hideAll();
+ document.getElementById("holdRequestPanel").style.display="block";
+ document.getElementById("holdItemId").value=item.id;
+ document.getElementById("holdQty").value=1;
+ document.getElementById("holdQty").max=item.quantity;
+ document.getElementById("holdItemSummary").innerHTML=`<strong>${item.title}</strong><br>Store: ${item.store}<br>Price: $${item.price} each<br>Available: ${item.quantity}<br>Expires at: ${item.expires}`;
+}
 function submitHoldRequest(){const id=Number(document.getElementById("holdItemId").value),item=items.find(x=>x.id===id),qty=Number(document.getElementById("holdQty").value),windowTime=document.getElementById("holdWindow").value;if(!item){showToast("Item not found");return}if(!qty||qty<1){showToast("Enter quantity");return}if(qty>item.quantity){showToast("Only "+item.quantity+" available");return}const hold={id:Date.now(),itemId:item.id,itemTitle:item.title,store:item.store,buyerName:currentUser.fullName,buyerEmail:currentUser.email,buyerRating:buyerRating(currentUser.email),status:"pending",quantity:qty,unitPrice:item.price,total:qty*item.price,window:windowTime,address:item.address,cancelledBy:"",createdAt:new Date().toLocaleString()};holdRequests.unshift(hold);activeHold=hold;saveAll();showToast("Hold request sent to owner");showHoldBar(hold);showReservations()}
 function showHoldBar(hold){activeHold=hold;document.getElementById("holdBar").style.display="flex";document.getElementById("holdText").innerText=hold.status.toUpperCase()+": "+hold.quantity+" x "+hold.itemTitle;if(hold.status==="approved") updateHoldCountdown(); else if(hold.status==="declined") document.getElementById("holdSmall").innerText="Owner declined request"; else document.getElementById("holdSmall").innerText="Waiting for owner approval"}
 function holdMinutesToMs(windowText){if(windowText.includes("30"))return 30*60*1000;if(windowText.includes("45"))return 45*60*1000;if(windowText.includes("60"))return 60*60*1000;return 30*60*1000}
@@ -266,12 +281,30 @@ function saveEditedItem(){
  const id=Number(document.getElementById("editId").value),i=items.find(x=>x.id===id);if(!i)return;
  const title=document.getElementById("editTitle").value.trim(),category=document.getElementById("editCategory").value,price=document.getElementById("editPrice").value,quantity=document.getElementById("editQuantity").value,expires=document.getElementById("editExpires").value.trim(),photo=document.getElementById("editPhoto").files[0];
  if(!title||!price||quantity===""){showToast("Item name, price and quantity required");return}
- i.title=title;i.category=category;i.price=Number(price);i.quantity=Number(quantity);i.expires=expires||"Today";
+ i.title=title;
+ i.category=category;
+ i.price=Number(price);
+ i.quantity=Number(quantity);
+ i.expires=expires||"Today";
  i.moreComing=document.getElementById("editMoreComing").checked;
  i.restockDate=document.getElementById("editRestockDate").value.trim();
- if(photo){const r=new FileReader();r.onload=e=>{i.image=e.target.result;saveAll();showToast("Deal updated");renderItems();showOwner()};r.readAsDataURL(photo);return}
- saveAll();showToast("Deal updated");renderItems();showOwner()
-};r.readAsDataURL(photo);return}saveAll();showToast("Deal updated");renderItems();showOwner()}
+ if(photo){
+  const r=new FileReader();
+  r.onload=e=>{
+   i.image=e.target.result;
+   saveAll();
+   showToast("Deal updated");
+   renderItems();
+   showOwner();
+  };
+  r.readAsDataURL(photo);
+  return;
+ }
+ saveAll();
+ showToast("Deal updated");
+ renderItems();
+ showOwner();
+}
 function deleteItem(id){items=items.filter(i=>i.id!==id);saveAll();renderItems();renderOwnerItems();showToast("Deal deleted")}
 function openStore(name){hideAll();document.getElementById("storePanel").style.display="block";const arr=items.filter(i=>i.store===name),first=arr[0];document.getElementById("storeHeader").innerHTML=`<div class="storeHeader"><div class="storeLogo">${name.charAt(0)}</div><div style="font-size:26px;font-weight:900;">${name}</div><div style="margin-top:6px;color:#d1d5db;font-weight:700;">Verified local business • ⭐ ${storeRating(name)}</div><div style="margin-top:10px;font-weight:800;">Distance shown on each item. Address opens after approved hold.</div>${first?`<button class="btnOrange" style="width:100%;margin-top:14px;" onclick="driveTo('${esc(first.address)}')">Drive to store</button>`:""}</div>`;const box=document.getElementById("storeItems");box.innerHTML="";arr.forEach(i=>box.appendChild(buyerCard(i)))}
 function refreshUI(){renderTop();renderMobileNav();renderCategories();renderItems();updateRegisterStatus()}
