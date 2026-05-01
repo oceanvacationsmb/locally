@@ -18,7 +18,6 @@ button{border:0;cursor:pointer;font-weight:900}
 .searchBar{flex:1;max-width:480px;background:#f3f4f6;border-radius:18px;padding:14px 16px;border:1px solid #e5e7eb;font-weight:800}
 .topActions{display:flex;gap:8px;align-items:center}
 .btnOrange{background:#ff7a1a;color:white;border-radius:16px;padding:13px 16px}
-.btnDark{background:#111827;color:white;border-radius:16px;padding:13px 16px}
 .btnLight{background:#f3f4f6;color:#111827;border-radius:16px;padding:13px 16px}
 
 .hero{max-width:1200px;margin:0 auto;padding:24px 16px 8px}
@@ -31,12 +30,10 @@ button{border:0;cursor:pointer;font-weight:900}
 .statText{font-size:13px;color:#d1d5db;font-weight:800}
 
 .layout{max-width:1200px;margin:0 auto;padding:12px 16px 110px;display:grid;grid-template-columns:240px 1fr;gap:18px}
-.side,.panelCard{background:white;border:1px solid #e5e7eb;border-radius:26px;padding:16px;box-shadow:0 10px 25px rgba(17,24,39,.06)}
-.side{height:max-content;position:sticky;top:90px}
+.side{background:white;border:1px solid #e5e7eb;border-radius:26px;padding:16px;box-shadow:0 10px 25px rgba(17,24,39,.06);height:max-content;position:sticky;top:90px}
 .sideTitle{font-size:20px;font-weight:900;margin-bottom:12px}
 .catBtn{width:100%;text-align:left;background:#f3f4f6;color:#374151;border-radius:16px;padding:12px;margin-bottom:8px;font-size:14px}
 .catBtn.active{background:#111827;color:white}
-
 .sectionTitle{font-size:26px;font-weight:900;margin:4px 0 14px}
 .dealsGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 
@@ -50,21 +47,13 @@ button{border:0;cursor:pointer;font-weight:900}
 .itemTitle{font-size:21px;font-weight:900}
 .store{margin-top:5px;color:#6b7280;font-size:14px;font-weight:800;cursor:pointer}
 .left{background:#fff3d6;color:#a15c00;border-radius:14px;padding:8px 10px;font-size:13px;font-weight:900;white-space:nowrap}
-.infoGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}
-.info{background:#f3f4f6;border-radius:14px;padding:10px;color:#4b5563;font-weight:800;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-.routeMap{margin-top:14px;height:95px;border-radius:20px;background:linear-gradient(135deg,#dbeafe,#dcfce7);position:relative;overflow:hidden;border:1px solid #d1d5db}
-.routeLine{position:absolute;left:58px;right:58px;top:46px;height:5px;background:rgba(17,24,39,.20);border-radius:999px}
-.mapDot{position:absolute;top:31px;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:900;box-shadow:0 8px 18px rgba(0,0,0,.20)}
-.mapDot.you{left:24px;background:#047857}
-.mapDot.store{right:24px;background:#ff7a1a}
-.routeText{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:12px;font-weight:900;color:#374151}
-
-.actions{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;margin-top:14px}
+.infoStack{margin-top:13px;display:grid;gap:8px}
+.info{background:#f3f4f6;border-radius:14px;padding:10px;color:#4b5563;font-weight:800;font-size:13px}
+.actions{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:8px;margin-top:14px}
 .reserve{background:#ff7a1a;color:white;border-radius:15px;padding:12px}
 .secondary{background:#f3f4f6;color:#111827;border-radius:15px;padding:12px}
 
-.formPanel{display:none;max-width:700px;margin:0 auto;padding:16px 16px 110px}
+.formPanel{display:none;max-width:760px;margin:0 auto;padding:16px 16px 110px}
 .formCard{background:white;border:1px solid #e5e7eb;border-radius:26px;padding:18px;margin-bottom:16px;box-shadow:0 10px 25px rgba(17,24,39,.06)}
 .formTitle{font-size:26px;font-weight:900;margin-bottom:6px}
 .formSub{color:#6b7280;font-size:14px;font-weight:700;margin-bottom:12px}
@@ -72,17 +61,20 @@ button{border:0;cursor:pointer;font-weight:900}
 .fileLabel{margin-top:12px;font-size:13px;font-weight:900;color:#374151}
 .postBtn{width:100%;margin-top:12px;background:#111827;color:white;padding:15px;border-radius:18px}
 .statusBox{background:#ecfdf5;color:#047857;padding:12px;border-radius:16px;font-weight:900;margin-top:12px}
-.ownerItem{border:1px solid #e5e7eb;border-radius:18px;padding:12px;margin-top:10px;background:white}
+.warnBox{background:#fff7ed;color:#9a3412}
+.badBox{background:#fee2e2;color:#991b1b}
+.ownerItem,.holdItem{border:1px solid #e5e7eb;border-radius:18px;padding:12px;margin-top:10px;background:white}
 .ownerTop{display:flex;justify-content:space-between;gap:10px;font-weight:900}
 .ownerEdit{background:#dbeafe;color:#1d4ed8;padding:8px 10px;border-radius:12px;font-size:12px}
-.ownerDelete{background:#fee2e2;color:#991b1b;padding:8px 10px;border-radius:12px;font-size:12px}
+.ownerDelete,.declineBtn,.badBtn{background:#fee2e2;color:#991b1b;padding:8px 10px;border-radius:12px;font-size:12px}
+.acceptBtn,.goodBtn{background:#dcfce7;color:#166534;padding:8px 10px;border-radius:12px;font-size:12px}
 
 .storeHeader{background:#111827;color:white;border-radius:28px;padding:18px;margin-bottom:14px}
 .storeLogo{width:54px;height:54px;border-radius:18px;background:#ff7a1a;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:24px;margin-bottom:10px}
 
-.reserveBar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;width:calc(100% - 28px);max-width:430px;background:#047857;color:white;border-radius:22px;padding:14px;display:none;justify-content:space-between;align-items:center;box-shadow:0 18px 40px rgba(4,120,87,.35);z-index:50}
-.reserveText{font-weight:900}
-.reserveSmall{font-size:12px;color:#d1fae5;margin-top:3px;font-weight:700}
+.holdBar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;width:calc(100% - 28px);max-width:460px;background:#047857;color:white;border-radius:22px;padding:14px;display:none;justify-content:space-between;align-items:center;box-shadow:0 18px 40px rgba(4,120,87,.35);z-index:50}
+.holdText{font-weight:900}
+.holdSmall{font-size:12px;color:#d1fae5;margin-top:3px;font-weight:700}
 .barButtons{display:flex;gap:8px}
 .drive{background:white;color:#047857;padding:10px 12px;border-radius:14px;font-size:13px;font-weight:900}
 .cancel{background:#065f46;color:white;padding:10px 12px;border-radius:14px;font-size:13px;font-weight:900}
@@ -92,9 +84,7 @@ button{border:0;cursor:pointer;font-weight:900}
 .mobileNav button{background:white;color:#6b7280;font-size:12px;padding:8px;border-radius:12px}
 .mobileNav button.active{background:#111827;color:white}
 
-@media(max-width:1050px){
-  .dealsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
+@media(max-width:1050px){.dealsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:900px){
   .headerInner{align-items:flex-start;flex-direction:column}
   .searchBar{max-width:none;width:100%}
@@ -107,7 +97,7 @@ button{border:0;cursor:pointer;font-weight:900}
   .catBtn{width:auto;white-space:nowrap;margin-bottom:0}
   .dealsGrid{grid-template-columns:1fr}
   .mobileNav{display:flex}
-  .reserveBar{bottom:70px}
+  .holdBar{bottom:70px}
 }
 </style>
 </head>
@@ -133,15 +123,15 @@ button{border:0;cursor:pointer;font-weight:900}
   <div class="heroBox">
     <div>
       <h1 class="heroTitle">Local deals, right now.</h1>
-      <div class="heroText">Real stores. Real pickup. See your route inside each deal and drive when ready.</div>
+      <div class="heroText">Request a hold from a real store. Owner approves it, then you pick it up.</div>
       <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
         <button class="btnOrange" onclick="showRegister()">Register</button>
         <button class="btnLight" onclick="showBuyer()">Browse Deals</button>
       </div>
     </div>
     <div class="heroStats">
-      <div class="stat"><div class="statNum">3</div><div class="statText">demo stores</div></div>
-      <div class="stat"><div class="statNum">15m</div><div class="statText">reservation hold</div></div>
+      <div class="stat"><div class="statNum">30–60m</div><div class="statText">pickup window</div></div>
+      <div class="stat"><div class="statNum">Trust</div><div class="statText">ratings protect both sides</div></div>
     </div>
   </div>
 </section>
@@ -197,8 +187,14 @@ button{border:0;cursor:pointer;font-weight:900}
 <section class="formPanel" id="ownerPanel">
   <div class="formCard">
     <div class="formTitle">Owner dashboard</div>
-    <div class="formSub">Posts are tied to your registered business.</div>
+    <div class="formSub">Approve or decline hold requests before customers come.</div>
     <div id="ownerStatus" class="statusBox">Business account active.</div>
+  </div>
+
+  <div class="formCard">
+    <div class="formTitle">Hold requests</div>
+    <div class="formSub">Accept only if the item is available and you can hold it.</div>
+    <div id="ownerHolds"></div>
   </div>
 
   <div class="formCard">
@@ -256,8 +252,9 @@ button{border:0;cursor:pointer;font-weight:900}
 
 <section class="formPanel" id="reservationsPanel">
   <div class="formCard">
-    <div class="formTitle">Reservations</div>
-    <div id="reservationDetails" class="formSub">No active reservation.</div>
+    <div class="formTitle">Hold requests</div>
+    <div class="formSub">Your requests and approved holds.</div>
+    <div id="reservationDetails">No hold requests yet.</div>
   </div>
 </section>
 
@@ -275,14 +272,14 @@ button{border:0;cursor:pointer;font-weight:900}
   <div class="dealsGrid" id="storeItems"></div>
 </section>
 
-<div id="reserveBar" class="reserveBar">
+<div id="holdBar" class="holdBar">
   <div>
-    <div id="reserveText" class="reserveText"></div>
-    <div class="reserveSmall" id="timerText">Hold expires in 15:00</div>
+    <div id="holdText" class="holdText"></div>
+    <div class="holdSmall" id="holdSmall">Waiting for owner approval</div>
   </div>
   <div class="barButtons">
-    <div class="drive" onclick="driveReserved()">Drive</div>
-    <div class="cancel" onclick="cancelReserve()">X</div>
+    <div class="drive" onclick="driveActiveHold()">Drive</div>
+    <div class="cancel" onclick="cancelActiveHold()">X</div>
   </div>
 </div>
 
@@ -292,12 +289,13 @@ button{border:0;cursor:pointer;font-weight:900}
 const demoCode="123456";
 const categories=["All","Home","Pets","Clothing","Automobile","Boating","Electronics","Furniture","Food","Beach","Services","Clearance"];
 let activeCategory="All";
-let reservedItem=null;
-let timer=null;
-let secondsLeft=900;
+let activeHold=null;
+let holdTimer=null;
+let secondsLeft=3600;
 
 let accounts=JSON.parse(localStorage.getItem("locally_accounts"))||[];
 let currentUser=JSON.parse(localStorage.getItem("locally_current_user"))||null;
+let holdRequests=JSON.parse(localStorage.getItem("locally_holds"))||[];
 
 let items=JSON.parse(localStorage.getItem("locally_items"))||[
 {id:1,title:"Beach Chair",store:"Ocean Beach Shop",category:"Beach",price:25,quantity:3,distance:.5,expires:"Today 6 PM",address:"Surfside Beach, SC",image:""},
@@ -310,6 +308,7 @@ function saveAll(){
  localStorage.setItem("locally_accounts",JSON.stringify(accounts));
  localStorage.setItem("locally_current_user",JSON.stringify(currentUser));
  localStorage.setItem("locally_items",JSON.stringify(items));
+ localStorage.setItem("locally_holds",JSON.stringify(holdRequests));
 }
 function showToast(t){
  const x=document.getElementById("toast");x.innerText=t;x.style.display="block";
@@ -331,9 +330,9 @@ function showLogin(){hideAll();document.getElementById("loginPanel").style.displ
 function showRegister(){hideAll();document.getElementById("registerPanel").style.display="block";setActive("register");updateRegisterStatus()}
 function showOwner(){
  if(!currentUser||currentUser.type!=="owner"){showToast("Login as business owner first");showLogin();return}
- hideAll();document.getElementById("ownerPanel").style.display="block";setActive("owner");updateOwnerStatus();renderOwnerItems();
+ hideAll();document.getElementById("ownerPanel").style.display="block";setActive("owner");updateOwnerStatus();renderOwnerItems();renderOwnerHolds();
 }
-function showReservations(){hideAll();document.getElementById("reservationsPanel").style.display="block";setActive("reservations");updateReservationDetails()}
+function showReservations(){hideAll();document.getElementById("reservationsPanel").style.display="block";setActive("reservations");renderBuyerHolds()}
 function showAccount(){if(!currentUser){showLogin();return}hideAll();document.getElementById("accountPanel").style.display="block";setActive("account");updateAccountDetails()}
 function setActive(n){
  document.querySelectorAll(".mobileNav button").forEach(b=>b.classList.remove("active"));
@@ -356,9 +355,9 @@ function renderTop(){
 function renderMobileNav(){
  const nav=document.getElementById("mobileNav");
  if(currentUser&&currentUser.type==="owner"){
-  nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Deals</button><button id="nav_owner" onclick="showOwner()">Owner</button><button id="nav_reservations" onclick="showReservations()">Reserve</button><button id="nav_account" onclick="showAccount()">Account</button>`;
+  nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Deals</button><button id="nav_owner" onclick="showOwner()">Owner</button><button id="nav_reservations" onclick="showReservations()">Holds</button><button id="nav_account" onclick="showAccount()">Account</button>`;
  }else{
-  nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Deals</button><button id="nav_login" onclick="showLogin()">Login</button><button id="nav_register" onclick="showRegister()">Register</button><button id="nav_account" onclick="showAccount()">Account</button>`;
+  nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Deals</button><button id="nav_login" onclick="showLogin()">Login</button><button id="nav_register" onclick="showRegister()">Register</button><button id="nav_reservations" onclick="showReservations()">Holds</button>`;
  }
 }
 function renderCategories(){
@@ -390,8 +389,8 @@ function verifyAccount(){
   const businessName=document.getElementById("businessName").value.trim();
   const businessAddress=document.getElementById("businessAddress").value.trim();
   if(!businessName||!businessAddress){showToast("Business name and address required");return}
-  currentUser={id:Date.now(),type:"owner",fullName,email,phone,active:true,businessStatus:"Active",businessName,businessAddress};
- }else currentUser={id:Date.now(),type:"user",fullName,email,phone,active:true};
+  currentUser={id:Date.now(),type:"owner",fullName,email,phone,active:true,businessStatus:"Active",businessName,businessAddress,badRating:0};
+ }else currentUser={id:Date.now(),type:"user",fullName,email,phone,active:true,badRating:0};
  accounts.push(currentUser);saveAll();refreshUI();showToast(type==="owner"?"Owner account active":"Buyer account active");
  currentUser.type==="owner"?showOwner():showBuyer();
 }
@@ -406,18 +405,13 @@ function updateRegisterStatus(){
  document.getElementById("registerStatus").innerText=currentUser?(currentUser.type==="owner"?"Business owner active: "+currentUser.businessName:"Buyer account active: "+currentUser.email):"No account active yet.";
 }
 function updateOwnerStatus(){
- document.getElementById("ownerStatus").innerText="Business account active: "+currentUser.businessName;
- document.getElementById("postBusinessInfo").innerText=currentUser.businessName+" • "+currentUser.businessAddress;
+ document.getElementById("ownerStatus").innerText="Business account active: "+currentUser.businessName+" • Bad rating reports: "+(currentUser.badRating||0);
+ document.getElementById("postBusinessInfo").innerText=currentUser.businessName+" • address saved privately for Drive after approved hold";
 }
 function updateAccountDetails(){
  const box=document.getElementById("accountDetails");
- if(currentUser.type==="owner")box.innerHTML=`<strong>${currentUser.fullName}</strong><br>${currentUser.email}<br><br><strong>Business:</strong> ${currentUser.businessName}<br><strong>Address:</strong> ${currentUser.businessAddress}`;
- else box.innerHTML=`<strong>${currentUser.fullName}</strong><br>${currentUser.email}<br>Buyer account`;
-}
-function updateReservationDetails(){
- const box=document.getElementById("reservationDetails");
- if(!reservedItem){box.innerText="No active reservation.";return}
- box.innerHTML=`<strong>${reservedItem.title}</strong><br>${reservedItem.store}<br>${reservedItem.address}<br><br><button class="postBtn" onclick="driveReserved()">Drive</button><button class="postBtn" onclick="cancelReserve()">Cancel reservation</button>`;
+ if(currentUser.type==="owner")box.innerHTML=`<strong>${currentUser.fullName}</strong><br>${currentUser.email}<br><br><strong>Business:</strong> ${currentUser.businessName}<br><strong>Status:</strong> ${currentUser.businessStatus}<br><strong>Bad rating reports:</strong> ${currentUser.badRating||0}`;
+ else box.innerHTML=`<strong>${currentUser.fullName}</strong><br>${currentUser.email}<br>Buyer account<br><strong>Bad rating reports:</strong> ${currentUser.badRating||0}`;
 }
 function filteredItems(){
  const s=document.getElementById("searchInput").value.toLowerCase();
@@ -445,20 +439,15 @@ function card(i){
      <div class="left">${i.quantity>0?i.quantity+" left":"Sold out"}</div>
    </div>
 
-   <div class="infoGrid"><div class="info">📍 ${i.distance} mi away</div><div class="info">⏱ ${i.expires||"Today"}</div></div>
-   <div class="infoGrid"><div class="info">📌 ${i.address}</div><div class="info">✅ Best effort stock</div></div>
-
-   <div class="routeMap">
-     <div class="routeLine"></div>
-     <div class="mapDot you">You</div>
-     <div class="mapDot store">Store</div>
-     <div class="routeText">Route preview • ${i.distance} mi • tap Drive for navigation</div>
+   <div class="infoStack">
+     <div class="info">📍 Distance from you: ${i.distance} miles</div>
+     <div class="info">⏱ Expires at: ${i.expires||"Today"}</div>
    </div>
 
    <div class="actions">
-     <button class="reserve" onclick="reserveItem(${i.id})">Reserve</button>
+     <button class="reserve" onclick="requestHold(${i.id})">Request Hold</button>
      <button class="secondary" onclick="chatStore('${esc(i.store)}')">Chat</button>
-     <button class="secondary" onclick="driveTo('${esc(i.address)}')">Drive</button>
+     <button class="secondary" onclick="showToast('Drive appears after owner approves hold')">Drive</button>
    </div>
  </div>`;
  return d;
@@ -471,28 +460,79 @@ function renderOwnerItems(){
  if(!mine.length){box.innerHTML="<div class='formSub'>No active deals yet.</div>";return}
  mine.forEach(i=>{
   const r=document.createElement("div");r.className="ownerItem";
-  r.innerHTML=`<div class="ownerTop"><div>${i.title}</div><div style="display:flex;gap:6px;"><button class="ownerEdit" onclick="editItem(${i.id})">Edit</button><button class="ownerDelete" onclick="deleteItem(${i.id})">Delete</button></div></div><div style="margin-top:5px;color:#6b7280;font-weight:800;">${i.store} • $${i.price} • ${i.quantity} left • ${i.category}</div>`;
+  r.innerHTML=`<div class="ownerTop"><div>${i.title}</div><div style="display:flex;gap:6px;"><button class="ownerEdit" onclick="editItem(${i.id})">Edit</button><button class="ownerDelete" onclick="deleteItem(${i.id})">Delete</button></div></div><div style="margin-top:5px;color:#6b7280;font-weight:800;">$${i.price} • ${i.quantity} left • ${i.category} • expires ${i.expires}</div>`;
   box.appendChild(r);
  });
 }
-function reserveItem(id){
+function requestHold(id){
  if(!currentUser){showToast("Login or register as buyer first");showLogin();return}
- const i=items.find(x=>x.id===id);if(!i||i.quantity<1)return;
- if(reservedItem){showToast("You already have one active reservation");return}
- i.quantity--;reservedItem=i;saveAll();renderItems();
- document.getElementById("reserveBar").style.display="flex";
- document.getElementById("reserveText").innerText="Reserved: "+i.title;
- startTimer();
+ if(currentUser.type==="owner"){showToast("Owners cannot request holds while logged in as owner");return}
+ const item=items.find(x=>x.id===id);if(!item||item.quantity<1){showToast("Item unavailable");return}
+ const existing=holdRequests.find(h=>h.buyerEmail===currentUser.email&&["pending","approved"].includes(h.status));
+ if(existing){showToast("You already have an active hold request");return}
+ const hold={id:Date.now(),itemId:item.id,itemTitle:item.title,store:item.store,buyerName:currentUser.fullName,buyerEmail:currentUser.email,status:"pending",window:"30-60 minutes",address:item.address,createdAt:new Date().toLocaleString()};
+ holdRequests.unshift(hold);activeHold=hold;saveAll();
+ showToast("Hold request sent to owner");
+ showHoldBar(hold);
 }
-function startTimer(){
- secondsLeft=900;clearInterval(timer);
- timer=setInterval(()=>{secondsLeft--;let m=Math.floor(secondsLeft/60),s=secondsLeft%60;document.getElementById("timerText").innerText="Hold expires in "+m+":"+String(s).padStart(2,"0");if(secondsLeft<=0){cancelReserve();showToast("Reservation expired")}},1000);
+function showHoldBar(hold){
+ document.getElementById("holdBar").style.display="flex";
+ document.getElementById("holdText").innerText=hold.status==="approved"?"Hold approved: "+hold.itemTitle:"Hold requested: "+hold.itemTitle;
+ document.getElementById("holdSmall").innerText=hold.status==="approved"?"Arrive within 30-60 minutes":"Waiting for owner approval";
 }
-function cancelReserve(){
- if(reservedItem){let i=items.find(x=>x.id===reservedItem.id);if(i)i.quantity++}
- reservedItem=null;clearInterval(timer);document.getElementById("reserveBar").style.display="none";saveAll();renderItems();updateReservationDetails();
+function renderOwnerHolds(){
+ const box=document.getElementById("ownerHolds");if(!box)return;box.innerHTML="";
+ const mine=holdRequests.filter(h=>h.store===currentUser.businessName);
+ if(!mine.length){box.innerHTML="<div class='formSub'>No hold requests yet.</div>";return}
+ mine.forEach(h=>{
+  const div=document.createElement("div");div.className="holdItem";
+  div.innerHTML=`<div class="ownerTop"><div>${h.itemTitle}</div><div>${h.status.toUpperCase()}</div></div>
+  <div style="margin-top:6px;color:#6b7280;font-weight:800;">Buyer: ${h.buyerName}<br>Pickup window: ${h.window}<br>Requested: ${h.createdAt}</div>
+  <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+    ${h.status==="pending"?`<button class="acceptBtn" onclick="approveHold(${h.id})">Accept Hold</button><button class="declineBtn" onclick="declineHold(${h.id})">Decline</button>`:""}
+    ${h.status==="approved"?`<button class="goodBtn" onclick="completeHold(${h.id})">Picked Up</button><button class="badBtn" onclick="markBuyerNoShow(${h.id})">No Show</button><button class="badBtn" onclick="ownerUnavailable(${h.id})">Item Not Available</button>`:""}
+  </div>`;
+  box.appendChild(div);
+ });
 }
-function driveReserved(){if(reservedItem)driveTo(reservedItem.address)}
+function approveHold(id){
+ const h=holdRequests.find(x=>x.id===id);if(!h)return;
+ const item=items.find(x=>x.id===h.itemId);
+ if(!item||item.quantity<1){showToast("No stock available");return}
+ item.quantity--;h.status="approved";h.approvedAt=new Date().toLocaleString();saveAll();showToast("Hold approved");renderOwnerHolds();renderItems();
+}
+function declineHold(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="declined";saveAll();showToast("Hold declined");renderOwnerHolds()}
+function completeHold(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="completed";saveAll();showToast("Hold completed");renderOwnerHolds()}
+function markBuyerNoShow(id){
+ const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="buyer no show";
+ const buyer=accounts.find(a=>a.email===h.buyerEmail);if(buyer)buyer.badRating=(buyer.badRating||0)+1;
+ saveAll();showToast("Buyer marked no show");renderOwnerHolds();
+}
+function ownerUnavailable(id){
+ const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="owner unavailable";
+ const owner=accounts.find(a=>a.businessName===h.store);if(owner)owner.badRating=(owner.badRating||0)+1;
+ const item=items.find(x=>x.id===h.itemId);if(item)item.quantity++;
+ saveAll();showToast("Owner bad rating added");renderOwnerHolds();renderItems();
+}
+function renderBuyerHolds(){
+ const box=document.getElementById("reservationDetails");box.innerHTML="";
+ if(!currentUser){box.innerHTML="Login to see hold requests.";return}
+ const mine=holdRequests.filter(h=>h.buyerEmail===currentUser.email||h.store===currentUser.businessName);
+ if(!mine.length){box.innerHTML="No hold requests yet.";return}
+ mine.forEach(h=>{
+  const div=document.createElement("div");div.className="holdItem";
+  div.innerHTML=`<div class="ownerTop"><div>${h.itemTitle}</div><div>${h.status.toUpperCase()}</div></div>
+  <div style="margin-top:6px;color:#6b7280;font-weight:800;">Store: ${h.store}<br>Pickup window: ${h.window}</div>
+  <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+    ${h.status==="approved"?`<button class="acceptBtn" onclick="driveTo('${esc(h.address)}')">Drive</button><button class="goodBtn" onclick="completeHold(${h.id})">I Picked Up</button>`:""}
+    ${h.status==="pending"?`<button class="declineBtn" onclick="cancelHold(${h.id})">Cancel Request</button>`:""}
+  </div>`;
+  box.appendChild(div);
+ });
+}
+function cancelHold(id){holdRequests=holdRequests.filter(h=>h.id!==id);saveAll();showToast("Hold request cancelled");renderBuyerHolds();document.getElementById("holdBar").style.display="none"}
+function cancelActiveHold(){if(activeHold)cancelHold(activeHold.id);activeHold=null}
+function driveActiveHold(){if(activeHold&&activeHold.status==="approved")driveTo(activeHold.address);else showToast("Drive opens after owner approves")}
 function driveTo(a){window.open("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(a),"_blank")}
 function chatStore(s){alert("Chat request sent to "+s+". In the real version this becomes live chat or SMS.")}
 function postItem(){
@@ -519,7 +559,7 @@ function deleteItem(id){items=items.filter(i=>i.id!==id);saveAll();renderItems()
 function openStore(name){
  hideAll();document.getElementById("storePanel").style.display="block";
  const arr=items.filter(i=>i.store===name),first=arr[0];
- document.getElementById("storeHeader").innerHTML=`<div class="storeHeader"><div class="storeLogo">${name.charAt(0)}</div><div style="font-size:26px;font-weight:900;">${name}</div><div style="margin-top:6px;color:#d1d5db;font-weight:700;">Verified local business</div><div style="margin-top:10px;font-weight:800;">📌 ${first?first.address:"Local store"}</div><button class="btnOrange" style="width:100%;margin-top:14px;" onclick="driveTo('${first?esc(first.address):"Myrtle Beach, SC"}')">Drive to store</button></div>`;
+ document.getElementById("storeHeader").innerHTML=`<div class="storeHeader"><div class="storeLogo">${name.charAt(0)}</div><div style="font-size:26px;font-weight:900;">${name}</div><div style="margin-top:6px;color:#d1d5db;font-weight:700;">Verified local business</div><div style="margin-top:10px;font-weight:800;">Distance shown on each item. Address opens after approved hold.</div>${first?`<button class="btnOrange" style="width:100%;margin-top:14px;" onclick="driveTo('${esc(first.address)}')">Drive to store</button>`:""}</div>`;
  const box=document.getElementById("storeItems");box.innerHTML="";arr.forEach(i=>box.appendChild(card(i)));
 }
 function refreshUI(){renderTop();renderMobileNav();renderCategories();renderItems();updateRegisterStatus()}
