@@ -51,7 +51,7 @@
       font-weight: 700;
     }
 
-    .ownerBtn {
+    .topBtn {
       background: #ffb020;
       color: #111827;
       padding: 11px 15px;
@@ -163,26 +163,24 @@
     }
 
     .image {
-      height: 160px;
+      height: 170px;
       padding: 14px;
       color: white;
       position: relative;
       background: linear-gradient(135deg, #0ea5e9, #0f766e);
+      background-size: cover;
+      background-position: center;
     }
 
-    .image.Home { background: linear-gradient(135deg, #111827, #64748b); }
-    .image.Pets { background: linear-gradient(135deg, #16a34a, #84cc16); }
-    .image.Clothing { background: linear-gradient(135deg, #ec4899, #7c3aed); }
-    .image.Automobile { background: linear-gradient(135deg, #dc2626, #fb923c); }
-    .image.Boating { background: linear-gradient(135deg, #0284c7, #22d3ee); }
-    .image.Electronics { background: linear-gradient(135deg, #4f46e5, #06b6d4); }
-    .image.Furniture { background: linear-gradient(135deg, #92400e, #f59e0b); }
-    .image.Food { background: linear-gradient(135deg, #f97316, #facc15); }
-    .image.Beach { background: linear-gradient(135deg, #0ea5e9, #0f766e); }
-    .image.Services { background: linear-gradient(135deg, #334155, #0f172a); }
-    .image.Clearance { background: linear-gradient(135deg, #7c2d12, #ef4444); }
+    .imageOverlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(0,0,0,0.38));
+    }
 
     .category {
+      position: relative;
+      z-index: 1;
       display: inline-block;
       background: rgba(255,255,255,0.22);
       padding: 7px 12px;
@@ -194,6 +192,7 @@
 
     .price {
       position: absolute;
+      z-index: 1;
       bottom: 14px;
       left: 16px;
       font-size: 38px;
@@ -271,7 +270,7 @@
     .secondary { background: #f3f4f6; color: #111827; }
     .disabled { background: #d1d5db !important; color: #6b7280 !important; }
 
-    .ownerPanel {
+    .panel {
       padding: 16px;
       display: none;
     }
@@ -307,6 +306,13 @@
       background: white;
     }
 
+    .fileLabel {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 900;
+      color: #374151;
+    }
+
     .postBtn {
       width: 100%;
       margin-top: 12px;
@@ -314,6 +320,21 @@
       color: white;
       padding: 15px;
       border-radius: 18px;
+    }
+
+    .statusBox {
+      margin-top: 12px;
+      background: #fff7ed;
+      color: #9a3412;
+      padding: 12px;
+      border-radius: 16px;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .greenBox {
+      background: #ecfdf5;
+      color: #047857;
     }
 
     .ownerListItem {
@@ -426,7 +447,7 @@
         <div class="brand">Locally</div>
         <div class="subtitle">Verified local store deals near you</div>
       </div>
-      <button class="ownerBtn" onclick="toggleOwner()" id="ownerToggle">Owner</button>
+      <button class="topBtn" onclick="openAccount()" id="accountToggle">Account</button>
     </div>
 
     <input class="search" id="searchInput" placeholder="Search item or store" oninput="renderItems()" />
@@ -453,19 +474,56 @@
     <div id="itemsList"></div>
   </div>
 
+  <div class="panel" id="accountPanel">
+    <div class="formCard">
+      <div class="formTitle">Create account</div>
+      <div class="formSub">Choose buyer or verified business owner.</div>
+
+      <select class="field" id="accountType" onchange="toggleBusinessFields()">
+        <option value="user">Buyer account</option>
+        <option value="owner">Business owner account</option>
+      </select>
+
+      <input class="field" id="fullName" placeholder="Full name" />
+      <input class="field" id="email" placeholder="Email address" />
+      <input class="field" id="phone" placeholder="Phone optional" />
+
+      <div id="businessFields" style="display:none;">
+        <input class="field" id="businessName" placeholder="Business name" />
+        <input class="field" id="businessAddress" placeholder="Business address" />
+
+        <div class="fileLabel">Business license</div>
+        <input class="field" id="licenseFile" type="file" accept="image/*,.pdf" />
+
+        <div class="fileLabel">Exterior photo of building</div>
+        <input class="field" id="exteriorFile" type="file" accept="image/*" />
+
+        <div class="fileLabel">Interior photo of business</div>
+        <input class="field" id="interiorFile" type="file" accept="image/*" />
+      </div>
+
+      <button class="postBtn" onclick="sendCode()">Send email code</button>
+
+      <input class="field" id="verifyCode" placeholder="Enter code: 123456" />
+      <button class="postBtn" onclick="verifyAccount()">Activate account</button>
+
+      <div id="accountStatus" class="statusBox">No account active yet.</div>
+    </div>
+  </div>
+
   <div class="storeView" id="storeView">
     <button class="backBtn" onclick="backToBuyer()">Back to deals</button>
     <div id="storeHeader"></div>
     <div id="storeItems"></div>
   </div>
 
-  <div class="ownerPanel" id="ownerPanel">
+  <div class="panel" id="ownerPanel">
     <div class="formCard">
       <div class="formTitle">Owner side</div>
-      <div class="formSub">Post deals from verified brick and mortar stores.</div>
+      <div class="formSub">Posts are tied to your registered business.</div>
+      <div id="ownerStatus" class="statusBox">Business verification required.</div>
 
       <input class="field" id="itemName" placeholder="Item name" />
-      <input class="field" id="storeName" placeholder="Store name" value="Ocean Beach Shop" />
 
       <select class="field" id="category">
         <option>Home</option>
@@ -484,14 +542,16 @@
       <input class="field" id="price" type="number" placeholder="Price" />
       <input class="field" id="quantity" type="number" placeholder="Quantity left" />
       <input class="field" id="expires" placeholder="Expiration, example: Today 6 PM" />
-      <input class="field" id="address" placeholder="Address" value="Myrtle Beach, SC" />
+
+      <div class="fileLabel">Item photo required</div>
+      <input class="field" id="itemPhoto" type="file" accept="image/*" />
 
       <button class="postBtn" onclick="postItem()">Post deal</button>
     </div>
 
     <div class="formCard">
       <div class="formTitle">Your active deals</div>
-      <div class="formSub">Delete test deals or check what buyers see.</div>
+      <div class="formSub">Only deals from your registered business show here.</div>
       <div id="ownerItems"></div>
     </div>
   </div>
@@ -512,10 +572,11 @@
   let userLat = null;
   let userLng = null;
   let activeCategory = "All";
-  let ownerMode = false;
   let reservedItem = null;
   let timer = null;
   let secondsLeft = 900;
+
+  const demoCode = "123456";
 
   const categories = [
     "All",
@@ -532,6 +593,8 @@
     "Clearance"
   ];
 
+  let account = JSON.parse(localStorage.getItem("locally_account")) || null;
+
   let items = JSON.parse(localStorage.getItem("locally_items")) || [
     {
       id: 1,
@@ -542,7 +605,8 @@
       quantity: 3,
       distance: 0.5,
       expires: "Today 6 PM",
-      address: "Surfside Beach, SC"
+      address: "Surfside Beach, SC",
+      image: ""
     },
     {
       id: 2,
@@ -553,7 +617,8 @@
       quantity: 4,
       distance: 1.1,
       expires: "Today 5 PM",
-      address: "Myrtle Beach, SC"
+      address: "Myrtle Beach, SC",
+      image: ""
     },
     {
       id: 3,
@@ -564,7 +629,8 @@
       quantity: 2,
       distance: 2.0,
       expires: "Today 7 PM",
-      address: "Myrtle Beach, SC"
+      address: "Myrtle Beach, SC",
+      image: ""
     },
     {
       id: 4,
@@ -575,7 +641,8 @@
       quantity: 3,
       distance: 2.7,
       expires: "Tomorrow",
-      address: "Murrells Inlet, SC"
+      address: "Murrells Inlet, SC",
+      image: ""
     }
   ];
 
@@ -583,11 +650,169 @@
     localStorage.setItem("locally_items", JSON.stringify(items));
   }
 
+  function saveAccount() {
+    localStorage.setItem("locally_account", JSON.stringify(account));
+  }
+
   function showToast(text) {
     const toast = document.getElementById("toast");
     toast.innerText = text;
     toast.style.display = "block";
-    setTimeout(() => toast.style.display = "none", 1600);
+    setTimeout(() => toast.style.display = "none", 1700);
+  }
+
+  function showOnly(viewId) {
+    document.getElementById("buyerView").style.display = "none";
+    document.getElementById("accountPanel").style.display = "none";
+    document.getElementById("ownerPanel").style.display = "none";
+    document.getElementById("storeView").style.display = "none";
+    document.getElementById(viewId).style.display = "block";
+  }
+
+  function openAccount() {
+    showOnly("accountPanel");
+    updateAccountStatus();
+  }
+
+  function openOwnerPanel() {
+    showOnly("ownerPanel");
+    updateOwnerStatus();
+    renderOwnerItems();
+  }
+
+  function backToBuyer() {
+    showOnly("buyerView");
+  }
+
+  function toggleBusinessFields() {
+    const type = document.getElementById("accountType").value;
+    document.getElementById("businessFields").style.display = type === "owner" ? "block" : "none";
+  }
+
+  function sendCode() {
+    const email = document.getElementById("email").value.trim();
+
+    if (!email) {
+      showToast("Enter email first");
+      return;
+    }
+
+    showToast("Demo code sent: 123456");
+  }
+
+  function verifyAccount() {
+    const type = document.getElementById("accountType").value;
+    const fullName = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const code = document.getElementById("verifyCode").value.trim();
+
+    if (!fullName || !email) {
+      showToast("Enter name and email");
+      return;
+    }
+
+    if (code !== demoCode) {
+      showToast("Wrong code. Use 123456");
+      return;
+    }
+
+    if (type === "owner") {
+      const businessName = document.getElementById("businessName").value.trim();
+      const businessAddress = document.getElementById("businessAddress").value.trim();
+      const licenseFile = document.getElementById("licenseFile").files[0];
+      const exteriorFile = document.getElementById("exteriorFile").files[0];
+      const interiorFile = document.getElementById("interiorFile").files[0];
+
+      if (!businessName || !businessAddress || !licenseFile || !exteriorFile || !interiorFile) {
+        showToast("Complete business verification files");
+        return;
+      }
+
+      account = {
+        type: "owner",
+        fullName,
+        email,
+        phone,
+        active: true,
+        businessVerified: false,
+        businessStatus: "Pending verification",
+        businessName,
+        businessAddress,
+        licenseFileName: licenseFile.name,
+        exteriorFileName: exteriorFile.name,
+        interiorFileName: interiorFile.name
+      };
+
+      saveAccount();
+      showToast("Owner account submitted");
+      updateAccountStatus();
+      openOwnerPanel();
+      return;
+    }
+
+    account = {
+      type: "user",
+      fullName,
+      email,
+      phone,
+      active: true
+    };
+
+    saveAccount();
+    showToast("Buyer account active");
+    updateAccountStatus();
+    backToBuyer();
+  }
+
+  function updateAccountStatus() {
+    const box = document.getElementById("accountStatus");
+
+    if (!account) {
+      box.className = "statusBox";
+      box.innerText = "No account active yet.";
+      return;
+    }
+
+    if (account.type === "owner") {
+      box.className = "statusBox";
+      box.innerText = "Business owner: " + account.businessName + " • " + account.businessStatus;
+      return;
+    }
+
+    box.className = "statusBox greenBox";
+    box.innerText = "Buyer account active: " + account.email;
+  }
+
+  function updateOwnerStatus() {
+    const box = document.getElementById("ownerStatus");
+
+    if (!account || account.type !== "owner") {
+      box.className = "statusBox";
+      box.innerText = "Create a business owner account first.";
+      return;
+    }
+
+    if (!account.businessVerified) {
+      box.className = "statusBox";
+      box.innerText = "Pending verification. Demo mode: click here to approve for testing.";
+      box.onclick = approveBusinessDemo;
+      return;
+    }
+
+    box.className = "statusBox greenBox";
+    box.innerText = "Verified business: " + account.businessName;
+    box.onclick = null;
+  }
+
+  function approveBusinessDemo() {
+    if (!account || account.type !== "owner") return;
+
+    account.businessVerified = true;
+    account.businessStatus = "Verified";
+    saveAccount();
+    updateOwnerStatus();
+    showToast("Business verified for demo");
   }
 
   function renderTabs() {
@@ -639,12 +864,35 @@
     renderOwnerItems();
   }
 
+  function createImageStyle(item) {
+    if (item.image) {
+      return "background-image:url('" + item.image + "')";
+    }
+
+    const gradients = {
+      Home: "linear-gradient(135deg, #111827, #64748b)",
+      Pets: "linear-gradient(135deg, #16a34a, #84cc16)",
+      Clothing: "linear-gradient(135deg, #ec4899, #7c3aed)",
+      Automobile: "linear-gradient(135deg, #dc2626, #fb923c)",
+      Boating: "linear-gradient(135deg, #0284c7, #22d3ee)",
+      Electronics: "linear-gradient(135deg, #4f46e5, #06b6d4)",
+      Furniture: "linear-gradient(135deg, #92400e, #f59e0b)",
+      Food: "linear-gradient(135deg, #f97316, #facc15)",
+      Beach: "linear-gradient(135deg, #0ea5e9, #0f766e)",
+      Services: "linear-gradient(135deg, #334155, #0f172a)",
+      Clearance: "linear-gradient(135deg, #7c2d12, #ef4444)"
+    };
+
+    return "background:" + (gradients[item.category] || gradients.Home);
+  }
+
   function createItemCard(item) {
     const card = document.createElement("div");
     card.className = "card";
 
     card.innerHTML = `
-      <div class="image ${item.category}">
+      <div class="image" style="${createImageStyle(item)}">
+        <div class="imageOverlay"></div>
         <div class="category">${item.category}</div>
         <div class="price">$${item.price}</div>
       </div>
@@ -685,7 +933,19 @@
 
     ownerItems.innerHTML = "";
 
-    items.forEach(item => {
+    if (!account || account.type !== "owner") {
+      ownerItems.innerHTML = "<div class='formSub'>No business owner account yet.</div>";
+      return;
+    }
+
+    const mine = items.filter(item => item.store === account.businessName);
+
+    if (mine.length === 0) {
+      ownerItems.innerHTML = "<div class='formSub'>No active deals yet.</div>";
+      return;
+    }
+
+    mine.forEach(item => {
       const row = document.createElement("div");
       row.className = "ownerListItem";
       row.innerHTML = `
@@ -702,6 +962,12 @@
   }
 
   function reserveItem(id) {
+    if (!account || !account.active) {
+      showToast("Create a buyer account first");
+      openAccount();
+      return;
+    }
+
     const item = items.find(x => x.id === id);
     if (!item || item.quantity < 1) return;
 
@@ -789,54 +1055,62 @@
     );
   }
 
-  function toggleOwner() {
-    ownerMode = !ownerMode;
-
-    document.getElementById("buyerView").style.display = ownerMode ? "none" : "block";
-    document.getElementById("storeView").style.display = "none";
-    document.getElementById("ownerPanel").style.display = ownerMode ? "block" : "none";
-    document.getElementById("ownerToggle").innerText = ownerMode ? "Buyer" : "Owner";
-
-    renderOwnerItems();
-  }
-
   function postItem() {
+    if (!account || account.type !== "owner") {
+      showToast("Register as business owner first");
+      openAccount();
+      return;
+    }
+
+    if (!account.businessVerified) {
+      showToast("Business must be verified first");
+      openOwnerPanel();
+      return;
+    }
+
     const title = document.getElementById("itemName").value.trim();
-    const store = document.getElementById("storeName").value.trim();
     const category = document.getElementById("category").value;
     const price = document.getElementById("price").value;
     const quantity = document.getElementById("quantity").value;
     const expires = document.getElementById("expires").value.trim();
-    const address = document.getElementById("address").value.trim();
+    const photoFile = document.getElementById("itemPhoto").files[0];
 
-    if (!title || !store || !price || !quantity) {
-      showToast("Fill item, store, price, quantity");
+    if (!title || !price || !quantity || !photoFile) {
+      showToast("Item name, price, quantity and photo required");
       return;
     }
 
-    const newItem = {
-      id: Date.now(),
-      title,
-      store,
-      category,
-      price: Number(price),
-      quantity: Number(quantity),
-      distance: 0.8,
-      expires: expires || "Today",
-      address: address || "Myrtle Beach, SC"
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+      const newItem = {
+        id: Date.now(),
+        title,
+        store: account.businessName,
+        category,
+        price: Number(price),
+        quantity: Number(quantity),
+        distance: 0.8,
+        expires: expires || "Today",
+        address: account.businessAddress,
+        image: event.target.result
+      };
+
+      items.unshift(newItem);
+      saveItems();
+
+      document.getElementById("itemName").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("quantity").value = "";
+      document.getElementById("expires").value = "";
+      document.getElementById("itemPhoto").value = "";
+
+      showToast("Deal posted");
+      backToBuyer();
+      renderItems();
     };
 
-    items.unshift(newItem);
-    saveItems();
-
-    document.getElementById("itemName").value = "";
-    document.getElementById("price").value = "";
-    document.getElementById("quantity").value = "";
-    document.getElementById("expires").value = "";
-
-    showToast("Deal posted");
-    toggleOwner();
-    renderItems();
+    reader.readAsDataURL(photoFile);
   }
 
   function deleteItem(id) {
@@ -849,6 +1123,7 @@
 
   function openStore(storeName) {
     document.getElementById("buyerView").style.display = "none";
+    document.getElementById("accountPanel").style.display = "none";
     document.getElementById("ownerPanel").style.display = "none";
     document.getElementById("storeView").style.display = "block";
 
@@ -873,14 +1148,14 @@
     });
   }
 
-  function backToBuyer() {
-    document.getElementById("storeView").style.display = "none";
-    document.getElementById("buyerView").style.display = "block";
-  }
-
   renderTabs();
   renderItems();
-  renderOwnerItems();
+  updateAccountStatus();
+
+  if (account && account.type === "owner") {
+    document.getElementById("accountToggle").innerText = "Owner";
+    document.getElementById("accountToggle").onclick = openOwnerPanel;
+  }
 </script>
 
 </body>
