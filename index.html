@@ -194,7 +194,7 @@ function ownerCard(i){
  d.innerHTML=`${baseCardTop(i)}<div class="content"><div class="row"><div><div class="itemTitle">${i.title}</div><div class="store">🏬 ${i.store} • ${cityFromAddress(i.address)}</div></div><div class="left">${i.quantity>0?i.quantity+" left":"Sold out"}</div></div><div class="infoStack"><div class="info">⏱ Expires at: ${i.expires||"Today"}</div><div class="info">${i.moreComing?"📦 More coming: "+(i.restockDate||"soon"):"📍 Distance shown to buyers: "+i.distance+" miles"}</div></div><div class="ownerDealActions"><button class="ownerEdit" onclick="editItem(${i.id})">Edit</button><button class="ownerDelete" onclick="deleteItem(${i.id})">Delete</button></div></div>`;
  return d
 }
-function esc(x){return String(x).replace(/'/g,"\'")}
+function esc(x){return String(x).replace(/\\/g,"\\\\").replace(/'/g,"\\'")}
 function cityFromAddress(address){
  const a=String(address||"").toLowerCase();
  if(a.includes("surfside"))return "Surfside Beach";
