@@ -10,7 +10,6 @@
 body{margin:0;font-family:Arial,sans-serif;background:#f3f5f8;color:#111827}
 button,input,select{font-family:inherit}
 button{border:0;cursor:pointer;font-weight:900}
-
 .header{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:20}
 .headerInner{max-width:1200px;margin:0 auto;padding:16px;display:flex;gap:16px;align-items:center;justify-content:space-between}
 .logo{font-size:34px;font-weight:900;letter-spacing:-1px}
@@ -19,7 +18,6 @@ button{border:0;cursor:pointer;font-weight:900}
 .topActions{display:flex;gap:8px;align-items:center}
 .btnOrange{background:#ff7a1a;color:white;border-radius:16px;padding:13px 16px}
 .btnLight{background:#f3f4f6;color:#111827;border-radius:16px;padding:13px 16px}
-
 .hero{max-width:1200px;margin:0 auto;padding:24px 16px 8px}
 .heroBox{background:linear-gradient(135deg,#111827,#1f2937);color:white;border-radius:30px;padding:28px;display:grid;grid-template-columns:1.3fr .7fr;gap:20px;align-items:center}
 .heroTitle{font-size:44px;font-weight:900;line-height:1;margin:0}
@@ -28,7 +26,6 @@ button{border:0;cursor:pointer;font-weight:900}
 .stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:16px}
 .statNum{font-size:28px;font-weight:900}
 .statText{font-size:13px;color:#d1d5db;font-weight:800}
-
 .layout{max-width:1200px;margin:0 auto;padding:12px 16px 110px;display:grid;grid-template-columns:240px 1fr;gap:18px}
 .side{background:white;border:1px solid #e5e7eb;border-radius:26px;padding:16px;box-shadow:0 10px 25px rgba(17,24,39,.06);height:max-content;position:sticky;top:90px}
 .sideTitle{font-size:20px;font-weight:900;margin-bottom:12px}
@@ -36,7 +33,6 @@ button{border:0;cursor:pointer;font-weight:900}
 .catBtn.active{background:#111827;color:white}
 .sectionTitle{font-size:26px;font-weight:900;margin:4px 0 14px}
 .dealsGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-
 .card{background:white;border-radius:26px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 12px 30px rgba(17,24,39,.10)}
 .image{height:180px;padding:14px;color:white;position:relative;background-size:cover;background-position:center;background-color:#111827}
 .overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.08),rgba(0,0,0,.45))}
@@ -52,8 +48,7 @@ button{border:0;cursor:pointer;font-weight:900}
 .actions{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:8px;margin-top:14px}
 .reserve{background:#ff7a1a;color:white;border-radius:15px;padding:12px}
 .secondary{background:#f3f4f6;color:#111827;border-radius:15px;padding:12px}
-
-.formPanel{display:none;max-width:760px;margin:0 auto;padding:16px 16px 110px}
+.formPanel{display:none;max-width:1000px;margin:0 auto;padding:16px 16px 110px}
 .formCard{background:white;border:1px solid #e5e7eb;border-radius:26px;padding:18px;margin-bottom:16px;box-shadow:0 10px 25px rgba(17,24,39,.06)}
 .formTitle{font-size:26px;font-weight:900;margin-bottom:6px}
 .formSub{color:#6b7280;font-size:14px;font-weight:700;margin-bottom:12px}
@@ -61,17 +56,14 @@ button{border:0;cursor:pointer;font-weight:900}
 .fileLabel{margin-top:12px;font-size:13px;font-weight:900;color:#374151}
 .postBtn{width:100%;margin-top:12px;background:#111827;color:white;padding:15px;border-radius:18px}
 .statusBox{background:#ecfdf5;color:#047857;padding:12px;border-radius:16px;font-weight:900;margin-top:12px}
-.warnBox{background:#fff7ed;color:#9a3412}
-.badBox{background:#fee2e2;color:#991b1b}
-.ownerItem,.holdItem{border:1px solid #e5e7eb;border-radius:18px;padding:12px;margin-top:10px;background:white}
+.holdItem{border:1px solid #e5e7eb;border-radius:18px;padding:12px;margin-top:10px;background:white}
 .ownerTop{display:flex;justify-content:space-between;gap:10px;font-weight:900}
-.ownerEdit{background:#dbeafe;color:#1d4ed8;padding:8px 10px;border-radius:12px;font-size:12px}
-.ownerDelete,.declineBtn,.badBtn{background:#fee2e2;color:#991b1b;padding:8px 10px;border-radius:12px;font-size:12px}
-.acceptBtn,.goodBtn{background:#dcfce7;color:#166534;padding:8px 10px;border-radius:12px;font-size:12px}
-
+.ownerEdit{background:#dbeafe;color:#1d4ed8;padding:10px 12px;border-radius:14px;font-size:13px}
+.ownerDelete,.declineBtn,.badBtn{background:#fee2e2;color:#991b1b;padding:10px 12px;border-radius:14px;font-size:13px}
+.acceptBtn,.goodBtn{background:#dcfce7;color:#166534;padding:10px 12px;border-radius:14px;font-size:13px}
+.ownerDealActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
 .storeHeader{background:#111827;color:white;border-radius:28px;padding:18px;margin-bottom:14px}
 .storeLogo{width:54px;height:54px;border-radius:18px;background:#ff7a1a;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:24px;margin-bottom:10px}
-
 .holdBar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;width:calc(100% - 28px);max-width:460px;background:#047857;color:white;border-radius:22px;padding:14px;display:none;justify-content:space-between;align-items:center;box-shadow:0 18px 40px rgba(4,120,87,.35);z-index:50}
 .holdText{font-weight:900}
 .holdSmall{font-size:12px;color:#d1fae5;margin-top:3px;font-weight:700}
@@ -79,11 +71,12 @@ button{border:0;cursor:pointer;font-weight:900}
 .drive{background:white;color:#047857;padding:10px 12px;border-radius:14px;font-size:13px;font-weight:900}
 .cancel{background:#065f46;color:white;padding:10px 12px;border-radius:14px;font-size:13px;font-weight:900}
 .toast{position:fixed;left:50%;top:20px;transform:translateX(-50%);background:#111827;color:white;padding:12px 16px;border-radius:999px;font-weight:900;display:none;z-index:100;max-width:90%;text-align:center}
-
 .mobileNav{display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e5e7eb;z-index:30;padding:8px;justify-content:space-around}
 .mobileNav button{background:white;color:#6b7280;font-size:12px;padding:8px;border-radius:12px}
 .mobileNav button.active{background:#111827;color:white}
-
+.ownerNav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.ownerNav button{background:#f3f4f6;color:#111827;border-radius:14px;padding:11px 13px}
+.ownerNav .main{background:#111827;color:white}
 @media(max-width:1050px){.dealsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:900px){
   .headerInner{align-items:flex-start;flex-direction:column}
@@ -112,9 +105,7 @@ button{border:0;cursor:pointer;font-weight:900}
       <div class="logo">Locally</div>
       <div class="tagline" id="tagline">Verified local store deals near you</div>
     </div>
-
     <input class="searchBar" id="searchInput" placeholder="Search item or store" oninput="renderItems()" />
-
     <div class="topActions" id="topActions"></div>
   </div>
 </header>
@@ -141,7 +132,6 @@ button{border:0;cursor:pointer;font-weight:900}
     <div class="sideTitle">Categories</div>
     <div id="categoryList"></div>
   </aside>
-
   <section>
     <div class="sectionTitle">Deals near you</div>
     <div class="dealsGrid" id="itemsList"></div>
@@ -161,30 +151,33 @@ button{border:0;cursor:pointer;font-weight:900}
   <div class="formCard">
     <div class="formTitle">Register</div>
     <div class="formSub">Create a buyer account or business owner account.</div>
-
     <select class="field" id="accountType" onchange="toggleBusinessFields()">
       <option value="user">Buyer account</option>
       <option value="owner">Business owner account</option>
     </select>
-
     <input class="field" id="fullName" placeholder="Full name" />
     <input class="field" id="email" placeholder="Email address" />
     <input class="field" id="phone" placeholder="Phone optional" />
-
     <div id="businessFields" style="display:none;">
       <input class="field" id="businessName" placeholder="Business name" />
       <input class="field" id="businessAddress" placeholder="Business real address" />
     </div>
-
     <button class="postBtn" onclick="sendCode()">Send email code</button>
     <input class="field" id="verifyCode" placeholder="Enter demo code: 123456" />
     <button class="postBtn" onclick="verifyAccount()">Activate account</button>
-
     <div id="registerStatus" class="statusBox">No account active yet.</div>
   </div>
 </section>
 
 <section class="formPanel" id="ownerPanel">
+  <div class="ownerNav">
+    <button class="main" onclick="showOwner()">Owner Dashboard</button>
+    <button onclick="showBuyer()">Browse Items</button>
+    <button onclick="showReservations()">Hold Requests</button>
+    <button onclick="showAccount()">Account</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
   <div class="formCard">
     <div class="formTitle">Owner dashboard</div>
     <div class="formSub">Approve or decline hold requests before customers come.</div>
@@ -202,55 +195,53 @@ button{border:0;cursor:pointer;font-weight:900}
     <div class="formSub" id="postBusinessInfo">Business name and address will be used automatically.</div>
 
     <input class="field" id="itemName" placeholder="Item name" />
-
     <select class="field" id="category">
       <option>Home</option><option>Pets</option><option>Clothing</option><option>Automobile</option>
       <option>Boating</option><option>Electronics</option><option>Furniture</option><option>Food</option>
       <option>Beach</option><option>Services</option><option>Clearance</option>
     </select>
-
     <input class="field" id="price" type="number" placeholder="Price" />
     <input class="field" id="quantity" type="number" placeholder="Quantity left" />
     <input class="field" id="expires" placeholder="Expiration, example: Today 6 PM" />
-
     <div class="fileLabel">Item photo required</div>
     <input class="field" id="itemPhoto" type="file" accept="image/*" />
-
     <button class="postBtn" onclick="postItem()">Post deal</button>
   </div>
 
   <div class="formCard">
     <div class="formTitle">Your active deals</div>
     <div class="formSub">Edit price, quantity, image, expiration or delete.</div>
-    <div id="ownerItems"></div>
+    <div class="dealsGrid" id="ownerItems"></div>
   </div>
 </section>
 
 <section class="formPanel" id="editPanel">
+  <div class="ownerNav">
+    <button onclick="showOwner()">Back to Owner Dashboard</button>
+    <button onclick="showBuyer()">Browse Items</button>
+  </div>
+
   <div class="formCard">
     <div class="formTitle">Edit deal</div>
     <input type="hidden" id="editId" />
     <input class="field" id="editTitle" placeholder="Item name" />
-
     <select class="field" id="editCategory">
       <option>Home</option><option>Pets</option><option>Clothing</option><option>Automobile</option>
       <option>Boating</option><option>Electronics</option><option>Furniture</option><option>Food</option>
       <option>Beach</option><option>Services</option><option>Clearance</option>
     </select>
-
     <input class="field" id="editPrice" type="number" placeholder="Price" />
     <input class="field" id="editQuantity" type="number" placeholder="Quantity left" />
     <input class="field" id="editExpires" placeholder="Expiration" />
-
     <div class="fileLabel">Replace photo optional</div>
     <input class="field" id="editPhoto" type="file" accept="image/*" />
-
     <button class="postBtn" onclick="saveEditedItem()">Save changes</button>
     <button class="postBtn" style="background:#f3f4f6;color:#111827;" onclick="showOwner()">Cancel</button>
   </div>
 </section>
 
 <section class="formPanel" id="reservationsPanel">
+  <div class="ownerNav" id="holdsNav"></div>
   <div class="formCard">
     <div class="formTitle">Hold requests</div>
     <div class="formSub">Your requests and approved holds.</div>
@@ -259,6 +250,7 @@ button{border:0;cursor:pointer;font-weight:900}
 </section>
 
 <section class="formPanel" id="accountPanel">
+  <div class="ownerNav" id="accountNav"></div>
   <div class="formCard">
     <div class="formTitle">Account</div>
     <div id="accountDetails" class="formSub">Not logged in.</div>
@@ -290,9 +282,6 @@ const demoCode="123456";
 const categories=["All","Home","Pets","Clothing","Automobile","Boating","Electronics","Furniture","Food","Beach","Services","Clearance"];
 let activeCategory="All";
 let activeHold=null;
-let holdTimer=null;
-let secondsLeft=3600;
-
 let accounts=JSON.parse(localStorage.getItem("locally_accounts"))||[];
 let currentUser=JSON.parse(localStorage.getItem("locally_current_user"))||null;
 let holdRequests=JSON.parse(localStorage.getItem("locally_holds"))||[];
@@ -310,15 +299,18 @@ function saveAll(){
  localStorage.setItem("locally_items",JSON.stringify(items));
  localStorage.setItem("locally_holds",JSON.stringify(holdRequests));
 }
+
 function showToast(t){
  const x=document.getElementById("toast");x.innerText=t;x.style.display="block";
  setTimeout(()=>x.style.display="none",1700);
 }
+
 function hideAll(){
  ["hero","mainLayout","loginPanel","registerPanel","ownerPanel","editPanel","reservationsPanel","accountPanel","storePanel"].forEach(id=>{
   document.getElementById(id).style.display="none";
  });
 }
+
 function showBuyer(){
  hideAll();
  document.getElementById("hero").style.display="block";
@@ -326,18 +318,46 @@ function showBuyer(){
  setActive("deals");
  renderItems();
 }
+
 function showLogin(){hideAll();document.getElementById("loginPanel").style.display="block";setActive("login")}
 function showRegister(){hideAll();document.getElementById("registerPanel").style.display="block";setActive("register");updateRegisterStatus()}
+
 function showOwner(){
  if(!currentUser||currentUser.type!=="owner"){showToast("Login as business owner first");showLogin();return}
- hideAll();document.getElementById("ownerPanel").style.display="block";setActive("owner");updateOwnerStatus();renderOwnerItems();renderOwnerHolds();
+ hideAll();
+ document.getElementById("ownerPanel").style.display="block";
+ setActive("owner");
+ updateOwnerStatus();
+ renderOwnerItems();
+ renderOwnerHolds();
 }
-function showReservations(){hideAll();document.getElementById("reservationsPanel").style.display="block";setActive("reservations");renderBuyerHolds()}
-function showAccount(){if(!currentUser){showLogin();return}hideAll();document.getElementById("accountPanel").style.display="block";setActive("account");updateAccountDetails()}
+
+function showReservations(){
+ hideAll();
+ document.getElementById("reservationsPanel").style.display="block";
+ document.getElementById("holdsNav").innerHTML=currentUser&&currentUser.type==="owner"
+ ? `<button onclick="showOwner()">Back to Owner Dashboard</button><button onclick="showBuyer()">Browse Items</button>`
+ : `<button onclick="showBuyer()">Back to Deals</button>`;
+ setActive("reservations");
+ renderBuyerHolds();
+}
+
+function showAccount(){
+ if(!currentUser){showLogin();return}
+ hideAll();
+ document.getElementById("accountPanel").style.display="block";
+ document.getElementById("accountNav").innerHTML=currentUser.type==="owner"
+ ? `<button onclick="showOwner()">Back to Owner Dashboard</button><button onclick="showBuyer()">Browse Items</button>`
+ : `<button onclick="showBuyer()">Back to Deals</button>`;
+ setActive("account");
+ updateAccountDetails();
+}
+
 function setActive(n){
  document.querySelectorAll(".mobileNav button").forEach(b=>b.classList.remove("active"));
  const x=document.getElementById("nav_"+n);if(x)x.classList.add("active");
 }
+
 function renderTop(){
  const top=document.getElementById("topActions");
  if(!currentUser){
@@ -345,21 +365,23 @@ function renderTop(){
   document.getElementById("tagline").innerText="Verified local store deals near you";return;
  }
  if(currentUser.type==="owner"){
-  top.innerHTML=`<button class="btnOrange" onclick="showOwner()">Owner</button><button class="btnLight" onclick="logout()">Logout</button>`;
+  top.innerHTML=`<button class="btnOrange" onclick="showOwner()">Owner Dashboard</button><button class="btnLight" onclick="showBuyer()">Browse</button><button class="btnLight" onclick="logout()">Logout</button>`;
   document.getElementById("tagline").innerText="Logged in: "+currentUser.businessName;
  }else{
   top.innerHTML=`<button class="btnOrange" onclick="showAccount()">Account</button><button class="btnLight" onclick="logout()">Logout</button>`;
   document.getElementById("tagline").innerText="Logged in as buyer";
  }
 }
+
 function renderMobileNav(){
  const nav=document.getElementById("mobileNav");
  if(currentUser&&currentUser.type==="owner"){
-  nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Deals</button><button id="nav_owner" onclick="showOwner()">Owner</button><button id="nav_reservations" onclick="showReservations()">Holds</button><button id="nav_account" onclick="showAccount()">Account</button>`;
+  nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Browse</button><button id="nav_owner" onclick="showOwner()">Owner</button><button id="nav_reservations" onclick="showReservations()">Holds</button><button id="nav_account" onclick="showAccount()">Account</button>`;
  }else{
   nav.innerHTML=`<button id="nav_deals" onclick="showBuyer()">Deals</button><button id="nav_login" onclick="showLogin()">Login</button><button id="nav_register" onclick="showRegister()">Register</button><button id="nav_reservations" onclick="showReservations()">Holds</button>`;
  }
 }
+
 function renderCategories(){
  const list=document.getElementById("categoryList");list.innerHTML="";
  categories.forEach(c=>{
@@ -369,13 +391,16 @@ function renderCategories(){
   list.appendChild(b);
  });
 }
+
 function toggleBusinessFields(){
  document.getElementById("businessFields").style.display=document.getElementById("accountType").value==="owner"?"block":"none";
 }
+
 function sendCode(){
  if(!document.getElementById("email").value.trim()){showToast("Enter email first");return}
  showToast("Demo code sent: 123456");
 }
+
 function verifyAccount(){
  const type=document.getElementById("accountType").value;
  const fullName=document.getElementById("fullName").value.trim();
@@ -394,56 +419,66 @@ function verifyAccount(){
  accounts.push(currentUser);saveAll();refreshUI();showToast(type==="owner"?"Owner account active":"Buyer account active");
  currentUser.type==="owner"?showOwner():showBuyer();
 }
+
 function login(){
  const email=document.getElementById("loginEmail").value.trim();
  const found=accounts.find(a=>a.email.toLowerCase()===email.toLowerCase());
  if(!found){showToast("No account found. Register first.");return}
  currentUser=found;saveAll();refreshUI();showToast("Logged in");currentUser.type==="owner"?showOwner():showBuyer();
 }
+
 function logout(){currentUser=null;localStorage.removeItem("locally_current_user");refreshUI();showToast("Logged out");showBuyer()}
+
 function updateRegisterStatus(){
  document.getElementById("registerStatus").innerText=currentUser?(currentUser.type==="owner"?"Business owner active: "+currentUser.businessName:"Buyer account active: "+currentUser.email):"No account active yet.";
 }
+
 function updateOwnerStatus(){
  document.getElementById("ownerStatus").innerText="Business account active: "+currentUser.businessName+" • Bad rating reports: "+(currentUser.badRating||0);
  document.getElementById("postBusinessInfo").innerText=currentUser.businessName+" • address saved privately for Drive after approved hold";
 }
+
 function updateAccountDetails(){
  const box=document.getElementById("accountDetails");
  if(currentUser.type==="owner")box.innerHTML=`<strong>${currentUser.fullName}</strong><br>${currentUser.email}<br><br><strong>Business:</strong> ${currentUser.businessName}<br><strong>Status:</strong> ${currentUser.businessStatus}<br><strong>Bad rating reports:</strong> ${currentUser.badRating||0}`;
  else box.innerHTML=`<strong>${currentUser.fullName}</strong><br>${currentUser.email}<br>Buyer account<br><strong>Bad rating reports:</strong> ${currentUser.badRating||0}`;
 }
+
 function filteredItems(){
  const s=document.getElementById("searchInput").value.toLowerCase();
  return items.filter(i=>(activeCategory==="All"||i.category===activeCategory)&&(i.title.toLowerCase().includes(s)||i.store.toLowerCase().includes(s)||i.category.toLowerCase().includes(s)));
 }
+
 function renderItems(){
  const list=document.getElementById("itemsList");list.innerHTML="";
  const arr=filteredItems();
  if(!arr.length){list.innerHTML='<div class="card"><div class="content"><div class="itemTitle">No deals found</div><div class="store">Try another search or category.</div></div></div>';return}
- arr.forEach(i=>list.appendChild(card(i)));
- renderOwnerItems();
+ arr.forEach(i=>list.appendChild(buyerCard(i)));
 }
+
 function imgStyle(i){
  if(i.image)return `background-image:url('${i.image}')`;
  const g={Home:"#64748b",Pets:"#16a34a",Clothing:"#ec4899",Automobile:"#dc2626",Boating:"#0284c7",Electronics:"#4f46e5",Furniture:"#92400e",Food:"#f97316",Beach:"#0ea5e9",Services:"#334155",Clearance:"#ef4444"};
  return `background:linear-gradient(135deg,${g[i.category]||"#111827"},#111827)`;
 }
-function card(i){
+
+function baseCardTop(i){
+ return `<div class="image" style="${imgStyle(i)}"><div class="overlay"></div><div class="badge">${i.category}</div><div class="price">$${i.price}</div></div>`;
+}
+
+function buyerCard(i){
  const d=document.createElement("div");d.className="card";
  d.innerHTML=`
- <div class="image" style="${imgStyle(i)}"><div class="overlay"></div><div class="badge">${i.category}</div><div class="price">$${i.price}</div></div>
+ ${baseCardTop(i)}
  <div class="content">
    <div class="row">
      <div><div class="itemTitle">${i.title}</div><div class="store" onclick="openStore('${esc(i.store)}')">🏬 ${i.store} • Verified</div></div>
      <div class="left">${i.quantity>0?i.quantity+" left":"Sold out"}</div>
    </div>
-
    <div class="infoStack">
      <div class="info">📍 Distance from you: ${i.distance} miles</div>
      <div class="info">⏱ Expires at: ${i.expires||"Today"}</div>
    </div>
-
    <div class="actions">
      <button class="reserve" onclick="requestHold(${i.id})">Request Hold</button>
      <button class="secondary" onclick="chatStore('${esc(i.store)}')">Chat</button>
@@ -452,18 +487,38 @@ function card(i){
  </div>`;
  return d;
 }
+
+function ownerCard(i){
+ const d=document.createElement("div");d.className="card";
+ d.innerHTML=`
+ ${baseCardTop(i)}
+ <div class="content">
+   <div class="row">
+     <div><div class="itemTitle">${i.title}</div><div class="store">🏬 ${i.store}</div></div>
+     <div class="left">${i.quantity>0?i.quantity+" left":"Sold out"}</div>
+   </div>
+   <div class="infoStack">
+     <div class="info">⏱ Expires at: ${i.expires||"Today"}</div>
+     <div class="info">📍 Distance shown to buyers: ${i.distance} miles</div>
+   </div>
+   <div class="ownerDealActions">
+     <button class="ownerEdit" onclick="editItem(${i.id})">Edit</button>
+     <button class="ownerDelete" onclick="deleteItem(${i.id})">Delete</button>
+   </div>
+ </div>`;
+ return d;
+}
+
 function esc(x){return String(x).replace(/'/g,"\\'")}
+
 function renderOwnerItems(){
  const box=document.getElementById("ownerItems");if(!box)return;box.innerHTML="";
  if(!currentUser||currentUser.type!=="owner"){box.innerHTML="<div class='formSub'>No business owner account yet.</div>";return}
  const mine=items.filter(i=>i.store===currentUser.businessName);
  if(!mine.length){box.innerHTML="<div class='formSub'>No active deals yet.</div>";return}
- mine.forEach(i=>{
-  const r=document.createElement("div");r.className="ownerItem";
-  r.innerHTML=`<div class="ownerTop"><div>${i.title}</div><div style="display:flex;gap:6px;"><button class="ownerEdit" onclick="editItem(${i.id})">Edit</button><button class="ownerDelete" onclick="deleteItem(${i.id})">Delete</button></div></div><div style="margin-top:5px;color:#6b7280;font-weight:800;">$${i.price} • ${i.quantity} left • ${i.category} • expires ${i.expires}</div>`;
-  box.appendChild(r);
- });
+ mine.forEach(i=>box.appendChild(ownerCard(i)));
 }
+
 function requestHold(id){
  if(!currentUser){showToast("Login or register as buyer first");showLogin();return}
  if(currentUser.type==="owner"){showToast("Owners cannot request holds while logged in as owner");return}
@@ -475,11 +530,13 @@ function requestHold(id){
  showToast("Hold request sent to owner");
  showHoldBar(hold);
 }
+
 function showHoldBar(hold){
  document.getElementById("holdBar").style.display="flex";
  document.getElementById("holdText").innerText=hold.status==="approved"?"Hold approved: "+hold.itemTitle:"Hold requested: "+hold.itemTitle;
  document.getElementById("holdSmall").innerText=hold.status==="approved"?"Arrive within 30-60 minutes":"Waiting for owner approval";
 }
+
 function renderOwnerHolds(){
  const box=document.getElementById("ownerHolds");if(!box)return;box.innerHTML="";
  const mine=holdRequests.filter(h=>h.store===currentUser.businessName);
@@ -495,25 +552,30 @@ function renderOwnerHolds(){
   box.appendChild(div);
  });
 }
+
 function approveHold(id){
  const h=holdRequests.find(x=>x.id===id);if(!h)return;
  const item=items.find(x=>x.id===h.itemId);
  if(!item||item.quantity<1){showToast("No stock available");return}
- item.quantity--;h.status="approved";h.approvedAt=new Date().toLocaleString();saveAll();showToast("Hold approved");renderOwnerHolds();renderItems();
+ item.quantity--;h.status="approved";h.approvedAt=new Date().toLocaleString();saveAll();showToast("Hold approved");renderOwnerHolds();renderOwnerItems();
 }
+
 function declineHold(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="declined";saveAll();showToast("Hold declined");renderOwnerHolds()}
 function completeHold(id){const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="completed";saveAll();showToast("Hold completed");renderOwnerHolds()}
+
 function markBuyerNoShow(id){
  const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="buyer no show";
  const buyer=accounts.find(a=>a.email===h.buyerEmail);if(buyer)buyer.badRating=(buyer.badRating||0)+1;
  saveAll();showToast("Buyer marked no show");renderOwnerHolds();
 }
+
 function ownerUnavailable(id){
  const h=holdRequests.find(x=>x.id===id);if(!h)return;h.status="owner unavailable";
  const owner=accounts.find(a=>a.businessName===h.store);if(owner)owner.badRating=(owner.badRating||0)+1;
  const item=items.find(x=>x.id===h.itemId);if(item)item.quantity++;
- saveAll();showToast("Owner bad rating added");renderOwnerHolds();renderItems();
+ saveAll();showToast("Owner bad rating added");renderOwnerHolds();renderOwnerItems();
 }
+
 function renderBuyerHolds(){
  const box=document.getElementById("reservationDetails");box.innerHTML="";
  if(!currentUser){box.innerHTML="Login to see hold requests.";return}
@@ -530,23 +592,27 @@ function renderBuyerHolds(){
   box.appendChild(div);
  });
 }
+
 function cancelHold(id){holdRequests=holdRequests.filter(h=>h.id!==id);saveAll();showToast("Hold request cancelled");renderBuyerHolds();document.getElementById("holdBar").style.display="none"}
 function cancelActiveHold(){if(activeHold)cancelHold(activeHold.id);activeHold=null}
 function driveActiveHold(){if(activeHold&&activeHold.status==="approved")driveTo(activeHold.address);else showToast("Drive opens after owner approves")}
 function driveTo(a){window.open("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(a),"_blank")}
 function chatStore(s){alert("Chat request sent to "+s+". In the real version this becomes live chat or SMS.")}
+
 function postItem(){
  if(!currentUser||currentUser.type!=="owner"){showToast("Register or login as business owner");showRegister();return}
  const title=document.getElementById("itemName").value.trim(),category=document.getElementById("category").value,price=document.getElementById("price").value,quantity=document.getElementById("quantity").value,expires=document.getElementById("expires").value.trim(),photo=document.getElementById("itemPhoto").files[0];
  if(!title||!price||!quantity||!photo){showToast("Item name, price, quantity and photo required");return}
  const reader=new FileReader();
- reader.onload=e=>{items.unshift({id:Date.now(),title,store:currentUser.businessName,category,price:Number(price),quantity:Number(quantity),distance:.8,expires:expires||"Today",address:currentUser.businessAddress,image:e.target.result});saveAll();showToast("Deal posted");renderItems();renderOwnerItems();showBuyer()};
+ reader.onload=e=>{items.unshift({id:Date.now(),title,store:currentUser.businessName,category,price:Number(price),quantity:Number(quantity),distance:.8,expires:expires||"Today",address:currentUser.businessAddress,image:e.target.result});saveAll();showToast("Deal posted");renderItems();renderOwnerItems();showOwner()};
  reader.readAsDataURL(photo);
 }
+
 function editItem(id){
  const i=items.find(x=>x.id===id);if(!i)return;hideAll();document.getElementById("editPanel").style.display="block";
  document.getElementById("editId").value=i.id;document.getElementById("editTitle").value=i.title;document.getElementById("editCategory").value=i.category;document.getElementById("editPrice").value=i.price;document.getElementById("editQuantity").value=i.quantity;document.getElementById("editExpires").value=i.expires||"";document.getElementById("editPhoto").value="";
 }
+
 function saveEditedItem(){
  const id=Number(document.getElementById("editId").value),i=items.find(x=>x.id===id);if(!i)return;
  const title=document.getElementById("editTitle").value.trim(),category=document.getElementById("editCategory").value,price=document.getElementById("editPrice").value,quantity=document.getElementById("editQuantity").value,expires=document.getElementById("editExpires").value.trim(),photo=document.getElementById("editPhoto").files[0];
@@ -555,13 +621,16 @@ function saveEditedItem(){
  if(photo){const r=new FileReader();r.onload=e=>{i.image=e.target.result;saveAll();showToast("Deal updated");renderItems();showOwner()};r.readAsDataURL(photo);return}
  saveAll();showToast("Deal updated");renderItems();showOwner();
 }
+
 function deleteItem(id){items=items.filter(i=>i.id!==id);saveAll();renderItems();renderOwnerItems();showToast("Deal deleted")}
+
 function openStore(name){
  hideAll();document.getElementById("storePanel").style.display="block";
  const arr=items.filter(i=>i.store===name),first=arr[0];
  document.getElementById("storeHeader").innerHTML=`<div class="storeHeader"><div class="storeLogo">${name.charAt(0)}</div><div style="font-size:26px;font-weight:900;">${name}</div><div style="margin-top:6px;color:#d1d5db;font-weight:700;">Verified local business</div><div style="margin-top:10px;font-weight:800;">Distance shown on each item. Address opens after approved hold.</div>${first?`<button class="btnOrange" style="width:100%;margin-top:14px;" onclick="driveTo('${esc(first.address)}')">Drive to store</button>`:""}</div>`;
- const box=document.getElementById("storeItems");box.innerHTML="";arr.forEach(i=>box.appendChild(card(i)));
+ const box=document.getElementById("storeItems");box.innerHTML="";arr.forEach(i=>box.appendChild(buyerCard(i)));
 }
+
 function refreshUI(){renderTop();renderMobileNav();renderCategories();renderItems();updateRegisterStatus()}
 renderTop();renderMobileNav();renderCategories();renderItems();showBuyer();
 </script>
